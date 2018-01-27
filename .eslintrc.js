@@ -1,7 +1,7 @@
 module.exports = {
   extends: [
     'eslint:recommended',
-    'plugin:vue/recommended' // or 'plugin:vue/base'
+    'plugin:vue/base' // or 'plugin:vue/recommended'
   ],
   env: {
     "node": true

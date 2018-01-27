@@ -8,6 +8,11 @@ module.exports = {
     filename: 'build.js',
     libraryTarget: 'umd'
   },
+  externals: {
+    // without this, we'll get two copies of jquery and triggers will fail
+    jquery: 'jQuery',
+    'stellar-sdk': 'stellar-sdk'
+  },
   module: {
     rules: [{
         enforce: 'pre',
