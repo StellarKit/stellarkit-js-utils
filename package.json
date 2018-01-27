@@ -1,0 +1,29 @@
+{
+  "name": "stellar-js-utils",
+  "version": "1.0.0",
+  "description": "Simplified JS API for Stellar",
+  "main": "dist/build.js",
+  "scripts": {
+    "build": "webpack --progress --hide-modules",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "stellar",
+    "javascript"
+  ],
+  "author": "Steve Gehrman",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "stellar-sdk": "^0.8.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^3.10.0",
+    "eslint": "^4.16.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-vue": "4.2.0"
+  }
+}
