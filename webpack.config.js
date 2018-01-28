@@ -6,13 +6,15 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'build.js',
+    library: 'stellar-js-utils',
     libraryTarget: 'umd'
   },
-  externals: {
+  externals: [
     // without this, we'll get two copies of jquery and triggers will fail
-    jquery: 'jquery',
-    'stellar-sdk': 'stellar-sdk'
-  },
+    // also package will be huge
+    'jquery',
+    'stellar-sdk'
+  ],
   module: {
     rules: [{
         enforce: 'pre',
