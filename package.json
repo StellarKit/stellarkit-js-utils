@@ -2,7 +2,14 @@
   "name": "stellar-js-utils",
   "version": "1.0.0",
   "description": "Simplified JS API for Stellar",
+  "license": "MIT",
+  "repository": "github.com/StellarKit/stellar-js-utils",
+  "homepage": "https://stellarkit.io",
   "main": "dist/build.js",
+  "author": {
+    "name": "Steve Gehrman",
+    "email": "steve@distantfutu.re",
+  },
   "scripts": {
     "build": "webpack --progress --hide-modules",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,8 +18,6 @@
     "stellar",
     "javascript"
   ],
-  "author": "Steve Gehrman",
-  "license": "ISC",
   "dependencies": {
     "jquery": "^3.3.1",
     "stellar-sdk": "^0.8.0"
