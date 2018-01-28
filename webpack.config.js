@@ -10,7 +10,7 @@ module.exports = {
   },
   externals: {
     // without this, we'll get two copies of jquery and triggers will fail
-    jquery: 'jQuery',
+    jquery: 'jquery',
     'stellar-sdk': 'stellar-sdk'
   },
   module: {
