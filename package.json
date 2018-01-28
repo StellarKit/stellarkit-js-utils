@@ -8,7 +8,7 @@
   "main": "dist/build.js",
   "author": {
     "name": "Steve Gehrman",
-    "email": "steve@distantfutu.re",
+    "email": "steve@distantfutu.re"
   },
   "scripts": {
     "build": "webpack --progress --hide-modules",
