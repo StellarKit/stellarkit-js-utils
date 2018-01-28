@@ -374,24 +374,4 @@ export default class StellarAPI {
 
     return promise
   }
-
-  buggy() {
-    const promise = new Promise((resolve, reject) => {
-        const asset = new StellarSdk.Asset('LMB', 'GCYQSB3UQDSISB5LKAL2OEVLAYJNIR7LFVYDNKRMLWQKDCBX4PU3Z6JP')
-        try {
-          console.log(JSON.stringify(asset))
-          const xdr = asset.toXDRObject()
-          console.log(JSON.stringify(xdr))
-          const newAsset = StellarSdk.Asset.fromOperation(xdr)
-          console.log(JSON.stringify(newAsset))
-
-          resolve('worked')
-        } catch (error) {
-          console.log(error)
-          reject(error)
-        }
-      }
-    })
-
-  return promise
 }
