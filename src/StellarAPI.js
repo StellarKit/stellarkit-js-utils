@@ -375,7 +375,7 @@ export default class StellarAPI {
     return promise
   }
 
-  test() {
+  buggy() {
     const asset = new StellarSdk.Asset('LMB', 'GCYQSB3UQDSISB5LKAL2OEVLAYJNIR7LFVYDNKRMLWQKDCBX4PU3Z6JP')
     try {
       console.log(JSON.stringify(asset))

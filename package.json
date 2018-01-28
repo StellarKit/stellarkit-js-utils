@@ -1,6 +1,6 @@
 {
   "name": "stellar-js-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simplified JS API for Stellar",
   "license": "MIT",
   "repository": "github.com/StellarKit/stellar-js-utils",
