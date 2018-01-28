@@ -3,6 +3,10 @@ const $ = require('jquery')
 
 export default class StellarAPI {
   constructor(serverAPIServer) {
+    if (!serverAPIServer) {
+      console.log('StellarAPI constructor missing parameter')
+    }
+
     this._serverAPIServer = serverAPIServer
   }
 
