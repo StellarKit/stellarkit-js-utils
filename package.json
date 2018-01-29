@@ -11,7 +11,7 @@
     "email": "steve@distantfutu.re"
   },
   "scripts": {
-    "build": "webpack --progress --hide-modules",
+    "dist": "webpack --progress --hide-modules",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
