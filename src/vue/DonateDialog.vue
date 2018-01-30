@@ -80,7 +80,7 @@ export default {
       status: '',
       secretKey: '',
       connected: true,
-      xlm: 40,
+      xlm: 10,
       showSecret: false,
       server: null,
       destinationKey: 'GCYQSB3UQDSISB5LKAL2OEVLAYJNIR7LFVYDNKRMLWQKDCBX4PU3Z6JP' // desktop
@@ -93,6 +93,11 @@ export default {
     }
   },
   created() {
+    if (this.nodeEnv) {
+      console.log('node...')
+    } else {
+      console.log('browser...')
+    }
     StellarSdk.Network.usePublicNetwork()
     this.server = new StellarSdk.Server('https://horizon.stellar.org')
   },
