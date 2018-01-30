@@ -1,7 +1,9 @@
-import StellarAPI from './src/StellarAPI.js'
-import StellarAPIServer from './src/StellarAPIServer.js'
+import StellarAPI from './src/js/StellarAPI.js'
+import StellarAPIServer from './src/js/StellarAPIServer.js'
+import DonateDialog from './src/vue/DonateDialog.vue'
 
 export {
   StellarAPI,
-  StellarAPIServer
+  StellarAPIServer,
+  DonateDialog
 }

@@ -13,7 +13,8 @@ module.exports = {
     // without this, we'll get two copies of jquery and triggers will fail
     // also package will be huge
     'jquery',
-    'stellar-sdk'
+    'stellar-sdk',
+    'stellar-ledger-api'
   ],
   module: {
     rules: [{
@@ -21,6 +22,10 @@ module.exports = {
         test: /.(vue|js)$/,
         use: 'eslint-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.vue$/,
+        use: 'vue-loader'
       },
       {
         test: /\.js$/,
