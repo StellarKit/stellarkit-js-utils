@@ -21,18 +21,17 @@ export default class StellarAPI {
   horizonMetrics() {
     const url = this.serverURL() + '/metrics'
 
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       $.get(url, (response) => {
         resolve(response)
       }, 'json').fail((error) => {
         reject(error)
       })
     })
-    return promise
   }
 
   accountInfo(publicKey) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.server().loadAccount(publicKey)
         .then((response) => {
           resolve(response)
@@ -41,11 +40,10 @@ export default class StellarAPI {
           reject(error)
         })
     })
-    return promise
   }
 
   balances(publicKey) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.server().loadAccount(publicKey)
         .catch(StellarSdk.NotFoundError, (error) => {
           reject(error)
@@ -70,12 +68,10 @@ export default class StellarAPI {
           reject(error)
         })
     })
-
-    return promise
   }
 
   mergeAccount(sourceSecret, destKey) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
@@ -99,12 +95,10 @@ export default class StellarAPI {
           reject(error)
         })
     })
-
-    return promise
   }
 
   manageOffer(sourceSecret, buying, selling, amount, price, offerID = 0) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
@@ -132,12 +126,10 @@ export default class StellarAPI {
           reject(error)
         })
     })
-
-    return promise
   }
 
   setTrustForAsset(sourceSecret, asset, amount) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
@@ -163,12 +155,10 @@ export default class StellarAPI {
           reject(error)
         })
     })
-
-    return promise
   }
 
   setDomain(sourceSecret, domain) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
@@ -189,12 +179,10 @@ export default class StellarAPI {
           reject(error)
         })
     })
-
-    return promise
   }
 
   makeMultiSig(sourceSecret, publicKey) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
@@ -228,12 +216,10 @@ export default class StellarAPI {
           reject(error)
         })
     })
-
-    return promise
   }
 
   sendAsset(sourceSecret, destKey, amount, asset = null, memo = null, additionalSigners = null) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(destKey)
@@ -274,8 +260,6 @@ export default class StellarAPI {
           reject(error)
         })
     })
-
-    return promise
   }
 
   hasAssetTrustline(account, asset) {
@@ -289,7 +273,7 @@ export default class StellarAPI {
   }
 
   buyTokens(sourceSecret, sendAsset, destAsset, sendMax, destAmount) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
@@ -322,12 +306,10 @@ export default class StellarAPI {
           reject(error)
         })
     })
-
-    return promise
   }
 
   lockAccount(sourceSecret) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const options = {
         masterWeight: 0, // set master key weight to zero
         lowThreshold: 1,
@@ -343,12 +325,10 @@ export default class StellarAPI {
           reject(error)
         })
     })
-
-    return promise
   }
 
   setOptions(sourceSecret, options) {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
@@ -371,7 +351,5 @@ export default class StellarAPI {
           reject(error)
         })
     })
-
-    return promise
   }
 }

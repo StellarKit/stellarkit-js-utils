@@ -142,26 +142,29 @@ export default {
     },
     connectLedgerNode() {
       // for node we have to do our own loop to connect
-      const doConnect = () => {
-        try {
-          this.createComm()
-            .then((comm) => {
-              new StellarLedger.Api(comm).connect(() => {
-                this.connected = true
-              }, (error) => {
-                console.log(JSON.stringify(error))
-              })
+      const doConnect = aync() => {
+        await this.createComm()
+          .then((comm) => {
+            new StellarLedger.Api(comm).connect(() => {
+              return true
+            }, (error) => {
+              console.log(JSON.stringify(error))
             })
-        } catch (error) {
-          console.log(JSON.stringify(error))
-        }
-
-        if (!this.connected) {
-          setTimeout(doConnect, 1000)
-        }
+          })
       }
 
       doConnect()
+        .then(result => {
+          if (result) {
+            this.connected = result
+          } else {
+            setTimeout(doConnect, 1000)
+          }
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error))
+          setTimeout(doConnect, 1000)
+        })
     },
     connectLedgerBrowser() {
       this.createComm(Number.MAX_VALUE)
@@ -174,7 +177,7 @@ export default {
         })
     },
     getPublicKeyFromNano() {
-      const promise = new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         StellarLedger.comm_node.create_async().then((comm) => {
           new StellarLedger.Api(comm).getPublicKey_async(bip32Path)
             .then((result) => {
@@ -185,11 +188,9 @@ export default {
             })
         })
       })
-
-      return promise
     },
     loadAccount(signWithNano) {
-      const promise = new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         this.server.loadAccount(this.destinationKey)
           .catch((error) => {
             this.status = 'Failed to load destination account: ' + error
@@ -226,8 +227,6 @@ export default {
             }
           })
       })
-
-      return promise
     },
     sendWithNano() {
       this.sendPayment(true)
@@ -277,7 +276,7 @@ export default {
         })
     },
     signTransaction(sourceKey, transaction, signWithNano) {
-      const promise = new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         if (signWithNano) {
           StellarLedger.comm_node.create_async().then((comm) => {
             this.status = 'Confirm transaction on Nano...'
@@ -309,7 +308,6 @@ export default {
           resolve(transaction)
         }
       })
-      return promise
     }
   }
 }
