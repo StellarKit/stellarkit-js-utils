@@ -13,7 +13,7 @@
       <v-btn small @click="buttonClick('back')">Back</v-btn>
       <div v-html="sendMessage "></div>
       <div>Address = {{address}}</div>
-      <p><strong>Do not send real coins!</strong></p>
+      <p><strong>Rinkeby testnet. Do not send real coins!</strong></p>
       <p>Exchange rate: 1 ETH = 1 LMB token</p>
       <p><a href="https://github.com/stellar/go/pull/81 " target="_blank ">Instructions</a></p>
       <div class="progress ">
@@ -37,7 +37,7 @@
 import * as Bifrost from '../js/Bifrost.js'
 
 export default {
-  props: ['ping', 'params'],
+  props: ['ping', 'params', 'allowHTTP'],
   data() {
     return {
       showPurchase: false,
@@ -67,9 +67,14 @@ export default {
   },
   methods: {
     initBifrost() {
-      this.session = new Bifrost.Session(this.params, {
-        allowHttp: true
-      }) // ### for testing, allowHttp
+      let opts = {}
+
+      if (this.allowHTTP) {
+        opts = {
+          allowHttp: true
+        }
+      }
+      this.session = new Bifrost.Session(this.params, opts) // ### for testing, allowHttp
     },
     startBitcoin() {
       this.showPurchase = true
