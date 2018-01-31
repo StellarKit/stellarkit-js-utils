@@ -288,7 +288,8 @@ export default class StellarAPI {
                   sendAsset: sendAsset,
                   sendMax: sendMax,
                   destAsset: destAsset,
-                  destAmount: destAmount
+                  destAmount: destAmount,
+                  path: []
                 })
               )
               .build()
