@@ -40,12 +40,10 @@
         </div>
       </div>
 
-      <div>
-        <div class='button-holder'>
-          <v-btn round color='primary' @click="visible = false">
-            Close
-          </v-btn>
-        </div>
+      <div class='button-holder'>
+        <v-btn round color='primary' @click="visible = false">
+          Close
+        </v-btn>
       </div>
     </div>
   </div>
@@ -59,7 +57,7 @@ const bip32Path = "44'/148'/0'"
 const StellarSdk = require('stellar-sdk')
 
 export default {
-  props: ['ping', 'nodeEnv'],
+  props: ['ping', 'nodeEnv', 'destinationPublicKey'],
   watch: {
     ping: function () {
       this.visible = true
@@ -83,9 +81,7 @@ export default {
       xlm: 10,
       showSecret: false,
       browserSupportMessage: '',
-      server: null,
-      destinationKey: 'GCYQSB3UQDSISB5LKAL2OEVLAYJNIR7LFVYDNKRMLWQKDCBX4PU3Z6JP' // desktop
-      // destinationKey: 'GBJC6AF4I5FUTYMG4CXC3V2NYMIQANBRB4UQYY3M2RRZCXCNLFR7TN7J' // nano
+      server: null
     }
   },
   computed: {
@@ -94,13 +90,16 @@ export default {
     }
   },
   created() {
+    if (Utils.strlen(this.destinationPublicKey) === 0) {
+      console.log('destinationPublicKey is not set')
+    }
+
     if (this.nodeEnv) {
       this.browserSupportMessage = 'Make sure "Browser Support" is disabled'
-      console.log('node...')
     } else {
       this.browserSupportMessage = 'Make sure "Browser Support" is enabled'
-      console.log('browser...')
     }
+
     StellarSdk.Network.usePublicNetwork()
     this.server = new StellarSdk.Server('https://horizon.stellar.org')
   },
@@ -184,7 +183,7 @@ export default {
     },
     loadAccount(signWithNano) {
       return new Promise((resolve, reject) => {
-        this.server.loadAccount(this.destinationKey)
+        this.server.loadAccount(this.destinationPublicKey)
           .catch((error) => {
             this.status = 'Failed to load destination account: ' + error
             reject(error)
@@ -244,7 +243,7 @@ export default {
         .then((sourceAccount) => {
           const builder = new StellarSdk.TransactionBuilder(sourceAccount)
             .addOperation(StellarSdk.Operation.payment({
-              destination: this.destinationKey,
+              destination: this.destinationPublicKey,
               asset: StellarSdk.Asset.native(),
               amount: String(this.xlm)
             }))
