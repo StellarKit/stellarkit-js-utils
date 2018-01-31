@@ -152,10 +152,6 @@ export default {
 .main-container {
     @include standard-dialog-contents();
 
-    // display: flex;
-    // flex-direction: column;
-    // align-items:: center;
-
     .start-choice {
         font-size: 1.6em;
         flex-direction: column;
@@ -175,9 +171,6 @@ export default {
         width: 600px;
         text-align: center;
         padding: 50px;
-        margin: 20px;
-        box-shadow: 0 1px 3px rgba(0,0,0,.3);
-        border-radius: 3px;
     }
 
     .button-holder {
