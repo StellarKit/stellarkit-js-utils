@@ -23,10 +23,10 @@ const ChainBitcoin = 'bitcoin'
 const ChainEthereum = 'ethereum'
 
 export class Session {
-  constructor(params) {
+  constructor(params, horizonOpts) {
     this._checkParams(params)
     this.params = params
-    this.horizon = new HorizonServer(this.params.horizonURL)
+    this.horizon = new HorizonServer(this.params.horizonURL, horizonOpts)
     if (params.network === 'test') {
       Network.useTestNetwork()
     } else {

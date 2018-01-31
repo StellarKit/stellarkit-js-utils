@@ -67,7 +67,9 @@ export default {
   },
   methods: {
     initBifrost() {
-      this.session = new Bifrost.Session(this.params)
+      this.session = new Bifrost.Session(this.params, {
+        allowHttp: true
+      }) // ### for testing, allowHttp
     },
     startBitcoin() {
       this.showPurchase = true
