@@ -142,29 +142,18 @@ export default {
     },
     connectLedgerNode() {
       // for node we have to do our own loop to connect
-      const doConnect = aync() => {
-        await this.createComm()
+      const doConnect = () => {
+        this.createComm()
           .then((comm) => {
             new StellarLedger.Api(comm).connect(() => {
-              return true
+              this.connected = true
             }, (error) => {
               console.log(JSON.stringify(error))
+              setTimeout(doConnect, 1000)
             })
           })
       }
-
       doConnect()
-        .then(result => {
-          if (result) {
-            this.connected = result
-          } else {
-            setTimeout(doConnect, 1000)
-          }
-        })
-        .catch(error => {
-          console.log(JSON.stringify(error))
-          setTimeout(doConnect, 1000)
-        })
     },
     connectLedgerBrowser() {
       this.createComm(Number.MAX_VALUE)

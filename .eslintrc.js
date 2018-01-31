@@ -3,6 +3,9 @@ module.exports = {
     'eslint:recommended',
     'plugin:vue/base' // or 'plugin:vue/recommended'
   ],
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
   env: {
     "node": true
   },
