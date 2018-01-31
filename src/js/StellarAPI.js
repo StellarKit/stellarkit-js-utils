@@ -1,5 +1,5 @@
 const StellarSdk = require('stellar-sdk')
-const $ = require('jquery')
+import axios from 'axios'
 
 export default class StellarAPI {
   constructor(serverAPIServer) {
@@ -22,11 +22,13 @@ export default class StellarAPI {
     const url = this.serverURL() + '/metrics'
 
     return new Promise((resolve, reject) => {
-      $.get(url, (response) => {
-        resolve(response)
-      }, 'json').fail((error) => {
-        reject(error)
-      })
+      axios.get(url)
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   }
 
