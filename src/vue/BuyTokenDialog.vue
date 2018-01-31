@@ -67,18 +67,6 @@ export default {
   },
   methods: {
     initBifrost() {
-      // const issuerAcct = StellarAccounts.accountWithName('Issuer')
-      //
-      // const params = {
-      //   network: 'test',
-      //   horizonURL: 'http://192.168.1.82:8000',
-      //   bifrostURL: 'http://192.168.1.82:8800',
-      //   assetCode: 'LMB',
-      //   price: '1',
-      //   issuingPublicKey: issuerAcct.publicKey,
-      //   preSaleMode: false
-      // }
-
       this.session = new Bifrost.Session(this.params)
     },
     startBitcoin() {
