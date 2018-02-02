@@ -380,13 +380,17 @@ export default class StellarAPI {
       }
 
       this.setOptions(sourceSecret, options)
-
-      this.server().loadAccount(destinationKey)
+        .then((result) => {
+          this.server().loadAccount(destinationKey)
+            .then((account) => {
+              resolve(account)
+            })
+            .catch((error) => {
+              reject(error)
+            })
+        })
         .catch((error) => {
           reject(error)
-        })
-        .then((account) => {
-          resolve(account)
         })
     })
   }
