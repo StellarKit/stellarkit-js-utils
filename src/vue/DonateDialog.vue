@@ -2,7 +2,7 @@
 <v-dialog lazy v-model='visible' scrollable @keydown.esc="visible = false" max-width="600">
   <!-- if visible added below so the view will be destroyed and recreated to reset state -->
   <div v-if='visible' class='main-container'>
-    <donate-view :nodeEnv='nodeEnv' :destinationPublicKey='destinationPublicKey' />
+    <donate-view :nodeEnv='nodeEnv' :donationPublicKey='donationPublicKey' />
 
     <div class='button-holder'>
       <v-btn round color='primary' @click="visible = false">
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  props: ['ping', 'nodeEnv', 'destinationPublicKey'],
+  props: ['ping', 'nodeEnv', 'donationPublicKey'],
   watch: {
     ping: function () {
       this.visible = true

@@ -1,46 +1,53 @@
 <template>
-   <div class='donate-view'>
-    <div class='input-title'>
-      <v-icon dark large class='back-button' @click="dialogMode = 'start'" v-if="dialogMode !== 'start'">chevron_left</v-icon>
-      Your XLM donation is appreciated.
+<div class='payment-view'>
+  <div class='input-title'>
+    <v-icon dark large class='back-button' @click="dialogMode = 'start'" v-if="dialogMode !== 'start'">chevron_left</v-icon>
+    {{headerMessage}}
+  </div>
+
+  <div class='payment-content'>
+    <div v-if="dialogMode === 'start'" class='payment-start'>
+      <div class='title-start'>Choose Method</div>
+      <div>
+        <v-btn @click="buttonClick('useNano')">Use Ledger Nano</v-btn>
+      </div>
+      <div>
+        <v-btn @click="buttonClick('useKey')">Use secret key</v-btn>
+      </div>
+
+      <div v-if='donate' class='own-wallet'>
+        Or use your favorite wallet:<br>To: <span class='xlm-address'>{{destinationPublicKey}}</span>
+      </div>
     </div>
 
-    <div class='donate-content'>
-      <div v-if="dialogMode === 'start'" class='donate-start'>
-        <div class='title-start'>Choose Method</div>
-        <div>
-          <v-btn @click="buttonClick('useNano')">Use Ledger Nano</v-btn>
-        </div>
-        <div>
-          <v-btn @click="buttonClick('useKey')">Use secret key</v-btn>
-        </div>
+    <div v-else-if="dialogMode === 'useNano'" class='payment-nano'>
+      <v-text-field label="Lumens" type='number' v-model.trim="xlm" @keyup.enter="buttonClick('sendWithNano')" autofocus></v-text-field>
 
-        <div class='own-wallet'>
-          Or use your favorite wallet:<br>To: <span class='xlm-address'>GCYQSB3UQDSISB5LKAL2OEVLAYJNIR7LFVYDNKRMLWQKDCBX4PU3Z6JP</span>
-        </div>
+      <div v-if='donate' class='own-wallet'>
+        <v-text-field label="Destination" v-model.trim="destinationPublicKey" @keyup.enter="buttonClick('sendWithNano')"></v-text-field>
       </div>
 
-      <div v-else-if="dialogMode === 'useNano'" class='donate-nano'>
-        <v-text-field label="Lumens" type='number' v-model.trim="xlm" @keyup.enter="buttonClick('sendWithNano')" autofocus></v-text-field>
-
-        <div class='sign-button-area'>
-          <v-btn @click="buttonClick('sendWithNano')" :disabled="!connected">Send with Ledger Nano</v-btn>
-          <div v-if="!connected">{{browserSupportMessage}}</div>
-          <div>{{status}}</div>
-        </div>
+      <div class='sign-button-area'>
+        <v-btn @click="buttonClick('sendWithNano')" :disabled="!connected">Send with Ledger Nano</v-btn>
+        <div v-if="!connected">{{browserSupportMessage}}</div>
+        <div>{{status}}</div>
       </div>
-      <div v-else-if="dialogMode === 'useKey'" class='donate-secret'>
-        <div class='sign-button-area'>
-          <v-text-field label="Amount" type='number' v-model.trim="xlm" autofocus></v-text-field>
-          <v-text-field label="Secret Key" v-model.trim="secretKey" @keyup.enter="buttonClick('sendWithSecret')" hint="Starts with an 'S'" :append-icon="showSecret ? 'visibility_off' : 'visibility'" :append-icon-cb="() => (showSecret = !showSecret)" :type="showSecret ? 'text' : 'password'"></v-text-field>
-
-          <v-btn @click="buttonClick('sendWithSecret')" :disabled="disableSendLumens">Send Lumens</v-btn>
-          <div>{{status}}</div>
+    </div>
+    <div v-else-if="dialogMode === 'useKey'" class='payment-secret'>
+      <div class='sign-button-area'>
+        <v-text-field label="Amount" type='number' v-model.trim="xlm" autofocus></v-text-field>
+        <div v-if='donate' class='own-wallet'>
+          <v-text-field label="Destination" v-model.trim="destinationPublicKey" @keyup.enter="buttonClick('sendWithSecret')"></v-text-field>
         </div>
+        <v-text-field label="Secret Key" v-model.trim="secretKey" @keyup.enter="buttonClick('sendWithSecret')" hint="Starts with an 'S'" :append-icon="showSecret ? 'visibility_off' : 'visibility'" :append-icon-cb="() => (showSecret = !showSecret)" :type="showSecret ? 'text' : 'password'"></v-text-field>
+
+        <v-btn @click="buttonClick('sendWithSecret')" :disabled="disableSendLumens">Send Lumens</v-btn>
+        <div>{{status}}</div>
       </div>
     </div>
   </div>
- </template>
+</div>
+</template>
 
 <script>
 import Utils from '../js/utils.js'
@@ -49,10 +56,12 @@ const bip32Path = "44'/148'/0'"
 const StellarSdk = require('stellar-sdk')
 
 export default {
-  props: ['nodeEnv', 'destinationPublicKey'],
+  props: ['nodeEnv', 'donationPublicKey'],
   data() {
     return {
       visible: false,
+      destinationPublicKey: '',
+      donate: false,
       dialogMode: 'start',
       status: '',
       secretKey: '',
@@ -66,11 +75,18 @@ export default {
   computed: {
     disableSendLumens: function () {
       return Utils.strlen(this.secretKey) < 10 || this.xlm < 1
+    },
+    headerMessage: function () {
+      if (this.donate) {
+        return 'Your XLM donation is appreciated.'
+      }
+      return 'Make a payment.'
     }
   },
   created() {
-    if (Utils.strlen(this.destinationPublicKey) === 0) {
-      console.log('destinationPublicKey is not set')
+    if (Utils.strlen(this.donationPublicKey) !== 0) {
+      this.donate = true
+      this.destinationPublicKey = this.donationPublicKey
     }
 
     if (this.nodeEnv) {
@@ -286,7 +302,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.donate-view {
+.payment-view {
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -306,7 +322,7 @@ export default {
         }
     }
 
-    .donate-content {
+    .payment-content {
         margin-top: 20px;
 
         .own-wallet {
@@ -319,7 +335,7 @@ export default {
             }
         }
 
-        .donate-start {
+        .payment-start {
             .title-start {
                 font-size: 1.2em;
                 margin-bottom: 8px;
@@ -330,14 +346,14 @@ export default {
             align-items: center;
         }
 
-        .donate-nano {
+        .payment-nano {
             .sign-button-area {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
             }
         }
-        .donate-secret {
+        .payment-secret {
             .sign-button-area {
                 display: flex;
                 flex-direction: column;
