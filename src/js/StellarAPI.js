@@ -159,30 +159,6 @@ export default class StellarAPI {
     })
   }
 
-  setDomain(sourceSecret, domain) {
-    return new Promise((resolve, reject) => {
-      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
-
-      this.server().loadAccount(sourceKeys.publicKey())
-        .then((issuer) => {
-          const transaction = new StellarSdk.TransactionBuilder(issuer)
-            .addOperation(StellarSdk.Operation.setOptions({
-              homeDomain: domain
-            }))
-            .build()
-
-          transaction.sign(sourceKeys)
-          return this.server().submitTransaction(transaction)
-        })
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  }
-
   makeMultiSig(sourceSecret, publicKey) {
     return new Promise((resolve, reject) => {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
@@ -311,21 +287,37 @@ export default class StellarAPI {
   }
 
   lockAccount(sourceSecret) {
-    return new Promise((resolve, reject) => {
-      const options = {
-        masterWeight: 0, // set master key weight to zero
-        lowThreshold: 1,
-        medThreshold: 1,
-        highThreshold: 1
-      }
+    const options = {
+      masterWeight: 0, // set master key weight to zero
+      lowThreshold: 1,
+      medThreshold: 1,
+      highThreshold: 1
+    }
 
-      this.setOptions(sourceSecret, options)
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
+    return this.setOptions(sourceSecret, options)
+  }
+
+  setDomain(sourceSecret, domain) {
+    return this.setOptions(sourceSecret, {
+      homeDomain: domain
+    })
+  }
+
+  setFlags(sourceSecret, flags) {
+    return this.setOptions(sourceSecret, {
+      setFlags: flags
+    })
+  }
+
+  clearFlags(sourceSecret, flags) {
+    return this.setOptions(sourceSecret, {
+      setFlags: flags
+    })
+  }
+
+  setInflationDestination(sourceSecret, inflationDest) {
+    return this.setOptions(sourceSecret, {
+      inflationDest: inflationDest
     })
   }
 
