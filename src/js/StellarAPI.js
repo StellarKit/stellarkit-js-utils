@@ -373,12 +373,24 @@ export default class StellarAPI {
   }
 
   createAccount(sourceSecret, destinationKey, startingBalance) {
-    const options = {
-      destination: destinationKey,
-      startingBalance: startingBalance
-    }
+    return new Promise((resolve, reject) => {
+      const options = {
+        destination: destinationKey,
+        startingBalance: startingBalance
+      }
 
-    return this.setOptions(sourceSecret, options)
+      this.setOptions(sourceSecret, options)
+
+      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+
+      this.server().loadAccount(sourceKeys.publicKey())
+        .catch((error) => {
+          reject(error)
+        })
+        .then((account) => {
+          resolve(account)
+        })
+    })
   }
 
   setOptions(sourceSecret, options) {
