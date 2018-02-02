@@ -374,14 +374,24 @@ export default class StellarAPI {
 
   createAccount(sourceSecret, destinationKey, startingBalance) {
     return new Promise((resolve, reject) => {
+      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+
       const options = {
         destination: destinationKey,
         startingBalance: startingBalance
       }
 
-      this.setOptions(sourceSecret, options)
-        .then((result) => {
-          console.log(JSON.stringify(result))
+      this.server().loadAccount(sourceKeys.publicKey())
+        .then((account) => {
+          const transaction = new StellarSdk.TransactionBuilder(account)
+            .addOperation(StellarSdk.Operation.createAccount(options))
+            .build()
+
+          transaction.sign(sourceKeys)
+
+          return this.server().submitTransaction(transaction)
+        })
+        .then((response) => {
           this.server().loadAccount(destinationKey)
             .then((account) => {
               resolve(account)
@@ -401,9 +411,6 @@ export default class StellarAPI {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
-        .catch((error) => {
-          reject(error)
-        })
         .then((account) => {
           const transaction = new StellarSdk.TransactionBuilder(account)
             .addOperation(StellarSdk.Operation.setOptions(options))
