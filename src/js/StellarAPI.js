@@ -381,6 +381,7 @@ export default class StellarAPI {
 
       this.setOptions(sourceSecret, options)
         .then((result) => {
+          console.log(JSON.stringify(result))
           this.server().loadAccount(destinationKey)
             .then((account) => {
               resolve(account)
