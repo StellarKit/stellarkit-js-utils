@@ -8,6 +8,8 @@ Includes:
 + Donate dialog with Ledger nano support.
 + Bifrost dialog for buying tokens.
 
+See [Stellar Client](https://github.com/StellarKit/stellar-client) for an example of using this package
+
 The UI uses Vuetify and VueJS, so these dialogs will only work within a vuetify v-app tag
 
 Don't worry Vue and Vuetify are awesome and it should be simple to integrate within any website.
