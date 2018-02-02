@@ -335,9 +335,20 @@ export default class StellarAPI {
   }
 
   setInflationDestination(sourceSecret, inflationDest) {
-    return this.setOptions(sourceSecret, {
+    const options = {
       inflationDest: inflationDest
-    })
+    }
+
+    return this.setOptions(sourceSecret, options)
+  }
+
+  createAccount(sourceSecret, destinationKey, startingBalance) {
+    const options = {
+      destination: destinationKey,
+      startingBalance: startingBalance
+    }
+
+    return this.setOptions(sourceSecret, options)
   }
 
   setOptions(sourceSecret, options) {
