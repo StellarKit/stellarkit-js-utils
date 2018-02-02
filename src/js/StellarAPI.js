@@ -33,15 +33,7 @@ export default class StellarAPI {
   }
 
   accountInfo(publicKey) {
-    return new Promise((resolve, reject) => {
-      this.server().loadAccount(publicKey)
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+    return this.server().loadAccount(publicKey)
   }
 
   balances(publicKey) {
@@ -298,21 +290,48 @@ export default class StellarAPI {
   }
 
   setDomain(sourceSecret, domain) {
-    return this.setOptions(sourceSecret, {
+    const options = {
       homeDomain: domain
+    }
+
+    return this.setOptions(sourceSecret, options)
+  }
+
+  getFlags(publicKey) {
+    return new Promise((resolve, reject) => {
+      this.server().loadAccount(publicKey)
+        .catch(StellarSdk.NotFoundError, (error) => {
+          reject(error)
+        })
+        .then((account) => {
+          let result = 0
+
+          if (account.flags.auth_required) {
+            result |= StellarSdk.AuthRequiredFlag
+          }
+          if (account.flags.auth_revocable) {
+            result |= StellarSdk.AuthRevocableFlag
+          }
+
+          resolve(result)
+        })
     })
   }
 
   setFlags(sourceSecret, flags) {
-    return this.setOptions(sourceSecret, {
+    const options = {
       setFlags: flags
-    })
+    }
+
+    return this.setOptions(sourceSecret, options)
   }
 
   clearFlags(sourceSecret, flags) {
-    return this.setOptions(sourceSecret, {
+    const options = {
       clearFlags: flags
-    })
+    }
+
+    return this.setOptions(sourceSecret, options)
   }
 
   setInflationDestination(sourceSecret, inflationDest) {
