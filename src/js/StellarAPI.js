@@ -311,7 +311,7 @@ export default class StellarAPI {
 
   clearFlags(sourceSecret, flags) {
     return this.setOptions(sourceSecret, {
-      setFlags: flags
+      clearFlags: flags
     })
   }
 
