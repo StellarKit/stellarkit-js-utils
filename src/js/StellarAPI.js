@@ -39,7 +39,7 @@ export default class StellarAPI {
   balances(publicKey) {
     return new Promise((resolve, reject) => {
       this.server().loadAccount(publicKey)
-        .catch(StellarSdk.NotFoundError, (error) => {
+        .catch((error) => {
           reject(error)
         })
         .then((account) => {
@@ -69,7 +69,7 @@ export default class StellarAPI {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
-        .catch(StellarSdk.NotFoundError, (error) => {
+        .catch((error) => {
           reject(error)
         })
         .then((account) => {
@@ -96,7 +96,7 @@ export default class StellarAPI {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
-        .catch(StellarSdk.NotFoundError, (error) => {
+        .catch((error) => {
           reject(error)
         })
         .then((account) => {
@@ -122,19 +122,49 @@ export default class StellarAPI {
     })
   }
 
-  setTrustForAsset(sourceSecret, asset, amount) {
+  changeTrust(sourceSecret, asset, limit) {
     return new Promise((resolve, reject) => {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
-        .catch(StellarSdk.NotFoundError, (error) => {
+        .catch((error) => {
           reject(error)
         })
         .then((account) => {
           const transaction = new StellarSdk.TransactionBuilder(account)
             .addOperation(StellarSdk.Operation.changeTrust({
               asset: asset,
-              limit: amount
+              limit: limit
+            }))
+            .build()
+
+          transaction.sign(sourceKeys)
+
+          return this.server().submitTransaction(transaction)
+        })
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  }
+
+  allowTrust(sourceSecret, trustor, asset, authorize) {
+    return new Promise((resolve, reject) => {
+      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+
+      this.server().loadAccount(sourceKeys.publicKey())
+        .catch((error) => {
+          reject(error)
+        })
+        .then((account) => {
+          const transaction = new StellarSdk.TransactionBuilder(account)
+            .addOperation(StellarSdk.Operation.allowTrust({
+              trustor: trustor,
+              assetCode: asset.getCode(),
+              authorize: authorize
             }))
             .build()
 
@@ -156,7 +186,7 @@ export default class StellarAPI {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
-        .catch(StellarSdk.NotFoundError, (error) => {
+        .catch((error) => {
           reject(error)
         })
         .then((account) => {
@@ -193,7 +223,7 @@ export default class StellarAPI {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(destKey)
-        .catch(StellarSdk.NotFoundError, (error) => {
+        .catch((error) => {
           reject(error)
         })
         .then(() => {
@@ -247,7 +277,7 @@ export default class StellarAPI {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
-        .catch(StellarSdk.NotFoundError, (error) => {
+        .catch((error) => {
           reject(error)
         })
         .then((account) => {
@@ -300,7 +330,7 @@ export default class StellarAPI {
   getFlags(publicKey) {
     return new Promise((resolve, reject) => {
       this.server().loadAccount(publicKey)
-        .catch(StellarSdk.NotFoundError, (error) => {
+        .catch((error) => {
           reject(error)
         })
         .then((account) => {
@@ -356,7 +386,7 @@ export default class StellarAPI {
       const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
       this.server().loadAccount(sourceKeys.publicKey())
-        .catch(StellarSdk.NotFoundError, (error) => {
+        .catch((error) => {
           reject(error)
         })
         .then((account) => {
