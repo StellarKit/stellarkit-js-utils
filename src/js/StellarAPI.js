@@ -381,9 +381,7 @@ export default class StellarAPI {
 
       this.setOptions(sourceSecret, options)
 
-      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
-
-      this.server().loadAccount(sourceKeys.publicKey())
+      this.server().loadAccount(destinationKey)
         .catch((error) => {
           reject(error)
         })
