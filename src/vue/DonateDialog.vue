@@ -14,8 +14,13 @@
 </template>
 
 <script>
+import DonateView from './DonateView.vue'
+
 export default {
   props: ['ping', 'nodeEnv', 'donationPublicKey'],
+  components: {
+    'donate-view': DonateView
+  },
   watch: {
     ping: function () {
       this.visible = true
