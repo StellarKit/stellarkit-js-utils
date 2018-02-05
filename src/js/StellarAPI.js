@@ -21,15 +21,7 @@ export default class StellarAPI {
   horizonMetrics() {
     const url = this.serverURL() + '/metrics'
 
-    return new Promise((resolve, reject) => {
-      axios.get(url)
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+    return axios.get(url)
   }
 
   accountInfo(publicKey) {
@@ -37,229 +29,149 @@ export default class StellarAPI {
   }
 
   balances(publicKey) {
-    return new Promise((resolve, reject) => {
-      this.server().loadAccount(publicKey)
-        .catch((error) => {
-          reject(error)
-        })
-        .then((account) => {
-          const result = {}
+    return this.server().loadAccount(publicKey)
+      .then((account) => {
+        const result = {}
 
-          account.balances.forEach((balance) => {
-            if (balance.asset_type === 'native') {
-              result['XLM'] = balance.balance
-            } else {
-              result[balance.asset_code] = balance.balance
-            }
-          })
+        account.balances.forEach((balance) => {
+          if (balance.asset_type === 'native') {
+            result['XLM'] = balance.balance
+          } else {
+            result[balance.asset_code] = balance.balance
+          }
+        })
 
-          return result
-        })
-        .then((result) => {
-          resolve(result)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+        return result
+      })
   }
 
   mergeAccount(sourceSecret, destKey) {
-    return new Promise((resolve, reject) => {
-      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+    const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
-      this.server().loadAccount(sourceKeys.publicKey())
-        .catch((error) => {
-          reject(error)
-        })
-        .then((account) => {
-          const transaction = new StellarSdk.TransactionBuilder(account)
-            .addOperation(StellarSdk.Operation.accountMerge({
-              destination: destKey
-            }))
-            .build()
+    return this.server().loadAccount(sourceKeys.publicKey())
+      .then((account) => {
+        const transaction = new StellarSdk.TransactionBuilder(account)
+          .addOperation(StellarSdk.Operation.accountMerge({
+            destination: destKey
+          })).build()
 
-          transaction.sign(sourceKeys)
-          return this.server().submitTransaction(transaction)
-        })
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+        transaction.sign(sourceKeys)
+        return this.server().submitTransaction(transaction)
+      })
   }
 
   manageOffer(sourceSecret, buying, selling, amount, price, offerID = 0) {
-    return new Promise((resolve, reject) => {
-      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+    const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
-      this.server().loadAccount(sourceKeys.publicKey())
-        .catch((error) => {
-          reject(error)
-        })
-        .then((account) => {
-          const transaction = new StellarSdk.TransactionBuilder(account)
-            .addOperation(StellarSdk.Operation.manageOffer({
-              selling: selling,
-              buying: buying,
-              amount: amount,
-              price: price,
-              offerId: offerID
-            }))
-            .build()
+    return this.server().loadAccount(sourceKeys.publicKey())
+      .then((account) => {
+        const transaction = new StellarSdk.TransactionBuilder(account)
+          .addOperation(StellarSdk.Operation.manageOffer({
+            selling: selling,
+            buying: buying,
+            amount: amount,
+            price: price,
+            offerId: offerID
+          })).build()
 
-          transaction.sign(sourceKeys)
-          return this.server().submitTransaction(transaction)
-        })
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+        transaction.sign(sourceKeys)
+        return this.server().submitTransaction(transaction)
+      })
   }
 
   changeTrust(sourceSecret, asset, limit) {
-    return new Promise((resolve, reject) => {
-      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+    const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
-      this.server().loadAccount(sourceKeys.publicKey())
-        .catch((error) => {
-          reject(error)
-        })
-        .then((account) => {
-          const transaction = new StellarSdk.TransactionBuilder(account)
-            .addOperation(StellarSdk.Operation.changeTrust({
-              asset: asset,
-              limit: limit
-            }))
-            .build()
+    return this.server().loadAccount(sourceKeys.publicKey())
+      .then((account) => {
+        const transaction = new StellarSdk.TransactionBuilder(account)
+          .addOperation(StellarSdk.Operation.changeTrust({
+            asset: asset,
+            limit: limit
+          })).build()
 
-          transaction.sign(sourceKeys)
+        transaction.sign(sourceKeys)
 
-          return this.server().submitTransaction(transaction)
-        })
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+        return this.server().submitTransaction(transaction)
+      })
   }
 
   allowTrust(sourceSecret, trustor, asset, authorize) {
-    return new Promise((resolve, reject) => {
-      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+    const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
-      this.server().loadAccount(sourceKeys.publicKey())
-        .catch((error) => {
-          reject(error)
-        })
-        .then((account) => {
-          const transaction = new StellarSdk.TransactionBuilder(account)
-            .addOperation(StellarSdk.Operation.allowTrust({
-              trustor: trustor,
-              assetCode: asset.getCode(),
-              authorize: authorize
-            }))
-            .build()
+    return this.server().loadAccount(sourceKeys.publicKey())
+      .then((account) => {
+        const transaction = new StellarSdk.TransactionBuilder(account)
+          .addOperation(StellarSdk.Operation.allowTrust({
+            trustor: trustor,
+            assetCode: asset.getCode(),
+            authorize: authorize
+          }))
+          .build()
 
-          transaction.sign(sourceKeys)
+        transaction.sign(sourceKeys)
 
-          return this.server().submitTransaction(transaction)
-        })
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+        return this.server().submitTransaction(transaction)
+      })
   }
 
   makeMultiSig(sourceSecret, publicKey) {
-    return new Promise((resolve, reject) => {
-      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+    const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
-      this.server().loadAccount(sourceKeys.publicKey())
-        .catch((error) => {
-          reject(error)
-        })
-        .then((account) => {
-          const transaction = new StellarSdk.TransactionBuilder(account)
-            .addOperation(StellarSdk.Operation.setOptions({
-              signer: {
-                ed25519PublicKey: publicKey,
-                weight: 1
-              }
-            }))
-            .addOperation(StellarSdk.Operation.setOptions({
-              masterWeight: 1, // set master key weight
-              lowThreshold: 1,
-              medThreshold: 2, // a payment is medium threshold
-              highThreshold: 2 // make sure to have enough weight to add up to the high threshold!
-            }))
-            .build()
+    return this.server().loadAccount(sourceKeys.publicKey())
+      .then((account) => {
+        const transaction = new StellarSdk.TransactionBuilder(account)
+          .addOperation(StellarSdk.Operation.setOptions({
+            signer: {
+              ed25519PublicKey: publicKey,
+              weight: 1
+            }
+          }))
+          .addOperation(StellarSdk.Operation.setOptions({
+            masterWeight: 1, // set master key weight
+            lowThreshold: 1,
+            medThreshold: 2, // a payment is medium threshold
+            highThreshold: 2 // make sure to have enough weight to add up to the high threshold!
+          }))
+          .build()
 
-          transaction.sign(sourceKeys)
+        transaction.sign(sourceKeys)
 
-          return this.server().submitTransaction(transaction)
-        })
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+        return this.server().submitTransaction(transaction)
+      })
   }
 
   sendAsset(sourceSecret, destKey, amount, asset = null, memo = null, additionalSigners = null) {
-    return new Promise((resolve, reject) => {
-      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+    const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
-      this.server().loadAccount(destKey)
-        .catch((error) => {
-          reject(error)
-        })
-        .then(() => {
-          return this.server().loadAccount(sourceKeys.publicKey())
-        })
-        .then((sourceAccount) => {
-          let builder = new StellarSdk.TransactionBuilder(sourceAccount)
-            .addOperation(StellarSdk.Operation.payment({
-              destination: destKey,
-              asset: asset === null ? StellarSdk.Asset.native() : asset,
-              amount: amount
-            }))
+    return this.server().loadAccount(destKey)
+      .then(() => {
+        return this.server().loadAccount(sourceKeys.publicKey())
+      })
+      .then((sourceAccount) => {
+        let builder = new StellarSdk.TransactionBuilder(sourceAccount)
+          .addOperation(StellarSdk.Operation.payment({
+            destination: destKey,
+            asset: asset === null ? StellarSdk.Asset.native() : asset,
+            amount: amount
+          }))
 
-          if (memo) {
-            builder = builder.addMemo(StellarSdk.Memo.text(memo))
+        if (memo) {
+          builder = builder.addMemo(StellarSdk.Memo.text(memo))
+        }
+
+        const transaction = builder.build()
+
+        transaction.sign(sourceKeys)
+
+        if (additionalSigners) {
+          for (const signerKey of additionalSigners) {
+            transaction.sign(StellarSdk.Keypair.fromSecret(signerKey))
           }
+        }
 
-          const transaction = builder.build()
-
-          transaction.sign(sourceKeys)
-
-          if (additionalSigners) {
-            for (const signerKey of additionalSigners) {
-              transaction.sign(StellarSdk.Keypair.fromSecret(signerKey))
-            }
-          }
-
-          return this.server().submitTransaction(transaction)
-        })
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+        return this.server().submitTransaction(transaction)
+      })
   }
 
   hasAssetTrustline(account, asset) {
@@ -273,39 +185,28 @@ export default class StellarAPI {
   }
 
   buyTokens(sourceSecret, sendAsset, destAsset, sendMax, destAmount) {
-    return new Promise((resolve, reject) => {
-      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+    const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
-      this.server().loadAccount(sourceKeys.publicKey())
-        .catch((error) => {
-          reject(error)
-        })
-        .then((account) => {
-          if (this.hasAssetTrustline(account, destAsset)) {
-            const transaction = new StellarSdk.TransactionBuilder(account).addOperation(
-                StellarSdk.Operation.pathPayment({
-                  destination: sourceKeys.publicKey(),
-                  sendAsset: sendAsset,
-                  sendMax: sendMax,
-                  destAsset: destAsset,
-                  destAmount: destAmount,
-                  path: []
-                })
-              )
-              .build()
+    return this.server().loadAccount(sourceKeys.publicKey())
+      .then((account) => {
+        if (this.hasAssetTrustline(account, destAsset)) {
+          const transaction = new StellarSdk.TransactionBuilder(account).addOperation(
+            StellarSdk.Operation.pathPayment({
+              destination: sourceKeys.publicKey(),
+              sendAsset: sendAsset,
+              sendMax: sendMax,
+              destAsset: destAsset,
+              destAmount: destAmount,
+              path: []
+            })).build()
 
-            transaction.sign(sourceKeys)
+          transaction.sign(sourceKeys)
 
-            return this.server().submitTransaction(transaction)
-          } else {
-            reject('No trustline from buyer to asset')
-          }
-        }).then((response) => {
-          resolve(response)
-        }).catch((error) => {
-          reject(error)
-        })
-    })
+          return this.server().submitTransaction(transaction)
+        } else {
+          throw new Error('No trustline from buyer to asset')
+        }
+      })
   }
 
   lockAccount(sourceSecret) {
@@ -328,24 +229,19 @@ export default class StellarAPI {
   }
 
   getFlags(publicKey) {
-    return new Promise((resolve, reject) => {
-      this.server().loadAccount(publicKey)
-        .catch((error) => {
-          reject(error)
-        })
-        .then((account) => {
-          let result = 0
+    return this.server().loadAccount(publicKey)
+      .then((account) => {
+        let result = 0
 
-          if (account.flags.auth_required) {
-            result |= StellarSdk.AuthRequiredFlag
-          }
-          if (account.flags.auth_revocable) {
-            result |= StellarSdk.AuthRevocableFlag
-          }
+        if (account.flags.auth_required) {
+          result |= StellarSdk.AuthRequiredFlag
+        }
+        if (account.flags.auth_revocable) {
+          result |= StellarSdk.AuthRevocableFlag
+        }
 
-          resolve(result)
-        })
-    })
+        return result
+      })
   }
 
   setFlags(sourceSecret, flags) {
@@ -396,31 +292,20 @@ export default class StellarAPI {
             return account
           })
       })
-      .catch((error) => {
-        throw error
-      })
   }
 
   setOptions(sourceSecret, options) {
-    return new Promise((resolve, reject) => {
-      const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+    const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
-      this.server().loadAccount(sourceKeys.publicKey())
-        .then((account) => {
-          const transaction = new StellarSdk.TransactionBuilder(account)
-            .addOperation(StellarSdk.Operation.setOptions(options))
-            .build()
+    return this.server().loadAccount(sourceKeys.publicKey())
+      .then((account) => {
+        const transaction = new StellarSdk.TransactionBuilder(account)
+          .addOperation(StellarSdk.Operation.setOptions(options))
+          .build()
 
-          transaction.sign(sourceKeys)
+        transaction.sign(sourceKeys)
 
-          return this.server().submitTransaction(transaction)
-        })
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+        return this.server().submitTransaction(transaction)
+      })
   }
 }
