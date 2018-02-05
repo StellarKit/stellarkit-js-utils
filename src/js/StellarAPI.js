@@ -139,13 +139,24 @@ export default class StellarAPI {
       })
   }
 
-  removeMultiSig(sourceSecret, secondSecret, secondPublicKey) {
+  removeMultiSig(sourceSecret, secondSecret, secondPublicKey, transactionOpts) {
+    this.removeMultiSigTransaction(sourceSecret, secondSecret, secondPublicKey, transactionOpts)
+      .then((transaction) {
+        return this.server().submitTransaction(transaction)
+      })
+  }
+
+  submitTransaction(transaction) {
+    return this.server().submitTransaction(transaction)
+  }
+
+  removeMultiSigTransaction(sourceSecret, secondSecret, secondPublicKey, transactionOpts) {
     const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
     const secondKeys = StellarSdk.Keypair.fromSecret(secondSecret)
 
     return this.server().loadAccount(sourceKeys.publicKey())
       .then((account) => {
-        const transaction = new StellarSdk.TransactionBuilder(account)
+        const transaction = new StellarSdk.TransactionBuilder(account, transactionOpts)
           .addOperation(StellarSdk.Operation.setOptions({
             medThreshold: 1,
             highThreshold: 1
@@ -161,7 +172,7 @@ export default class StellarAPI {
         transaction.sign(sourceKeys)
         transaction.sign(secondKeys)
 
-        return this.server().submitTransaction(transaction)
+        return transaction
       })
   }
 
