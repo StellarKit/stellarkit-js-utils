@@ -184,6 +184,10 @@ export default class StellarAPI {
     return trusted
   }
 
+  paths(sourcePublic, destinationPublic, destinationAsset, destinationAmount) {
+    return this.server().paths(sourcePublic, destinationPublic, destinationAsset, destinationAmount)
+  }
+
   buyTokens(sourceSecret, sendAsset, destAsset, sendMax, destAmount) {
     const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
