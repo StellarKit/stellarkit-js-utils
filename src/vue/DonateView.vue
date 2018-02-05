@@ -163,18 +163,13 @@ export default {
         })
     },
     getPublicKeyFromNano() {
-      return new Promise((resolve, reject) => {
-        this.createComm()
-          .then((comm) => {
-            new StellarLedger.Api(comm).getPublicKey_async(bip32Path)
-              .then((result) => {
-                resolve(result['publicKey'])
-              })
-              .catch((error) => {
-                reject(error)
-              })
-          })
-      })
+      return this.createComm()
+        .then((comm) => {
+          new StellarLedger.Api(comm).getPublicKey_async(bip32Path)
+            .then((result) => {
+              return result['publicKey']
+            })
+        })
     },
     loadAccount(signWithNano) {
       return new Promise((resolve, reject) => {
