@@ -122,14 +122,14 @@ export default class StellarAPI {
       .then((account) => {
         const transaction = new StellarSdk.TransactionBuilder(account)
           .addOperation(StellarSdk.Operation.setOptions({
-            medThreshold: 2,
-            highThreshold: 2
-          }))
-          .addOperation(StellarSdk.Operation.setOptions({
             signer: {
               ed25519PublicKey: secondPublicKey,
               weight: 1
             }
+          }))
+          .addOperation(StellarSdk.Operation.setOptions({
+            medThreshold: 2,
+            highThreshold: 2
           }))
           .build()
 
