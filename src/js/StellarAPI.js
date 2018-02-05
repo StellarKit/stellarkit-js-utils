@@ -194,15 +194,16 @@ export default class StellarAPI {
     return this.server().loadAccount(sourceKeys.publicKey())
       .then((account) => {
         if (this.hasAssetTrustline(account, destAsset)) {
-          const transaction = new StellarSdk.TransactionBuilder(account).addOperation(
-            StellarSdk.Operation.pathPayment({
-              destination: sourceKeys.publicKey(),
-              sendAsset: sendAsset,
-              sendMax: sendMax,
-              destAsset: destAsset,
-              destAmount: destAmount,
-              path: []
-            })).build()
+          const transaction = new StellarSdk.TransactionBuilder(account)
+            .addOperation(
+              StellarSdk.Operation.pathPayment({
+                destination: sourceKeys.publicKey(),
+                sendAsset: sendAsset,
+                sendMax: sendMax,
+                destAsset: destAsset,
+                destAmount: destAmount,
+                path: []
+              })).build()
 
           transaction.sign(sourceKeys)
 
