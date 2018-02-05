@@ -115,7 +115,7 @@ export default class StellarAPI {
       })
   }
 
-  makeMultiSig(sourceSecret, publicKey) {
+  makeMultiSig(sourceSecret, secondPublicKey) {
     const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
 
     return this.server().loadAccount(sourceKeys.publicKey())
@@ -123,19 +123,43 @@ export default class StellarAPI {
         const transaction = new StellarSdk.TransactionBuilder(account)
           .addOperation(StellarSdk.Operation.setOptions({
             signer: {
-              ed25519PublicKey: publicKey,
+              ed25519PublicKey: secondPublicKey,
               weight: 1
             }
           }))
           .addOperation(StellarSdk.Operation.setOptions({
-            masterWeight: 1, // set master key weight
-            lowThreshold: 1,
-            medThreshold: 2, // a payment is medium threshold
-            highThreshold: 2 // make sure to have enough weight to add up to the high threshold!
+            medThreshold: 2,
+            highThreshold: 2
           }))
           .build()
 
         transaction.sign(sourceKeys)
+
+        return this.server().submitTransaction(transaction)
+      })
+  }
+
+  removeMultiSig(sourceSecret, secondSecret, secondPublicKey) {
+    const sourceKeys = StellarSdk.Keypair.fromSecret(sourceSecret)
+    const secondKeys = StellarSdk.Keypair.fromSecret(secondSecret)
+
+    return this.server().loadAccount(sourceKeys.publicKey())
+      .then((account) => {
+        const transaction = new StellarSdk.TransactionBuilder(account)
+          .addOperation(StellarSdk.Operation.setOptions({
+            signer: {
+              ed25519PublicKey: secondPublicKey,
+              weight: 0
+            }
+          }))
+          .addOperation(StellarSdk.Operation.setOptions({
+            medThreshold: 1,
+            highThreshold: 1
+          }))
+          .build()
+
+        transaction.sign(sourceKeys)
+        transaction.sign(secondKeys)
 
         return this.server().submitTransaction(transaction)
       })
