@@ -140,7 +140,7 @@ export default class StellarAPI {
   }
 
   removeMultiSig(sourceSecret, secondSecret, secondPublicKey, transactionOpts) {
-    this.removeMultiSigTransaction(sourceSecret, secondSecret, secondPublicKey, transactionOpts)
+    return this.removeMultiSigTransaction(sourceSecret, secondSecret, secondPublicKey, transactionOpts)
       .then((transaction) => {
         return this.server().submitTransaction(transaction)
       })
