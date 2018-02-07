@@ -54,6 +54,7 @@
 <script>
 import Utils from '../js/utils.js'
 import LedgerAPI from '../js/LedgerAPI.js'
+import TransactionSigner from '../js/TransactionSigner.js'
 const StellarSdk = require('stellar-sdk')
 
 export default {
@@ -70,7 +71,6 @@ export default {
       xlm: 10,
       showSecret: false,
       browserSupportMessage: '',
-      server: null,
       ledgerAPI: null
     }
   },
@@ -98,11 +98,19 @@ export default {
     }
 
     this.ledgerAPI = new LedgerAPI(!this.nodeEnv)
-
-    StellarSdk.Network.usePublicNetwork()
-    this.server = new StellarSdk.Server('https://horizon.stellar.org')
   },
   methods: {
+    server() {
+      if (!this._server) {
+        StellarSdk.Network.usePublicNetwork()
+        this._server = new StellarSdk.Server('https://horizon.stellar.org')
+      }
+
+      // paranoid about this, so setting before every call
+      StellarSdk.Network.usePublicNetwork()
+
+      return this._server
+    },
     buttonClick(id) {
       switch (id) {
         case 'useNano':
@@ -135,7 +143,7 @@ export default {
     },
     loadAccount(signWithNano) {
       return new Promise((resolve, reject) => {
-        this.server.loadAccount(this.destinationPublicKey)
+        this.server().loadAccount(this.destinationPublicKey)
           .catch((error) => {
             this.status = 'Failed to load destination account: ' + error
             reject(error)
@@ -148,7 +156,7 @@ export default {
                   reject(error)
                 })
                 .then((sourcePublicKey) => {
-                  this.server.loadAccount(sourcePublicKey)
+                  this.server().loadAccount(sourcePublicKey)
                     .then((sourceAccount) => {
                       resolve(sourceAccount)
                     })
@@ -160,7 +168,7 @@ export default {
             } else {
               const keyPair = StellarSdk.Keypair.fromSecret(this.secretKey)
 
-              this.server.loadAccount(keyPair.publicKey())
+              this.server().loadAccount(keyPair.publicKey())
                 .then((sourceAccount) => {
                   resolve(sourceAccount)
                 })
@@ -202,11 +210,19 @@ export default {
 
           const transaction = builder.build()
 
-          this.signTransaction(sourceAccount.accountId(), transaction, signWithNano)
+          let signer = null
+          if (signWithNano) {
+            signer = TransactionSigner.signerWithLedgerAPI(this.ledgerAPI)
+            this.status = 'Confirm transaction on Nano...'
+          } else {
+            signer = TransactionSigner.signerWithSecret(this.secretKey)
+          }
+
+          signer.signTransaction(sourceAccount.accountId(), transaction)
             .then((signedTransaction) => {
               this.status = 'Submitting transaction...'
 
-              return this.server.submitTransaction(signedTransaction)
+              return this.server().submitTransaction(signedTransaction)
             })
             .then((response) => {
               this.status = 'Payment Successful! Thank you!'
@@ -218,26 +234,6 @@ export default {
               this.status = 'Error signing transaction: ' + error
             })
         })
-    },
-    signTransaction(sourceKey, transaction, signWithNano) {
-      return new Promise((resolve, reject) => {
-        if (signWithNano) {
-          this.status = 'Confirm transaction on Nano...'
-
-          this.ledgerAPI.signTransaction(sourceKey, transaction)
-            .then((signedTx) => {
-              resolve(signedTx)
-            })
-            .catch((error) => {
-              reject(error)
-            })
-        } else {
-          const sourceKeys = StellarSdk.Keypair.fromSecret(this.secretKey)
-
-          transaction.sign(sourceKeys)
-          resolve(transaction)
-        }
-      })
     }
   }
 }
