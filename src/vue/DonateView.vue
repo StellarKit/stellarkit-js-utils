@@ -131,7 +131,11 @@ export default {
 
       this.ledgerAPI.connectLedger()
         .then(() => {
+          console.log('connected 2')
           this.connected = true
+        })
+        .catch((error) => {
+          console.log(JSON.stringify(error))
         })
     },
     loadAccount(signWithNano) {

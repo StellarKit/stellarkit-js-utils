@@ -9,11 +9,9 @@ export default class LedgerAPI {
 
   createComm(timeout = 0) {
     if (!this.browser) {
-      console.log('node')
       return StellarLedger.comm_node.create_async(timeout)
     }
 
-    console.log('browser')
     return StellarLedger.comm.create_async(timeout)
   }
 
@@ -34,6 +32,8 @@ export default class LedgerAPI {
   }
 
   connectLedgerNode() {
+    console.log('node')
+
     return new Promise((resolve, reject) => {
       // for node we have to do our own loop to connect
       const doConnect = () => {
@@ -54,12 +54,16 @@ export default class LedgerAPI {
   }
 
   connectLedgerBrowser() {
+    console.log('browser')
+
     return this.createComm(Number.MAX_VALUE)
       .then((comm) => {
         new StellarLedger.Api(comm).connect(() => {
+          console.log('connected')
+
           return true
         }, (error) => {
-          console.log('Error: ' + JSON.stringify(error))
+          console.log('Errorrr: ' + JSON.stringify(error))
           throw error
         })
       })
