@@ -23,7 +23,7 @@
     <div v-else-if="dialogMode === 'useNano'" class='payment-nano'>
       <v-text-field label="Lumens" type='number' v-model.trim="xlm" @keyup.enter="buttonClick('sendWithNano')" autofocus></v-text-field>
 
-      <div v-if='donate' class='own-wallet'>
+      <div v-if='!donate' class='own-wallet'>
         <v-text-field label="Destination" v-model.trim="destinationPublicKey" @keyup.enter="buttonClick('sendWithNano')"></v-text-field>
       </div>
 
@@ -36,9 +36,11 @@
     <div v-else-if="dialogMode === 'useKey'" class='payment-secret'>
       <div class='sign-button-area'>
         <v-text-field label="Amount" type='number' v-model.trim="xlm" autofocus></v-text-field>
-        <div v-if='donate' class='own-wallet'>
+
+        <div v-if='!donate' class='own-wallet'>
           <v-text-field label="Destination" v-model.trim="destinationPublicKey" @keyup.enter="buttonClick('sendWithSecret')"></v-text-field>
         </div>
+
         <v-text-field label="Secret Key" v-model.trim="secretKey" @keyup.enter="buttonClick('sendWithSecret')" hint="Starts with an 'S'" :append-icon="showSecret ? 'visibility_off' : 'visibility'" :append-icon-cb="() => (showSecret = !showSecret)" :type="showSecret ? 'text' : 'password'"></v-text-field>
 
         <v-btn @click="buttonClick('sendWithSecret')" :disabled="disableSendLumens">Send Lumens</v-btn>
@@ -51,8 +53,7 @@
 
 <script>
 import Utils from '../js/utils.js'
-const StellarLedger = require('stellar-ledger-api')
-const bip32Path = "44'/148'/0'"
+import LedgerAPI from '../js/LedgerAPI.js'
 const StellarSdk = require('stellar-sdk')
 
 export default {
@@ -69,7 +70,8 @@ export default {
       xlm: 10,
       showSecret: false,
       browserSupportMessage: '',
-      server: null
+      server: null,
+      ledgerAPI: null
     }
   },
   computed: {
@@ -94,6 +96,8 @@ export default {
     } else {
       this.browserSupportMessage = 'Make sure "Browser Support" is enabled'
     }
+
+    this.ledgerAPI = new LedgerAPI(!this.nodeEnv)
 
     StellarSdk.Network.usePublicNetwork()
     this.server = new StellarSdk.Server('https://horizon.stellar.org')
@@ -122,53 +126,12 @@ export default {
           break
       }
     },
-    createComm(timeout = 0) {
-      if (this.nodeEnv) {
-        return StellarLedger.comm_node.create_async(timeout)
-      }
-      return StellarLedger.comm.create_async(timeout)
-    },
     connectLedger() {
       this.connected = false
 
-      if (this.nodeEnv) {
-        this.connectLedgerNode()
-      } else {
-        this.connectLedgerBrowser()
-      }
-    },
-    connectLedgerNode() {
-      // for node we have to do our own loop to connect
-      const doConnect = () => {
-        this.createComm()
-          .then((comm) => {
-            new StellarLedger.Api(comm).connect(() => {
-              this.connected = true
-            }, (error) => {
-              console.log(JSON.stringify(error))
-              setTimeout(doConnect, 1000)
-            })
-          })
-      }
-      doConnect()
-    },
-    connectLedgerBrowser() {
-      this.createComm(Number.MAX_VALUE)
-        .then((comm) => {
-          new StellarLedger.Api(comm).connect(() => {
-            this.connected = true
-          }, (error) => {
-            this.status = 'Error: ' + JSON.stringify(error)
-          })
-        })
-    },
-    getPublicKeyFromNano() {
-      return this.createComm()
-        .then((comm) => {
-          new StellarLedger.Api(comm).getPublicKey_async(bip32Path)
-            .then((result) => {
-              return result['publicKey']
-            })
+      this.ledgerAPI.connectLedger()
+        .then(() => {
+          this.connected = true
         })
     },
     loadAccount(signWithNano) {
@@ -180,7 +143,7 @@ export default {
           })
           .then((destAccount) => {
             if (signWithNano) {
-              this.getPublicKeyFromNano()
+              this.ledgerAPI.getPublicKey()
                 .catch((error) => {
                   this.status = 'Failed to get source public key: ' + error
                   reject(error)
@@ -260,29 +223,14 @@ export default {
     signTransaction(sourceKey, transaction, signWithNano) {
       return new Promise((resolve, reject) => {
         if (signWithNano) {
-          this.createComm()
-            .then((comm) => {
-              this.status = 'Confirm transaction on Nano...'
+          this.status = 'Confirm transaction on Nano...'
 
-              new StellarLedger.Api(comm).signTx_async(bip32Path, transaction)
-                .then((result) => {
-                  const signature = result['signature']
-
-                  const keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey)
-                  const hint = keyPair.signatureHint()
-                  const decorated = new StellarSdk.xdr.DecoratedSignature({
-                    hint: hint,
-                    signature: signature
-                  })
-
-                  transaction.signatures.push(decorated)
-
-                  resolve(transaction)
-                })
-                .catch((err) => {
-                  console.log(err)
-                  reject(err)
-                })
+          this.ledgerAPI.signTransaction(sourceKey, transaction)
+            .then((signedTx) => {
+              resolve(signedTx)
+            })
+            .catch((error) => {
+              reject(error)
             })
         } else {
           const sourceKeys = StellarSdk.Keypair.fromSecret(this.secretKey)
