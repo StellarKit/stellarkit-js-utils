@@ -129,14 +129,9 @@ export default {
     connectLedger() {
       this.connected = false
 
-      this.ledgerAPI.connectLedger()
-        .then(() => {
-          console.log('connected 2')
-          this.connected = true
-        })
-        .catch((error) => {
-          console.log(JSON.stringify(error))
-        })
+      this.ledgerAPI.connectLedger(() => {
+        this.connected = true
+      }, !this.nodeEnv)
     },
     loadAccount(signWithNano) {
       return new Promise((resolve, reject) => {

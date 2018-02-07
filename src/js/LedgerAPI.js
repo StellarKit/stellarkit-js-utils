@@ -3,7 +3,8 @@ const StellarLedger = require('stellar-ledger-api')
 const bip32Path = "44'/148'/0'"
 
 export default class LedgerAPI {
-  constructor(browser = true) {
+  constructor(callback, browser = true) {
+    this.callback = callback
     this.browser = browser
   }
 
@@ -16,55 +17,38 @@ export default class LedgerAPI {
   }
 
   connectLedger() {
-    return new Promise((resolve, reject) => {
-      if (!this.browser) {
-        this.connectLedgerNode()
-          .then(() => {
-            resolve(true)
-          })
-      } else {
-        this.connectLedgerBrowser()
-          .then(() => {
-            resolve(true)
-          })
-      }
-    })
+    if (!this.browser) {
+      this.connectLedgerNode()
+    } else {
+      this.connectLedgerBrowser()
+    }
   }
 
   connectLedgerNode() {
-    console.log('node')
+    // for node we have to do our own loop to connect
+    const doConnect = () => {
+      this.createComm()
+        .then((comm) => {
+          new StellarLedger.Api(comm).connect(() => {
+            this.notifiyConnected()
+          }, (error) => {
+            console.log('Error: ' + JSON.stringify(error))
 
-    return new Promise((resolve, reject) => {
-      // for node we have to do our own loop to connect
-      const doConnect = () => {
-        this.createComm()
-          .then((comm) => {
-            new StellarLedger.Api(comm).connect(() => {
-              resolve(true)
-            }, (error) => {
-              console.log('Error: ' + JSON.stringify(error))
-
-              // keep trying
-              setTimeout(doConnect, 1000)
-            })
+            // keep trying
+            setTimeout(doConnect, 1000)
           })
-      }
-      doConnect()
-    })
+        })
+    }
+    doConnect()
   }
 
   connectLedgerBrowser() {
-    console.log('browser')
-
-    return this.createComm(Number.MAX_VALUE)
+    this.createComm(Number.MAX_VALUE)
       .then((comm) => {
         new StellarLedger.Api(comm).connect(() => {
-          console.log('connected')
-
-          return true
+          this.notifiyConnected()
         }, (error) => {
-          console.log('Errorrr: ' + JSON.stringify(error))
-          throw error
+          console.log('Error: ' + JSON.stringify(error))
         })
       })
   }
@@ -98,5 +82,9 @@ export default class LedgerAPI {
             return transaction
           })
       })
+  }
+
+  notifiyConnected() {
+    this.callback()
   }
 }
