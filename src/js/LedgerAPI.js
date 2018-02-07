@@ -3,8 +3,7 @@ const StellarLedger = require('stellar-ledger-api')
 const bip32Path = "44'/148'/0'"
 
 export default class LedgerAPI {
-  constructor(callback, browser = true) {
-    this.callback = callback
+  constructor(browser = true) {
     this.browser = browser
   }
 
@@ -16,21 +15,21 @@ export default class LedgerAPI {
     return StellarLedger.comm.create_async(timeout)
   }
 
-  connectLedger() {
+  connectLedger(callback) {
     if (!this.browser) {
-      this.connectLedgerNode()
+      this.connectLedgerNode(callback)
     } else {
-      this.connectLedgerBrowser()
+      this.connectLedgerBrowser(callback)
     }
   }
 
-  connectLedgerNode() {
+  connectLedgerNode(callback) {
     // for node we have to do our own loop to connect
     const doConnect = () => {
       this.createComm()
         .then((comm) => {
           new StellarLedger.Api(comm).connect(() => {
-            this.notifiyConnected()
+            callback()
           }, (error) => {
             console.log('Error: ' + JSON.stringify(error))
 
@@ -42,11 +41,11 @@ export default class LedgerAPI {
     doConnect()
   }
 
-  connectLedgerBrowser() {
+  connectLedgerBrowser(callback) {
     this.createComm(Number.MAX_VALUE)
       .then((comm) => {
         new StellarLedger.Api(comm).connect(() => {
-          this.notifiyConnected()
+          callback()
         }, (error) => {
           console.log('Error: ' + JSON.stringify(error))
         })
@@ -82,9 +81,5 @@ export default class LedgerAPI {
             return transaction
           })
       })
-  }
-
-  notifiyConnected() {
-    this.callback()
   }
 }
