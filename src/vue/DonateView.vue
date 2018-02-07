@@ -142,14 +142,20 @@ export default {
           })
           .then((destAccount) => {
             if (signWithNano) {
+              console.log('get public kcy')
+
               this.ledgerAPI.getPublicKey()
                 .catch((error) => {
                   this.status = 'Failed to get source public key: ' + error
                   reject(error)
                 })
                 .then((sourcePublicKey) => {
+                  console.log('ggggggggg')
+
                   this.server.loadAccount(sourcePublicKey)
                     .then((sourceAccount) => {
+                      console.log('ggggggggddddddddddd')
+
                       resolve(sourceAccount)
                     })
                     .catch((error) => {
@@ -188,11 +194,14 @@ export default {
         return
       }
 
+      console.log('sendPayment')
       this.loadAccount(signWithNano)
         .catch((error) => {
           this.status = 'Error loading account: ' + error
         })
         .then((sourceAccount) => {
+          console.log('loaded')
+
           const builder = new StellarSdk.TransactionBuilder(sourceAccount)
             .addOperation(StellarSdk.Operation.payment({
               destination: this.destinationPublicKey,
