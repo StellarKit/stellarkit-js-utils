@@ -51,7 +51,7 @@ export default class LedgerAPI {
   }
 
   connectLedgerBrowser() {
-    this.createComm(Number.MAX_VALUE)
+    return this.createComm(Number.MAX_VALUE)
       .then((comm) => {
         new StellarLedger.Api(comm).connect(() => {
           return true
