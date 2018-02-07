@@ -151,6 +151,7 @@ export default {
                 })
                 .then((sourcePublicKey) => {
                   console.log('ggggggggg')
+                  console.log(sourcePublicKey)
 
                   this.server.loadAccount(sourcePublicKey)
                     .then((sourceAccount) => {
