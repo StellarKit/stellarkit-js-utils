@@ -55,6 +55,7 @@
 import Utils from '../js/utils.js'
 import LedgerAPI from '../js/LedgerAPI.js'
 import TransactionSigner from '../js/TransactionSigner.js'
+import HorizonServer from '../js/HorizonServer.js'
 const StellarSdk = require('stellar-sdk')
 
 export default {
@@ -71,7 +72,8 @@ export default {
       xlm: 10,
       showSecret: false,
       browserSupportMessage: '',
-      ledgerAPI: null
+      ledgerAPI: null,
+      horizon: null
     }
   },
   computed: {
@@ -86,6 +88,8 @@ export default {
     }
   },
   created() {
+    this.horizon = new HorizonServer('https://horizon.stellar.org', false)
+
     if (Utils.strlen(this.donationPublicKey) !== 0) {
       this.donate = true
       this.destinationPublicKey = this.donationPublicKey
@@ -100,17 +104,6 @@ export default {
     this.ledgerAPI = new LedgerAPI(!this.nodeEnv)
   },
   methods: {
-    server() {
-      if (!this._server) {
-        StellarSdk.Network.usePublicNetwork()
-        this._server = new StellarSdk.Server('https://horizon.stellar.org')
-      }
-
-      // paranoid about this, so setting before every call
-      StellarSdk.Network.usePublicNetwork()
-
-      return this._server
-    },
     buttonClick(id) {
       switch (id) {
         case 'useNano':
@@ -143,7 +136,7 @@ export default {
     },
     loadAccount(signWithNano) {
       return new Promise((resolve, reject) => {
-        this.server().loadAccount(this.destinationPublicKey)
+        this.horizon.server().loadAccount(this.destinationPublicKey)
           .catch((error) => {
             this.status = 'Failed to load destination account: ' + error
             reject(error)
@@ -156,7 +149,7 @@ export default {
                   reject(error)
                 })
                 .then((sourcePublicKey) => {
-                  this.server().loadAccount(sourcePublicKey)
+                  this.horizon.server().loadAccount(sourcePublicKey)
                     .then((sourceAccount) => {
                       resolve(sourceAccount)
                     })
@@ -168,7 +161,7 @@ export default {
             } else {
               const keyPair = StellarSdk.Keypair.fromSecret(this.secretKey)
 
-              this.server().loadAccount(keyPair.publicKey())
+              this.horizon.server().loadAccount(keyPair.publicKey())
                 .then((sourceAccount) => {
                   resolve(sourceAccount)
                 })
@@ -222,7 +215,7 @@ export default {
             .then((signedTransaction) => {
               this.status = 'Submitting transaction...'
 
-              return this.server().submitTransaction(signedTransaction)
+              return this.horizon.server().submitTransaction(signedTransaction)
             })
             .then((response) => {
               this.status = 'Payment Successful! Thank you!'

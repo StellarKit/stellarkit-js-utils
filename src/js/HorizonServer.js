@@ -1,7 +1,7 @@
 const StellarSdk = require('stellar-sdk')
 
-export default class StellarAPIServer {
-  constructor(serverURL, testnet, serverOptions) {
+export default class HorizonServer {
+  constructor(serverURL, testnet = true, serverOptions) {
     this._serverURL = serverURL
     this._testnet = testnet
 

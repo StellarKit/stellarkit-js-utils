@@ -47,6 +47,7 @@ export default class LedgerAPI {
         new StellarLedger.Api(comm).connect(() => {
           callback()
         }, (error) => {
+          // saw this fail with errorCode:5 once, might need to loop
           console.log('Error: ' + JSON.stringify(error))
         })
       })
