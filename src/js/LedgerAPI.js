@@ -55,7 +55,6 @@ export default class LedgerAPI {
   getPublicKey() {
     return this.createComm()
       .then((comm) => {
-        console.log('getpublikkkk')
         const api = new StellarLedger.Api(comm)
 
         return api.getPublicKey_async(bip32Path)
