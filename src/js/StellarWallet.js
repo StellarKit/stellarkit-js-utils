@@ -6,7 +6,7 @@ export default class StellarWallet {
     const result = new StellarWallet()
 
     result._secret = secret
-    this._publicKey = StellarSdk.Keypair.fromSecret(this.secret).publicKey()
+    result._publicKey = StellarSdk.Keypair.fromSecret(secret).publicKey()
 
     return result
   }
@@ -43,7 +43,7 @@ export default class StellarWallet {
 
   // if true, alert the user to confirm on device
   usingLedger() {
-    return this.ledgerAPI !== null
+    return this.ledgerAPI !== undefined
   }
 
   signTransaction(transaction) {
@@ -57,13 +57,12 @@ export default class StellarWallet {
             }
 
             return this.ledgerAPI.signTransaction(publicKey, transaction)
-          } else {
-            const sourceKeys = StellarSdk.Keypair.fromSecret(this.secret)
-
-            transaction.sign(sourceKeys)
-
-            return transaction
           }
+          const sourceKeys = StellarSdk.Keypair.fromSecret(this._secret)
+
+          transaction.sign(sourceKeys)
+
+          return transaction
         })
         .then((signedTx) => {
           resolve(signedTx)
