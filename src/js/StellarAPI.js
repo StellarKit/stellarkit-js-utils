@@ -2,20 +2,20 @@ const StellarSdk = require('stellar-sdk')
 import axios from 'axios'
 
 export default class StellarAPI {
-  constructor(serverAPIServer) {
-    if (!serverAPIServer) {
+  constructor(horizonServer) {
+    if (!horizonServer) {
       console.log('StellarAPI constructor missing parameter')
     }
 
-    this._serverAPIServer = serverAPIServer
+    this._horizonServer = horizonServer
   }
 
   server() {
-    return this._serverAPIServer.server()
+    return this._horizonServer.server()
   }
 
   serverURL() {
-    return this._serverAPIServer.serverURL()
+    return this._horizonServer.serverURL()
   }
 
   horizonMetrics() {
