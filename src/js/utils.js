@@ -6,4 +6,12 @@ export default class Utils {
 
     return inString.length
   }
+
+  static strOK(inString) {
+    if (!inString) {
+      return false
+    }
+
+    return inString.length > 0
+  }
 }

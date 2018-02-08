@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import DonateView from './DonateView.vue'
+import PaymentView from './PaymentView.vue'
 
 export default {
   props: ['ping', 'nodeEnv', 'donationPublicKey'],
   components: {
-    'donate-view': DonateView
+    'donate-view': PaymentView
   },
   watch: {
     ping: function () {

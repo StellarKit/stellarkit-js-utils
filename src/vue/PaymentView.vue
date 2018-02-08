@@ -54,7 +54,7 @@
 <script>
 import Utils from '../js/utils.js'
 import LedgerAPI from '../js/LedgerAPI.js'
-import TransactionSigner from '../js/TransactionSigner.js'
+import StellarWallet from '../js/StellarWallet.js'
 import HorizonServer from '../js/HorizonServer.js'
 const StellarSdk = require('stellar-sdk')
 
@@ -90,7 +90,7 @@ export default {
   created() {
     this.horizon = new HorizonServer('https://horizon.stellar.org', false)
 
-    if (Utils.strlen(this.donationPublicKey) !== 0) {
+    if (Utils.strOK(this.donationPublicKey)) {
       this.donate = true
       this.destinationPublicKey = this.donationPublicKey
     }
@@ -134,98 +134,80 @@ export default {
         this.connected = true
       }, !this.nodeEnv)
     },
-    loadAccount(signWithNano) {
-      return new Promise((resolve, reject) => {
-        this.horizon.server().loadAccount(this.destinationPublicKey)
-          .catch((error) => {
-            this.status = 'Failed to load destination account: ' + error
-            reject(error)
-          })
-          .then((destAccount) => {
-            if (signWithNano) {
-              this.ledgerAPI.getPublicKey()
-                .catch((error) => {
-                  this.status = 'Failed to get source public key: ' + error
-                  reject(error)
-                })
-                .then((sourcePublicKey) => {
-                  this.horizon.server().loadAccount(sourcePublicKey)
-                    .then((sourceAccount) => {
-                      resolve(sourceAccount)
-                    })
-                    .catch((error) => {
-                      this.status = 'Failed to load source account: ' + error
-                      reject(error)
-                    })
-                })
-            } else {
-              const keyPair = StellarSdk.Keypair.fromSecret(this.secretKey)
+    sendWithNano() {
+      const sourceWallet = StellarWallet.ledger(this.ledgerAPI, () => {
+        this.status = 'Confirm transaction on Nano...'
+      })
 
-              this.horizon.server().loadAccount(keyPair.publicKey())
-                .then((sourceAccount) => {
-                  resolve(sourceAccount)
-                })
-                .catch((error) => {
-                  this.status = 'Failed to load source account: ' + error
-                  reject(error)
-                })
-            }
+      this.sendPayment(sourceWallet)
+    },
+    sendWithSecret() {
+      if (Utils.strOK(this.secretKey)) {
+        this.status = 'Please enter your secret key'
+      } else {
+        this.sendPayment(StellarWallet.secret(this.secretKey))
+      }
+    },
+    verifyAccounts(stellarWallet, destination) {
+      return new Promise((resolve, reject) => {
+        // test if destination exists
+        this.horizon.server().loadAccount(destination)
+          .then((destAccount) => {
+            // proved that destination exists
+            // get source public key to test existence
+            return stellarWallet.publicKey()
+          })
+          .then((sourcePublicKey) => {
+            return this.horizon.server().loadAccount(sourcePublicKey)
+          })
+          .then((sourceAccount) => {
+            // proved that source and destination exists
+            resolve(sourceAccount)
           })
       })
     },
-    sendWithNano() {
-      this.sendPayment(true)
-    },
-    sendWithSecret() {
-      this.sendPayment(false)
-    },
-    sendPayment(signWithNano) {
+    sendPayment(sourceWallet) {
+      const destination = this.destinationPublicKey
+      if (!Utils.strOK(destination)) {
+        this.status = 'Destination is blank'
+        return
+      }
+
       if (this.xlm < 1) {
         this.status = 'Lumens must be greater than 0'
         return
       }
-      if (!signWithNano && Utils.strlen(this.secretKey) < 1) {
-        this.status = 'Please enter your secret key'
-        return
-      }
 
-      this.loadAccount(signWithNano)
-        .catch((error) => {
-          this.status = 'Error loading account: ' + error
-        })
+      this.status = 'Building transaction...'
+
+      this.verifyAccounts(sourceWallet, destination)
         .then((sourceAccount) => {
           const builder = new StellarSdk.TransactionBuilder(sourceAccount)
             .addOperation(StellarSdk.Operation.payment({
-              destination: this.destinationPublicKey,
+              destination: destination,
               asset: StellarSdk.Asset.native(),
               amount: String(this.xlm)
             }))
 
           const transaction = builder.build()
 
-          let signer = null
-          if (signWithNano) {
-            signer = TransactionSigner.signerWithLedgerAPI(this.ledgerAPI)
-            this.status = 'Confirm transaction on Nano...'
-          } else {
-            signer = TransactionSigner.signerWithSecret(this.secretKey)
-          }
-
-          signer.signTransaction(sourceAccount.accountId(), transaction)
+          sourceWallet.signTransaction(transaction)
             .then((signedTransaction) => {
               this.status = 'Submitting transaction...'
 
               return this.horizon.server().submitTransaction(signedTransaction)
             })
             .then((response) => {
-              this.status = 'Payment Successful! Thank you!'
+              this.status = 'Payment successful!'
 
               // clear secret key
               this.secretKey = ''
+
+              return null
             })
-            .catch((error) => {
-              this.status = 'Error signing transaction: ' + error
-            })
+        })
+        .catch((error) => {
+          this.status = 'Error making payment: ' + error
         })
     }
   }

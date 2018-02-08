@@ -1,15 +1,19 @@
 import StellarAPI from './src/js/StellarAPI.js'
 import HorizonServer from './src/js/HorizonServer.js'
-import DonateDialog from './src/vue/DonateDialog.vue'
-import DonateView from './src/vue/DonateView.vue'
+import StellarWallet from './src/js/StellarWallet.js'
+import LedgerAPI from './src/js/LedgerAPI.js'
+import PaymentDialog from './src/vue/PaymentDialog.vue'
+import PaymentView from './src/vue/PaymentView.vue'
 import BuyTokenDialog from './src/vue/BuyTokenDialog.vue'
 import DialogTitleBar from './src/vue/DialogTitleBar.vue'
 
 export {
   StellarAPI,
   HorizonServer,
-  DonateDialog,
-  DonateView,
+  PaymentDialog,
+  PaymentView,
   DialogTitleBar,
-  BuyTokenDialog
+  BuyTokenDialog,
+  StellarWallet,
+  LedgerAPI
 }
