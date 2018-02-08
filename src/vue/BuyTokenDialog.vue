@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <div v-if='showPurchase' class="container">
+    <div v-if='showPurchase' class="purchase-container">
       <v-btn small @click="buttonClick('back')">Back</v-btn>
       <div v-html="sendMessage "></div>
       <div>Address = {{address}}</div>
@@ -173,7 +173,7 @@ export default {
         }
     }
 
-    .container {
+    .purchase-container {
         background-color: #ffffff;
         width: 600px;
         text-align: center;
