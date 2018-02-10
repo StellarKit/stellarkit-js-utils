@@ -1,1 +1,4919 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t(require("stellar-sdk"),require("stellar-ledger-api")):"function"==typeof define&&define.amd?define(["stellar-sdk","stellar-ledger-api"],t):"object"==typeof exports?exports["stellar-js-utils"]=t(require("stellar-sdk"),require("stellar-ledger-api")):e["stellar-js-utils"]=t(e["stellar-sdk"],e["stellar-ledger-api"])}("undefined"!=typeof self?self:this,function(e,t){return function(e){function t(r){if(n[r])return n[r].exports;var i=n[r]={i:r,l:!1,exports:{}};return e[r].call(i.exports,i,i.exports,t),i.l=!0,i.exports}var n={};return t.m=e,t.c=n,t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=21)}([function(e,t,n){"use strict";function r(e){return"[object Array]"===T.call(e)}function i(e){return"[object ArrayBuffer]"===T.call(e)}function o(e){return"undefined"!=typeof FormData&&e instanceof FormData}function a(e){return"undefined"!=typeof ArrayBuffer&&ArrayBuffer.isView?ArrayBuffer.isView(e):e&&e.buffer&&e.buffer instanceof ArrayBuffer}function s(e){return"string"==typeof e}function u(e){return"number"==typeof e}function c(e){return void 0===e}function l(e){return null!==e&&"object"==typeof e}function f(e){return"[object Date]"===T.call(e)}function d(e){return"[object File]"===T.call(e)}function p(e){return"[object Blob]"===T.call(e)}function h(e){return"[object Function]"===T.call(e)}function v(e){return l(e)&&h(e.pipe)}function y(e){return"undefined"!=typeof URLSearchParams&&e instanceof URLSearchParams}function m(e){return e.replace(/^\s*/,"").replace(/\s*$/,"")}function b(){return("undefined"==typeof navigator||"ReactNative"!==navigator.product)&&("undefined"!=typeof window&&"undefined"!=typeof document)}function g(e,t){if(null!==e&&void 0!==e)if("object"!=typeof e&&(e=[e]),r(e))for(var n=0,i=e.length;n<i;n++)t.call(null,e[n],n,e);else for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&t.call(null,e[o],o,e)}function w(){function e(e,n){"object"==typeof t[n]&&"object"==typeof e?t[n]=w(t[n],e):t[n]=e}for(var t={},n=0,r=arguments.length;n<r;n++)g(arguments[n],e);return t}function k(e,t,n){return g(t,function(t,r){e[r]=n&&"function"==typeof t?_(t,n):t}),e}var _=n(7),x=n(24),T=Object.prototype.toString;e.exports={isArray:r,isArrayBuffer:i,isBuffer:x,isFormData:o,isArrayBufferView:a,isString:s,isNumber:u,isObject:l,isUndefined:c,isDate:f,isFile:d,isBlob:p,isFunction:h,isStream:v,isURLSearchParams:y,isStandardBrowserEnv:b,forEach:g,merge:w,extend:k,trim:m}},function(t,n){t.exports=e},function(e,t){function n(e,t){var n=e[1]||"",i=e[3];if(!i)return n;if(t&&"function"==typeof btoa){var o=r(i);return[n].concat(i.sources.map(function(e){return"/*# sourceURL="+i.sourceRoot+e+" */"})).concat([o]).join("\n")}return[n].join("\n")}function r(e){return"/*# sourceMappingURL=data:application/json;charset=utf-8;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(e))))+" */"}e.exports=function(e){var t=[];return t.toString=function(){return this.map(function(t){var r=n(t,e);return t[2]?"@media "+t[2]+"{"+r+"}":r}).join("")},t.i=function(e,n){"string"==typeof e&&(e=[[null,e,""]]);for(var r={},i=0;i<this.length;i++){var o=this[i][0];"number"==typeof o&&(r[o]=!0)}for(i=0;i<e.length;i++){var a=e[i];"number"==typeof a[0]&&r[a[0]]||(n&&!a[2]?a[2]=n:n&&(a[2]="("+a[2]+") and ("+n+")"),t.push(a))}},t}},function(e,t,n){"use strict";function r(e,t,n,r){v=n,m=r||{};var o=Object(c.a)(e,t);return i(o),function(t){for(var n=[],r=0;r<o.length;r++){var a=o[r],s=f[a.id];s.refs--,n.push(s)}t?(o=Object(c.a)(e,t),i(o)):o=[];for(var r=0;r<n.length;r++){var s=n[r];if(0===s.refs){for(var u=0;u<s.parts.length;u++)s.parts[u]();delete f[s.id]}}}}function i(e){for(var t=0;t<e.length;t++){var n=e[t],r=f[n.id];if(r){r.refs++;for(var i=0;i<r.parts.length;i++)r.parts[i](n.parts[i]);for(;i<n.parts.length;i++)r.parts.push(a(n.parts[i]));r.parts.length>n.parts.length&&(r.parts.length=n.parts.length)}else{for(var o=[],i=0;i<n.parts.length;i++)o.push(a(n.parts[i]));f[n.id]={id:n.id,refs:1,parts:o}}}}function o(){var e=document.createElement("style");return e.type="text/css",d.appendChild(e),e}function a(e){var t,n,r=document.querySelector("style["+b+'~="'+e.id+'"]');if(r){if(v)return y;r.parentNode.removeChild(r)}if(g){var i=h++;r=p||(p=o()),t=s.bind(null,r,i,!1),n=s.bind(null,r,i,!0)}else r=o(),t=u.bind(null,r),n=function(){r.parentNode.removeChild(r)};return t(e),function(r){if(r){if(r.css===e.css&&r.media===e.media&&r.sourceMap===e.sourceMap)return;t(e=r)}else n()}}function s(e,t,n,r){var i=n?"":r.css;if(e.styleSheet)e.styleSheet.cssText=w(t,i);else{var o=document.createTextNode(i),a=e.childNodes;a[t]&&e.removeChild(a[t]),a.length?e.insertBefore(o,a[t]):e.appendChild(o)}}function u(e,t){var n=t.css,r=t.media,i=t.sourceMap;if(r&&e.setAttribute("media",r),m.ssrId&&e.setAttribute(b,t.id),i&&(n+="\n/*# sourceURL="+i.sources[0]+" */",n+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(i))))+" */"),e.styleSheet)e.styleSheet.cssText=n;else{for(;e.firstChild;)e.removeChild(e.firstChild);e.appendChild(document.createTextNode(n))}}Object.defineProperty(t,"__esModule",{value:!0}),t.default=r;var c=n(45),l="undefined"!=typeof document;if("undefined"!=typeof DEBUG&&DEBUG&&!l)throw new Error("vue-style-loader cannot be used in a non-browser environment. Use { target: 'node' } in your Webpack config to indicate a server-rendering environment.");var f={},d=l&&(document.head||document.getElementsByTagName("head")[0]),p=null,h=0,v=!1,y=function(){},m=null,b="data-vue-ssr-id",g="undefined"!=typeof navigator&&/msie [6-9]\b/.test(navigator.userAgent.toLowerCase()),w=function(){var e=[];return function(t,n){return e[t]=n,e.filter(Boolean).join("\n")}}()},function(e,t,n){"use strict";function r(e,t,n,r,i,o,a,s){e=e||{};var u=typeof e.default;"object"!==u&&"function"!==u||(e=e.default);var c="function"==typeof e?e.options:e;t&&(c.render=t,c.staticRenderFns=n,c._compiled=!0),r&&(c.functional=!0),o&&(c._scopeId=o);var l;if(a?(l=function(e){e=e||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext,e||"undefined"==typeof __VUE_SSR_CONTEXT__||(e=__VUE_SSR_CONTEXT__),i&&i.call(this,e),e&&e._registeredComponents&&e._registeredComponents.add(a)},c._ssrRegister=l):i&&(l=s?function(){i.call(this,this.$root.$options.shadowRoot)}:i),l)if(c.functional){c._injectStyles=l;var f=c.render;c.render=function(e,t){return l.call(t),f(e,t)}}else{var d=c.beforeCreate;c.beforeCreate=d?[].concat(d,l):[l]}return{exports:e,options:c}}t.a=r},function(e,t,n){"use strict";(function(t){function r(e,t){!i.isUndefined(e)&&i.isUndefined(e["Content-Type"])&&(e["Content-Type"]=t)}var i=n(0),o=n(26),a={"Content-Type":"application/x-www-form-urlencoded"},s={adapter:function(){var e;return"undefined"!=typeof XMLHttpRequest?e=n(9):void 0!==t&&(e=n(9)),e}(),transformRequest:[function(e,t){return o(t,"Content-Type"),i.isFormData(e)||i.isArrayBuffer(e)||i.isBuffer(e)||i.isStream(e)||i.isFile(e)||i.isBlob(e)?e:i.isArrayBufferView(e)?e.buffer:i.isURLSearchParams(e)?(r(t,"application/x-www-form-urlencoded;charset=utf-8"),e.toString()):i.isObject(e)?(r(t,"application/json;charset=utf-8"),JSON.stringify(e)):e}],transformResponse:[function(e){if("string"==typeof e)try{e=JSON.parse(e)}catch(e){}return e}],timeout:0,xsrfCookieName:"XSRF-TOKEN",xsrfHeaderName:"X-XSRF-TOKEN",maxContentLength:-1,validateStatus:function(e){return e>=200&&e<300}};s.headers={common:{Accept:"application/json, text/plain, */*"}},i.forEach(["delete","get","head"],function(e){s.headers[e]={}}),i.forEach(["post","put","patch"],function(e){s.headers[e]=i.merge(a)}),e.exports=s}).call(t,n(8))},function(e,t,n){e.exports=n(23)},function(e,t,n){"use strict";e.exports=function(e,t){return function(){for(var n=new Array(arguments.length),r=0;r<n.length;r++)n[r]=arguments[r];return e.apply(t,n)}}},function(e,t){function n(){throw new Error("setTimeout has not been defined")}function r(){throw new Error("clearTimeout has not been defined")}function i(e){if(l===setTimeout)return setTimeout(e,0);if((l===n||!l)&&setTimeout)return l=setTimeout,setTimeout(e,0);try{return l(e,0)}catch(t){try{return l.call(null,e,0)}catch(t){return l.call(this,e,0)}}}function o(e){if(f===clearTimeout)return clearTimeout(e);if((f===r||!f)&&clearTimeout)return f=clearTimeout,clearTimeout(e);try{return f(e)}catch(t){try{return f.call(null,e)}catch(t){return f.call(this,e)}}}function a(){v&&p&&(v=!1,p.length?h=p.concat(h):y=-1,h.length&&s())}function s(){if(!v){var e=i(a);v=!0;for(var t=h.length;t;){for(p=h,h=[];++y<t;)p&&p[y].run();y=-1,t=h.length}p=null,v=!1,o(e)}}function u(e,t){this.fun=e,this.array=t}function c(){}var l,f,d=e.exports={};!function(){try{l="function"==typeof setTimeout?setTimeout:n}catch(e){l=n}try{f="function"==typeof clearTimeout?clearTimeout:r}catch(e){f=r}}();var p,h=[],v=!1,y=-1;d.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];h.push(new u(e,t)),1!==h.length||v||i(s)},u.prototype.run=function(){this.fun.apply(null,this.array)},d.title="browser",d.browser=!0,d.env={},d.argv=[],d.version="",d.versions={},d.on=c,d.addListener=c,d.once=c,d.off=c,d.removeListener=c,d.removeAllListeners=c,d.emit=c,d.prependListener=c,d.prependOnceListener=c,d.listeners=function(e){return[]},d.binding=function(e){throw new Error("process.binding is not supported")},d.cwd=function(){return"/"},d.chdir=function(e){throw new Error("process.chdir is not supported")},d.umask=function(){return 0}},function(e,t,n){"use strict";(function(t){var r=n(0),i=n(27),o=n(29),a=n(30),s=n(31),u=n(10),c="undefined"!=typeof window&&window.btoa&&window.btoa.bind(window)||n(32);e.exports=function(e){return new Promise(function(l,f){var d=e.data,p=e.headers;r.isFormData(d)&&delete p["Content-Type"];var h=new XMLHttpRequest,v="onreadystatechange",y=!1;if("test"===t.env.NODE_ENV||"undefined"==typeof window||!window.XDomainRequest||"withCredentials"in h||s(e.url)||(h=new window.XDomainRequest,v="onload",y=!0,h.onprogress=function(){},h.ontimeout=function(){}),e.auth){var m=e.auth.username||"",b=e.auth.password||"";p.Authorization="Basic "+c(m+":"+b)}if(h.open(e.method.toUpperCase(),o(e.url,e.params,e.paramsSerializer),!0),h.timeout=e.timeout,h[v]=function(){if(h&&(4===h.readyState||y)&&(0!==h.status||h.responseURL&&0===h.responseURL.indexOf("file:"))){var t="getAllResponseHeaders"in h?a(h.getAllResponseHeaders()):null,n=e.responseType&&"text"!==e.responseType?h.response:h.responseText,r={data:n,status:1223===h.status?204:h.status,statusText:1223===h.status?"No Content":h.statusText,headers:t,config:e,request:h};i(l,f,r),h=null}},h.onerror=function(){f(u("Network Error",e,null,h)),h=null},h.ontimeout=function(){f(u("timeout of "+e.timeout+"ms exceeded",e,"ECONNABORTED",h)),h=null},r.isStandardBrowserEnv()){var g=n(33),w=(e.withCredentials||s(e.url))&&e.xsrfCookieName?g.read(e.xsrfCookieName):void 0;w&&(p[e.xsrfHeaderName]=w)}if("setRequestHeader"in h&&r.forEach(p,function(e,t){void 0===d&&"content-type"===t.toLowerCase()?delete p[t]:h.setRequestHeader(t,e)}),e.withCredentials&&(h.withCredentials=!0),e.responseType)try{h.responseType=e.responseType}catch(t){if("json"!==e.responseType)throw t}"function"==typeof e.onDownloadProgress&&h.addEventListener("progress",e.onDownloadProgress),"function"==typeof e.onUploadProgress&&h.upload&&h.upload.addEventListener("progress",e.onUploadProgress),e.cancelToken&&e.cancelToken.promise.then(function(e){h&&(h.abort(),f(e),h=null)}),void 0===d&&(d=null),h.send(d)})}}).call(t,n(8))},function(e,t,n){"use strict";var r=n(28);e.exports=function(e,t,n,i,o){var a=new Error(e);return r(a,t,n,i,o)}},function(e,t,n){"use strict";e.exports=function(e){return!(!e||!e.__CANCEL__)}},function(e,t,n){"use strict";function r(e){this.message=e}r.prototype.toString=function(){return"Cancel"+(this.message?": "+this.message:"")},r.prototype.__CANCEL__=!0,e.exports=r},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var i=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=n(1),a=function(){function e(t){var n=!(arguments.length>1&&void 0!==arguments[1])||arguments[1],i=arguments[2];r(this,e),this._serverURL=t,this._testnet=n,this._server=new o.Server(t,i)}return i(e,[{key:"server",value:function(){return this._testnet?o.Network.useTestNetwork():o.Network.usePublicNetwork(),this._server}},{key:"testnet",value:function(){return this._testnet}},{key:"serverURL",value:function(){return this._serverURL}}]),e}();t.a=a},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var i=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=n(1),a=function(){function e(){r(this,e)}return i(e,[{key:"publicKey",value:function(){var e=this;return new Promise(function(t,n){if(e._publicKey&&t(e._publicKey),!e.usingLedger())throw new Error("StellarWallet publicKey failed.  Should never get here.");e.ledgerAPI.getPublicKey().then(function(n){e._publicKey=n,t(n)})})}},{key:"usingLedger",value:function(){return void 0!==this.ledgerAPI}},{key:"signTransaction",value:function(e){var t=this;return new Promise(function(n,r){t.publicKey().then(function(n){if(t.usingLedger())return t.confirmCallback&&t.confirmCallback(),t.ledgerAPI.signTransaction(n,e);var r=o.Keypair.fromSecret(t._secret);return e.sign(r),e}).then(function(e){n(e)})})}}],[{key:"secret",value:function(t){var n=new e;return n._secret=t,n._publicKey=o.Keypair.fromSecret(t).publicKey(),n}},{key:"ledger",value:function(t,n){var r=new e;return r.ledgerAPI=t,r.confirmCallback=n,r}}]),e}();t.a=a},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var i=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=n(1),a=n(41),s=function(){function e(){var t=!(arguments.length>0&&void 0!==arguments[0])||arguments[0];r(this,e),this.browser=t}return i(e,[{key:"createComm",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0;return this.browser?a.comm.create_async(e):a.comm_node.create_async(e)}},{key:"connectLedger",value:function(e){this.browser?this.connectLedgerBrowser(e):this.connectLedgerNode(e)}},{key:"connectLedgerNode",value:function(e){var t=this;!function n(){t.createComm().then(function(t){new a.Api(t).connect(function(){e()},function(e){console.log("Error: "+JSON.stringify(e)),setTimeout(n,1e3)})})}()}},{key:"connectLedgerBrowser",value:function(e){this.createComm(Number.MAX_VALUE).then(function(t){new a.Api(t).connect(function(){e()},function(e){console.log("Error: "+JSON.stringify(e))})})}},{key:"getPublicKey",value:function(){return this.createComm().then(function(e){return new a.Api(e).getPublicKey_async("44'/148'/0'")}).then(function(e){return e.publicKey})}},{key:"signTransaction",value:function(e,t){return this.createComm().then(function(e){var n=new a.Api(e);debugger;return n.signTx_async("44'/148'/0'",t)}).then(function(n){var r=n.signature,i=o.Keypair.fromPublicKey(e),a=i.signatureHint(),s=new o.xdr.DecoratedSignature({hint:a,signature:r});return t.signatures.push(s),t})}}]),e}();t.a=s},function(e,t,n){"use strict";var r=n(17);t.a={props:["ping","nodeEnv","donationPublicKey"],components:{"donate-view":r.a},watch:{ping:function(){this.visible=!0}},data:function(){return{visible:!1}}}},function(e,t,n){"use strict";function r(e){s||n(46)}var i=n(18),o=n(49),a=n(4),s=!1,u=r,c=Object(a.a)(i.a,o.a,o.b,!1,u,"data-v-477f01bf",null);c.options.__file="src\\vue\\PaymentView.vue",t.a=c.exports},function(e,t,n){"use strict";var r=n(48),i=n(15),o=n(14),a=n(13),s=n(1);t.a={props:["nodeEnv","donationPublicKey"],data:function(){return{visible:!1,destinationPublicKey:"",donate:!1,dialogMode:"start",status:"",secretKey:"",connected:!0,xlm:10,showSecret:!1,browserSupportMessage:"",ledgerAPI:null,horizon:null}},computed:{disableSendLumens:function(){return r.a.strlen(this.secretKey)<10||this.xlm<1},headerMessage:function(){return this.donate?"Your XLM donation is appreciated.":"Make a payment."}},created:function(){this.horizon=new a.a("https://horizon.stellar.org",!1),r.a.strOK(this.donationPublicKey)&&(this.donate=!0,this.destinationPublicKey=this.donationPublicKey),this.nodeEnv?this.browserSupportMessage='Make sure "Browser Support" is disabled':this.browserSupportMessage='Make sure "Browser Support" is enabled',this.ledgerAPI=new i.a(!this.nodeEnv)},methods:{buttonClick:function(e){switch(e){case"useNano":this.dialogMode="useNano",this.status="",this.connectLedger();break;case"useKey":this.dialogMode="useKey",this.status="";break;case"sendWithNano":this.sendWithNano();break;case"sendWithSecret":this.sendWithSecret();break;default:console.log("not handled: "+e)}},connectLedger:function(){var e=this;this.connected=!1,this.ledgerAPI.connectLedger(function(){e.connected=!0},!this.nodeEnv)},sendWithNano:function(){var e=this,t=o.a.ledger(this.ledgerAPI,function(){e.status="Confirm transaction on Nano..."});this.sendPayment(t)},sendWithSecret:function(){r.a.strOK(this.secretKey)?this.status="Please enter your secret key":this.sendPayment(o.a.secret(this.secretKey))},verifyAccounts:function(e,t){var n=this;return new Promise(function(r,i){n.horizon.server().loadAccount(t).then(function(t){return e.publicKey()}).then(function(e){return n.horizon.server().loadAccount(e)}).then(function(e){r(e)})})},sendPayment:function(e){var t=this,n=this.destinationPublicKey;return r.a.strOK(n)?this.xlm<1?void(this.status="Lumens must be greater than 0"):(this.status="Building transaction...",void this.verifyAccounts(e,n).then(function(r){var i=new s.TransactionBuilder(r).addOperation(s.Operation.payment({destination:n,asset:s.Asset.native(),amount:String(t.xlm)})).build();return e.signTransaction(i)}).then(function(e){return console.log("doing sign: ",JSON.stringify(e)),t.status="Submitting transaction...",t.horizon.server().submitTransaction(e)}).then(function(e){return t.status="Payment successful!",t.secretKey="",null}).catch(function(e){t.status="Error making payment: "+e})):void(this.status="Destination is blank")}}}},function(e,t,n){"use strict";var r=n(54);t.a={props:["ping","params","allowHTTP"],data:function(){return{showPurchase:!1,purchaseCoin:"",progress:0,session:null,status:"",address:"loading...",publicKey:"",secretKey:"",visible:!1}},watch:{ping:function(){this.visible=!0}},computed:{sendMessage:function(){return"btc"===this.purchaseCoin?'<div class="lead">Send Bitcoin <strong>testnet</strong> BTC to the following address:</div>':'<div class="lead">Send Ropsten <strong>testnet</strong> ETH to the following address:</div>'}},methods:{initBifrost:function(){var e={};this.allowHTTP&&(e={allowHttp:!0}),this.session=new r.e(this.params,e)},startBitcoin:function(){var e=this;this.showPurchase=!0,this.purchaseCoin="btc",this.initBifrost(),this.session.startBitcoin(this.onEvent).then(function(t){e.setStatus("Waiting for a transaction...",10),e.address=t.address,e.publicKey=t.keypair.publicKey(),e.secretKey=t.keypair.secret()})},startEthereum:function(){var e=this;this.showPurchase=!0,this.purchaseCoin="eth",this.initBifrost(),this.session.startEthereum(this.onEvent).then(function(t){e.setStatus("Waiting for a transaction...",10),e.address=t.address,e.publicKey=t.keypair.publicKey(),e.secretKey=t.keypair.secret()})},setStatus:function(e,t){this.progress=t,this.status=e},onEvent:function(e,t){switch(e){case r.f:this.setStatus("Transaction received, creating account...",20);break;case r.a:this.setStatus("Account created, creating trust lines...",40);break;case r.g:this.setStatus("Trust lines created, waiting for tokens...",60);break;case r.b:this.setStatus("Account credited, exchanging...",80);break;case r.d:this.setStatus("Congrats! TOKE purchased.",100);break;case r.c:this.setStatus("Error!",0),console.log(JSON.stringify(t));break;default:this.setStatus("default swtich reached!",0)}},buttonClick:function(e){switch(e){case"test":this.test();break;case"bitcoin":this.startBitcoin();break;case"ethereum":this.startEthereum();break;case"back":this.showPurchase=!1;break;default:console.log("no button with that name")}}}}},function(e,t,n){"use strict";t.a={props:["title","help","showPrint"],computed:{tooltip:function(){return this.help?"Help":"Close"},icon:function(){return this.help?"help_outline":"close"}},methods:{buttonClick:function(e){this.$emit(e)}}}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=n(22),i=n(13),o=n(14),a=n(15),s=n(42),u=n(17),c=n(51),l=n(56);n.d(t,"StellarAPI",function(){return r.a}),n.d(t,"HorizonServer",function(){return i.a}),n.d(t,"PaymentDialog",function(){return s.a}),n.d(t,"PaymentView",function(){return u.a}),n.d(t,"DialogTitleBar",function(){return l.a}),n.d(t,"BuyTokenDialog",function(){return c.a}),n.d(t,"StellarWallet",function(){return o.a}),n.d(t,"LedgerAPI",function(){return a.a})},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var i=n(6),o=n.n(i),a=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),s=n(1),u=function(){function e(t){r(this,e),t||console.log("StellarAPI constructor missing parameter"),this._horizonServer=t}return a(e,[{key:"server",value:function(){return this._horizonServer.server()}},{key:"serverURL",value:function(){return this._horizonServer.serverURL()}},{key:"horizonMetrics",value:function(){var e=this.serverURL()+"/metrics";return o.a.get(e)}},{key:"accountInfo",value:function(e){return this.server().loadAccount(e)}},{key:"balances",value:function(e){return this.server().loadAccount(e).then(function(e){var t={};return e.balances.forEach(function(e){"native"===e.asset_type?t.XLM=e.balance:t[e.asset_code]=e.balance}),t})}},{key:"paths",value:function(e,t,n,r){return this.server().paths(e,t,n,r)}},{key:"mergeAccount",value:function(e,t){var n=this;return e.publicKey().then(function(e){return n.server().loadAccount(e)}).then(function(n){var r=new s.TransactionBuilder(n).addOperation(s.Operation.accountMerge({destination:t})).build();return e.signTransaction(r)}).then(function(e){return n.server().submitTransaction(e)})}},{key:"manageOffer",value:function(e,t,n,r,i){var o=this,a=arguments.length>5&&void 0!==arguments[5]?arguments[5]:0;return e.publicKey().then(function(e){return o.server().loadAccount(e)}).then(function(o){var u=new s.TransactionBuilder(o).addOperation(s.Operation.manageOffer({selling:n,buying:t,amount:r,price:i,offerId:a})).build();return e.signTransaction(u)}).then(function(e){return o.server().submitTransaction(e)})}},{key:"changeTrust",value:function(e,t,n){var r=this;return e.publicKey().then(function(e){return r.server().loadAccount(e)}).then(function(r){var i=new s.TransactionBuilder(r).addOperation(s.Operation.changeTrust({asset:t,limit:n})).build();return e.signTransaction(i)}).then(function(e){return r.server().submitTransaction(e)})}},{key:"allowTrust",value:function(e,t,n,r){var i=this;return e.publicKey().then(function(e){return i.server().loadAccount(e)}).then(function(i){var o=new s.TransactionBuilder(i).addOperation(s.Operation.allowTrust({trustor:t,assetCode:n.getCode(),authorize:r})).build();return e.signTransaction(o)}).then(function(e){return i.server().submitTransaction(e)})}},{key:"makeMultiSig",value:function(e,t){var n=this;return e.publicKey().then(function(e){return n.server().loadAccount(e)}).then(function(n){var r=new s.TransactionBuilder(n).addOperation(s.Operation.setOptions({signer:{ed25519PublicKey:t,weight:1}})).addOperation(s.Operation.setOptions({medThreshold:2,highThreshold:2})).build();return e.signTransaction(r)}).then(function(e){return n.server().submitTransaction(e)})}},{key:"removeMultiSig",value:function(e,t,n,r){var i=this;return this.removeMultiSigTransaction(e,t,n,r).then(function(e){return i.server().submitTransaction(e)})}},{key:"submitTransaction",value:function(e){return this.server().submitTransaction(e)}},{key:"removeMultiSigTransaction",value:function(e,t,n,r){var i=this;return e.publicKey().then(function(e){return i.server().loadAccount(e)}).then(function(t){var i=new s.TransactionBuilder(t,r).addOperation(s.Operation.setOptions({medThreshold:1,highThreshold:1})).addOperation(s.Operation.setOptions({signer:{ed25519PublicKey:n,weight:0}})).build();return e.signTransaction(i)}).then(function(e){return e.sign(s.Keypair.fromSecret(t)),e})}},{key:"sendAsset",value:function(e,t,n){var r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:null,i=this,o=arguments.length>4&&void 0!==arguments[4]?arguments[4]:null,a=arguments.length>5&&void 0!==arguments[5]?arguments[5]:null;return this.server().loadAccount(t).then(function(t){return e.publicKey()}).then(function(e){return i.server().loadAccount(e)}).then(function(i){var a=new s.TransactionBuilder(i).addOperation(s.Operation.payment({destination:t,asset:null===r?s.Asset.native():r,amount:n}));o&&(a=a.addMemo(s.Memo.text(o)));var u=a.build();return e.signTransaction(u)}).then(function(e){if(a){var t=!0,n=!1,r=void 0;try{for(var o,u=a[Symbol.iterator]();!(t=(o=u.next()).done);t=!0){var c=o.value;e.sign(s.Keypair.fromSecret(c))}}catch(e){n=!0,r=e}finally{try{!t&&u.return&&u.return()}finally{if(n)throw r}}}return i.server().submitTransaction(e)})}},{key:"hasAssetTrustline",value:function(e,t){return e.balances.some(function(e){return e.asset_code===t.getCode()&&e.asset_issuer===t.getIssuer()})}},{key:"buyTokens",value:function(e,t,n,r,i){var o=this;return e.publicKey().then(function(e){return o.server().loadAccount(e)}).then(function(a){if(!o.hasAssetTrustline(a,n))throw new Error("No trustline from buyer to asset");var u=new s.TransactionBuilder(a).addOperation(s.Operation.pathPayment({destination:a.accountId(),sendAsset:t,sendMax:r,destAsset:n,destAmount:i,path:[]})).build();return e.signTransaction(u)}).then(function(e){return o.server().submitTransaction(e)})}},{key:"getFlags",value:function(e){var t=this;return e.publicKey().then(function(e){return t.server().loadAccount(e)}).then(function(e){var t=0;return e.flags.auth_required&&(t|=s.AuthRequiredFlag),e.flags.auth_revocable&&(t|=s.AuthRevocableFlag),t})}},{key:"createAccount",value:function(e,t,n){var r=this;return e.publicKey().then(function(e){return r.server().loadAccount(e)}).then(function(r){var i={destination:t,startingBalance:n},o=new s.TransactionBuilder(r).addOperation(s.Operation.createAccount(i)).build();return e.signTransaction(o)}).then(function(e){return r.server().submitTransaction(e)}).then(function(e){return r.server().loadAccount(t)})}},{key:"lockAccount",value:function(e){var t={masterWeight:0,lowThreshold:1,medThreshold:1,highThreshold:1};return this.setOptions(e,t)}},{key:"setDomain",value:function(e,t){var n={homeDomain:t};return this.setOptions(e,n)}},{key:"setFlags",value:function(e,t){var n={setFlags:t};return this.setOptions(e,n)}},{key:"clearFlags",value:function(e,t){var n={clearFlags:t};return this.setOptions(e,n)}},{key:"setInflationDestination",value:function(e,t){var n={inflationDest:t};return this.setOptions(e,n)}},{key:"setOptions",value:function(e,t){var n=this;return e.publicKey().then(function(e){return n.server().loadAccount(e)}).then(function(n){var r=new s.TransactionBuilder(n).addOperation(s.Operation.setOptions(t)).build();return e.signTransaction(r)}).then(function(e){return n.server().submitTransaction(e)})}}]),e}();t.a=u},function(e,t,n){"use strict";function r(e){var t=new a(e),n=o(a.prototype.request,t);return i.extend(n,a.prototype,t),i.extend(n,t),n}var i=n(0),o=n(7),a=n(25),s=n(5),u=r(s);u.Axios=a,u.create=function(e){return r(i.merge(s,e))},u.Cancel=n(12),u.CancelToken=n(39),u.isCancel=n(11),u.all=function(e){return Promise.all(e)},u.spread=n(40),e.exports=u,e.exports.default=u},function(e,t){function n(e){return!!e.constructor&&"function"==typeof e.constructor.isBuffer&&e.constructor.isBuffer(e)}function r(e){return"function"==typeof e.readFloatLE&&"function"==typeof e.slice&&n(e.slice(0,0))}e.exports=function(e){return null!=e&&(n(e)||r(e)||!!e._isBuffer)}},function(e,t,n){"use strict";function r(e){this.defaults=e,this.interceptors={request:new a,response:new a}}var i=n(5),o=n(0),a=n(34),s=n(35);r.prototype.request=function(e){"string"==typeof e&&(e=o.merge({url:arguments[0]},arguments[1])),e=o.merge(i,this.defaults,{method:"get"},e),e.method=e.method.toLowerCase();var t=[s,void 0],n=Promise.resolve(e);for(this.interceptors.request.forEach(function(e){t.unshift(e.fulfilled,e.rejected)}),this.interceptors.response.forEach(function(e){t.push(e.fulfilled,e.rejected)});t.length;)n=n.then(t.shift(),t.shift());return n},o.forEach(["delete","get","head","options"],function(e){r.prototype[e]=function(t,n){return this.request(o.merge(n||{},{method:e,url:t}))}}),o.forEach(["post","put","patch"],function(e){r.prototype[e]=function(t,n,r){return this.request(o.merge(r||{},{method:e,url:t,data:n}))}}),e.exports=r},function(e,t,n){"use strict";var r=n(0);e.exports=function(e,t){r.forEach(e,function(n,r){r!==t&&r.toUpperCase()===t.toUpperCase()&&(e[t]=n,delete e[r])})}},function(e,t,n){"use strict";var r=n(10);e.exports=function(e,t,n){var i=n.config.validateStatus;n.status&&i&&!i(n.status)?t(r("Request failed with status code "+n.status,n.config,null,n.request,n)):e(n)}},function(e,t,n){"use strict";e.exports=function(e,t,n,r,i){return e.config=t,n&&(e.code=n),e.request=r,e.response=i,e}},function(e,t,n){"use strict";function r(e){return encodeURIComponent(e).replace(/%40/gi,"@").replace(/%3A/gi,":").replace(/%24/g,"$").replace(/%2C/gi,",").replace(/%20/g,"+").replace(/%5B/gi,"[").replace(/%5D/gi,"]")}var i=n(0);e.exports=function(e,t,n){if(!t)return e;var o;if(n)o=n(t);else if(i.isURLSearchParams(t))o=t.toString();else{var a=[];i.forEach(t,function(e,t){null!==e&&void 0!==e&&(i.isArray(e)&&(t+="[]"),i.isArray(e)||(e=[e]),i.forEach(e,function(e){i.isDate(e)?e=e.toISOString():i.isObject(e)&&(e=JSON.stringify(e)),a.push(r(t)+"="+r(e))}))}),o=a.join("&")}return o&&(e+=(-1===e.indexOf("?")?"?":"&")+o),e}},function(e,t,n){"use strict";var r=n(0),i=["age","authorization","content-length","content-type","etag","expires","from","host","if-modified-since","if-unmodified-since","last-modified","location","max-forwards","proxy-authorization","referer","retry-after","user-agent"];e.exports=function(e){var t,n,o,a={};return e?(r.forEach(e.split("\n"),function(e){if(o=e.indexOf(":"),t=r.trim(e.substr(0,o)).toLowerCase(),n=r.trim(e.substr(o+1)),t){if(a[t]&&i.indexOf(t)>=0)return;a[t]="set-cookie"===t?(a[t]?a[t]:[]).concat([n]):a[t]?a[t]+", "+n:n}}),a):a}},function(e,t,n){"use strict";var r=n(0);e.exports=r.isStandardBrowserEnv()?function(){function e(e){var t=e;return n&&(i.setAttribute("href",t),t=i.href),i.setAttribute("href",t),{href:i.href,protocol:i.protocol?i.protocol.replace(/:$/,""):"",host:i.host,search:i.search?i.search.replace(/^\?/,""):"",hash:i.hash?i.hash.replace(/^#/,""):"",hostname:i.hostname,port:i.port,pathname:"/"===i.pathname.charAt(0)?i.pathname:"/"+i.pathname}}var t,n=/(msie|trident)/i.test(navigator.userAgent),i=document.createElement("a");return t=e(window.location.href),function(n){var i=r.isString(n)?e(n):n;return i.protocol===t.protocol&&i.host===t.host}}():function(){return function(){return!0}}()},function(e,t,n){"use strict";function r(){this.message="String contains an invalid character"}function i(e){for(var t,n,i=String(e),a="",s=0,u=o;i.charAt(0|s)||(u="=",s%1);a+=u.charAt(63&t>>8-s%1*8)){if((n=i.charCodeAt(s+=.75))>255)throw new r;t=t<<8|n}return a}var o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";r.prototype=new Error,r.prototype.code=5,r.prototype.name="InvalidCharacterError",e.exports=i},function(e,t,n){"use strict";var r=n(0);e.exports=r.isStandardBrowserEnv()?function(){return{write:function(e,t,n,i,o,a){var s=[];s.push(e+"="+encodeURIComponent(t)),r.isNumber(n)&&s.push("expires="+new Date(n).toGMTString()),r.isString(i)&&s.push("path="+i),r.isString(o)&&s.push("domain="+o),!0===a&&s.push("secure"),document.cookie=s.join("; ")},read:function(e){var t=document.cookie.match(new RegExp("(^|;\\s*)("+e+")=([^;]*)"));return t?decodeURIComponent(t[3]):null},remove:function(e){this.write(e,"",Date.now()-864e5)}}}():function(){return{write:function(){},read:function(){return null},remove:function(){}}}()},function(e,t,n){"use strict";function r(){this.handlers=[]}var i=n(0);r.prototype.use=function(e,t){return this.handlers.push({fulfilled:e,rejected:t}),this.handlers.length-1},r.prototype.eject=function(e){this.handlers[e]&&(this.handlers[e]=null)},r.prototype.forEach=function(e){i.forEach(this.handlers,function(t){null!==t&&e(t)})},e.exports=r},function(e,t,n){"use strict";function r(e){e.cancelToken&&e.cancelToken.throwIfRequested()}var i=n(0),o=n(36),a=n(11),s=n(5),u=n(37),c=n(38);e.exports=function(e){return r(e),e.baseURL&&!u(e.url)&&(e.url=c(e.baseURL,e.url)),e.headers=e.headers||{},e.data=o(e.data,e.headers,e.transformRequest),e.headers=i.merge(e.headers.common||{},e.headers[e.method]||{},e.headers||{}),i.forEach(["delete","get","head","post","put","patch","common"],function(t){delete e.headers[t]}),(e.adapter||s.adapter)(e).then(function(t){return r(e),t.data=o(t.data,t.headers,e.transformResponse),t},function(t){return a(t)||(r(e),t&&t.response&&(t.response.data=o(t.response.data,t.response.headers,e.transformResponse))),Promise.reject(t)})}},function(e,t,n){"use strict";var r=n(0);e.exports=function(e,t,n){return r.forEach(n,function(n){e=n(e,t)}),e}},function(e,t,n){"use strict";e.exports=function(e){return/^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(e)}},function(e,t,n){"use strict";e.exports=function(e,t){return t?e.replace(/\/+$/,"")+"/"+t.replace(/^\/+/,""):e}},function(e,t,n){"use strict";function r(e){if("function"!=typeof e)throw new TypeError("executor must be a function.");var t;this.promise=new Promise(function(e){t=e});var n=this;e(function(e){n.reason||(n.reason=new i(e),t(n.reason))})}var i=n(12);r.prototype.throwIfRequested=function(){if(this.reason)throw this.reason},r.source=function(){var e;return{token:new r(function(t){e=t}),cancel:e}},e.exports=r},function(e,t,n){"use strict";e.exports=function(e){return function(t){return e.apply(null,t)}}},function(e,n){e.exports=t},function(e,t,n){"use strict";function r(e){s||n(43)}var i=n(16),o=n(50),a=n(4),s=!1,u=r,c=Object(a.a)(i.a,o.a,o.b,!1,u,"data-v-81abfb3c",null);c.options.__file="src\\vue\\PaymentDialog.vue",t.a=c.exports},function(e,t,n){var r=n(44);"string"==typeof r&&(r=[[e.i,r,""]]),r.locals&&(e.exports=r.locals);var i=n(3).default;i("6f74fe75",r,!1,{})},function(e,t,n){t=e.exports=n(2)(!1),t.push([e.i,"\n.main-container[data-v-81abfb3c] {\n  width: 100%;\n  flex: 0 1 auto;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);\n  background: white;\n  display: flex;\n  flex-direction: column;\n  border-radius: 6px;\n  overflow: hidden;\n  padding: 20px;\n}\n.main-container .button-holder[data-v-81abfb3c] {\n    margin-top: 20px;\n    display: flex;\n    justify-content: flex-end;\n}\n",""])},function(e,t,n){"use strict";function r(e,t){for(var n=[],r={},i=0;i<t.length;i++){var o=t[i],a=o[0],s=o[1],u=o[2],c=o[3],l={id:e+":"+i,css:s,media:u,sourceMap:c};r[a]?r[a].parts.push(l):n.push(r[a]={id:a,parts:[l]})}return n}t.a=r},function(e,t,n){var r=n(47);"string"==typeof r&&(r=[[e.i,r,""]]),r.locals&&(e.exports=r.locals);var i=n(3).default;i("490c4d60",r,!1,{})},function(e,t,n){t=e.exports=n(2)(!1),t.push([e.i,"\n.payment-view[data-v-477f01bf] {\n  display: flex;\n  flex-direction: column;\n  padding: 20px;\n}\n.payment-view .input-title[data-v-477f01bf] {\n    position: relative;\n    background: steelblue;\n    color: white;\n    text-align: center;\n    padding: 10px;\n    font-size: 1.2em;\n}\n.payment-view .input-title .back-button[data-v-477f01bf] {\n      position: absolute;\n      top: 5px;\n      left: 0;\n}\n.payment-view .payment-content[data-v-477f01bf] {\n    margin-top: 20px;\n}\n.payment-view .payment-content .own-wallet[data-v-477f01bf] {\n      margin-top: 20px;\n      text-align: center;\n}\n.payment-view .payment-content .own-wallet .xlm-address[data-v-477f01bf] {\n        font-size: 0.9em;\n        font-weight: bold;\n}\n.payment-view .payment-content .payment-start[data-v-477f01bf] {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n}\n.payment-view .payment-content .payment-start .title-start[data-v-477f01bf] {\n        font-size: 1.2em;\n        margin-bottom: 8px;\n}\n.payment-view .payment-content .payment-nano .sign-button-area[data-v-477f01bf] {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n}\n.payment-view .payment-content .payment-secret .sign-button-area[data-v-477f01bf] {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n}\n",""])},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var i=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=function(){function e(){r(this,e)}return i(e,null,[{key:"strlen",value:function(e){return e?e.length:0}},{key:"strOK",value:function(e){return!!e&&e.length>0}}]),e}();t.a=o},function(e,t,n){"use strict";n.d(t,"a",function(){return r}),n.d(t,"b",function(){return i});var r=function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticClass:"payment-view"},[n("div",{staticClass:"input-title"},["start"!==e.dialogMode?n("v-icon",{staticClass:"back-button",attrs:{dark:"",large:""},on:{click:function(t){e.dialogMode="start"}}},[e._v("chevron_left")]):e._e(),e._v("\n    "+e._s(e.headerMessage)+"\n  ")],1),e._v(" "),n("div",{staticClass:"payment-content"},["start"===e.dialogMode?n("div",{staticClass:"payment-start"},[n("div",{staticClass:"title-start"},[e._v("Choose Method")]),e._v(" "),n("div",[n("v-btn",{on:{click:function(t){e.buttonClick("useNano")}}},[e._v("Use Ledger Nano")])],1),e._v(" "),n("div",[n("v-btn",{on:{click:function(t){e.buttonClick("useKey")}}},[e._v("Use secret key")])],1),e._v(" "),e.donate?n("div",{staticClass:"own-wallet"},[e._v("\n        Or use your favorite wallet:"),n("br"),e._v("To: "),n("span",{staticClass:"xlm-address"},[e._v(e._s(e.destinationPublicKey))])]):e._e()]):"useNano"===e.dialogMode?n("div",{staticClass:"payment-nano"},[n("v-text-field",{attrs:{label:"Lumens",type:"number",autofocus:""},on:{keyup:function(t){if(!("button"in t)&&e._k(t.keyCode,"enter",13,t.key))return null;e.buttonClick("sendWithNano")}},model:{value:e.xlm,callback:function(t){e.xlm="string"==typeof t?t.trim():t},expression:"xlm"}}),e._v(" "),e.donate?e._e():n("div",{staticClass:"own-wallet"},[n("v-text-field",{attrs:{label:"Destination"},on:{keyup:function(t){if(!("button"in t)&&e._k(t.keyCode,"enter",13,t.key))return null;e.buttonClick("sendWithNano")}},model:{value:e.destinationPublicKey,callback:function(t){e.destinationPublicKey="string"==typeof t?t.trim():t},expression:"destinationPublicKey"}})],1),e._v(" "),n("div",{staticClass:"sign-button-area"},[n("v-btn",{attrs:{disabled:!e.connected},on:{click:function(t){e.buttonClick("sendWithNano")}}},[e._v("Send with Ledger Nano")]),e._v(" "),e.connected?e._e():n("div",[e._v(e._s(e.browserSupportMessage))]),e._v(" "),n("div",[e._v(e._s(e.status))])],1)],1):"useKey"===e.dialogMode?n("div",{staticClass:"payment-secret"},[n("v-text-field",{attrs:{label:"Amount",type:"number",autofocus:""},model:{value:e.xlm,callback:function(t){e.xlm="string"==typeof t?t.trim():t},expression:"xlm"}}),e._v(" "),e.donate?e._e():n("div",{staticClass:"own-wallet"},[n("v-text-field",{attrs:{label:"Destination"},on:{keyup:function(t){if(!("button"in t)&&e._k(t.keyCode,"enter",13,t.key))return null;e.buttonClick("sendWithSecret")}},model:{value:e.destinationPublicKey,callback:function(t){e.destinationPublicKey="string"==typeof t?t.trim():t},expression:"destinationPublicKey"}})],1),e._v(" "),n("v-text-field",{attrs:{label:"Secret Key",hint:"Starts with an 'S'","append-icon":e.showSecret?"visibility_off":"visibility","append-icon-cb":function(){return e.showSecret=!e.showSecret},type:e.showSecret?"text":"password"},on:{keyup:function(t){if(!("button"in t)&&e._k(t.keyCode,"enter",13,t.key))return null;e.buttonClick("sendWithSecret")}},model:{value:e.secretKey,callback:function(t){e.secretKey="string"==typeof t?t.trim():t},expression:"secretKey"}}),e._v(" "),n("div",{staticClass:"sign-button-area"},[n("v-btn",{attrs:{disabled:e.disableSendLumens},on:{click:function(t){e.buttonClick("sendWithSecret")}}},[e._v("Send Lumens")]),e._v(" "),n("div",[e._v(e._s(e.status))])],1)],1):e._e()])])},i=[];r._withStripped=!0},function(e,t,n){"use strict";n.d(t,"a",function(){return r}),n.d(t,"b",function(){return i});var r=function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("v-dialog",{attrs:{lazy:"",scrollable:"","max-width":"600"},on:{keydown:function(t){if(!("button"in t)&&e._k(t.keyCode,"esc",27,t.key))return null;e.visible=!1}},model:{value:e.visible,callback:function(t){e.visible=t},expression:"visible"}},[e.visible?n("div",{staticClass:"main-container"},[n("donate-view",{attrs:{nodeEnv:e.nodeEnv,donationPublicKey:e.donationPublicKey}}),e._v(" "),n("div",{staticClass:"button-holder"},[n("v-btn",{attrs:{round:"",color:"primary"},on:{click:function(t){e.visible=!1}}},[e._v("\n        Close\n      ")])],1)],1):e._e()])},i=[];r._withStripped=!0},function(e,t,n){"use strict";function r(e){s||n(52)}var i=n(19),o=n(55),a=n(4),s=!1,u=r,c=Object(a.a)(i.a,o.a,o.b,!1,u,"data-v-3d011ef7",null);c.options.__file="src\\vue\\BuyTokenDialog.vue",t.a=c.exports},function(e,t,n){var r=n(53);"string"==typeof r&&(r=[[e.i,r,""]]),r.locals&&(e.exports=r.locals);var i=n(3).default;i("621cda8c",r,!1,{})},function(e,t,n){t=e.exports=n(2)(!1),t.push([e.i,"\n.main-container[data-v-3d011ef7] {\n  width: 100%;\n  flex: 0 1 auto;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);\n  background: white;\n  display: flex;\n  flex-direction: column;\n  border-radius: 6px;\n  overflow: hidden;\n}\n.main-container .start-choice[data-v-3d011ef7] {\n    font-size: 1.6em;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    margin: 50px;\n}\n.main-container .start-choice .button-holder[data-v-3d011ef7] {\n      padding: 10px;\n      display: flex;\n      justify-content: center;\n}\n.main-container .purchase-container[data-v-3d011ef7] {\n    background-color: #ffffff;\n    width: 600px;\n    text-align: center;\n    padding: 50px;\n}\n.main-container .button-holder[data-v-3d011ef7] {\n    margin-top: 20px;\n    display: flex;\n    justify-content: flex-end;\n}\n",""])},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}n.d(t,"f",function(){return u}),n.d(t,"a",function(){return c}),n.d(t,"g",function(){return l}),n.d(t,"b",function(){return f}),n.d(t,"d",function(){return d}),n.d(t,"c",function(){return p}),n.d(t,"e",function(){return h});var i=n(6),o=n.n(i),a=n(1),s=(n.n(a),function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}()),u="transaction_received",c="account_created",l="trust_lines_created",f="account_credited",d="purchased",p="error",h=function(){function e(t,n){r(this,e),this._checkParams(t),this.params=t,this.horizon=new a.Server(this.params.horizonURL,n),"test"===t.network?a.Network.useTestNetwork():a.Network.usePublicNetwork(),this.started=!1}return s(e,[{key:"startBitcoin",value:function(e){return this._start("bitcoin",e)}},{key:"startEthereum",value:function(e){return this._start("ethereum",e)}},{key:"_start",value:function(e,t){var n=this;if(this.started)throw new Error("Session already started");return this.started=!0,this.keypair=a.Keypair.random(),new Promise(function(r,i){o.a.post(n.params.bifrostURL+"/generate-"+e+"-address","stellar_public_key="+n.keypair.publicKey()).then(function(o){if(o.data.chain!==e)return i("Invalid chain");if(1!==o.data.protocol_version)return i("Invalid protocol_version. Make sure Bifrost server is using the same protocol version.");var a=o.data.address;r({address:a,keypair:n.keypair});var s=new EventSource(n.params.bifrostURL+"/events?stream="+a);s.addEventListener("transaction_received",function(e){return t(u)},!1),s.addEventListener("account_created",function(r){return n._onAccountCreated(t,e)},!1),s.addEventListener("account_credited",function(e){n._onAccountCredited(t,JSON.parse(e.data)),s.close()},!1),s.addEventListener("error",function(e){return console.error(e)},!1)}).catch(i)})}},{key:"_onAccountCreated",value:function(e,t){var n=this;e(c);var r=void 0;"bitcoin"===t?r="BTC":"ethereum"===t&&(r="ETH"),this.horizon.loadAccount(this.keypair.publicKey()).then(function(e){n._onAccountCreatedRecoveryTransactions(e.sequenceNumber(),r);var t=new a.TransactionBuilder(e).addOperation(a.Operation.changeTrust({asset:new a.Asset(r,n.params.issuingPublicKey)})).addOperation(a.Operation.changeTrust({asset:new a.Asset(n.params.assetCode,n.params.issuingPublicKey)})).build();return t.sign(n.keypair),n.horizon.submitTransaction(t)}).then(function(){e(l)}).catch(function(t){return e(p,t)})}},{key:"_onAccountCredited",value:function(e,t){var n=this,r=t.assetCode,i=t.amount;e(f),this.horizon.loadAccount(this.keypair.publicKey()).then(function(e){if(n._onAccountCreditedRecoveryTransactions(e.sequenceNumber(),r,i),!n.params.preSaleMode){var t=new a.TransactionBuilder(e).addOperation(a.Operation.manageOffer({selling:new a.Asset(r,n.params.issuingPublicKey),buying:new a.Asset(n.params.assetCode,n.params.issuingPublicKey),amount:i,price:n.params.price})).build();return t.sign(n.keypair),n.horizon.submitTransaction(t)}}).then(function(){return n.horizon.loadAccount(n.keypair.publicKey())}).then(function(t){n._onPurchasedRecoveryTransactions(t),e(d)}).catch(function(t){return e(p,t)})}},{key:"_onAccountCreatedRecoveryTransactions",value:function(e,t){var n=new a.Account(this.keypair.publicKey(),e),r=new a.TransactionBuilder(n).addOperation(a.Operation.accountMerge({destination:this.params.issuingPublicKey})).build();r.sign(this.keypair),this._submitRecovery(r),r=new a.TransactionBuilder(n).addOperation(a.Operation.changeTrust({asset:new a.Asset(t,this.params.issuingPublicKey),limit:"0"})).addOperation(a.Operation.changeTrust({asset:new a.Asset(this.params.assetCode,this.params.issuingPublicKey),limit:"0"})).addOperation(a.Operation.accountMerge({destination:this.params.issuingPublicKey})).build(),r.sign(this.keypair),this._submitRecovery(r)}},{key:"_onAccountCreditedRecoveryTransactions",value:function(e,t,n){for(var r=new a.Account(this.keypair.publicKey(),e),i=0;i<2;i++){var o=new a.TransactionBuilder(r).addOperation(a.Operation.payment({destination:this.params.issuingPublicKey,asset:new a.Asset(t,this.params.issuingPublicKey),amount:n})).addOperation(a.Operation.changeTrust({asset:new a.Asset(t,this.params.issuingPublicKey),limit:"0"})).addOperation(a.Operation.changeTrust({asset:new a.Asset(this.params.assetCode,this.params.issuingPublicKey),limit:"0"})).addOperation(a.Operation.accountMerge({destination:this.params.issuingPublicKey})).build();o.sign(this.keypair),this._submitRecovery(o)}}},{key:"_onPurchasedRecoveryTransactions",value:function(e){var t=new a.TransactionBuilder(e),n=!0,r=!1,i=void 0;try{for(var o,s=e.balances[Symbol.iterator]();!(n=(o=s.next()).done);n=!0){var u=o.value;"native"!==u.asset_type&&("0.0000000"!==u.balance&&t.addOperation(a.Operation.payment({destination:this.params.issuingPublicKey,asset:new a.Asset(u.asset_code,u.asset_issuer),amount:u.balance})),t.addOperation(a.Operation.changeTrust({asset:new a.Asset(u.asset_code,u.asset_issuer),limit:"0"})))}}catch(e){r=!0,i=e}finally{try{!n&&s.return&&s.return()}finally{if(r)throw i}}t.addOperation(a.Operation.accountMerge({destination:this.params.issuingPublicKey}));var c=t.build();c.sign(this.keypair),this._submitRecovery(c)}},{key:"_submitRecovery",value:function(e){var t=e.toEnvelope().toXDR().toString("base64"),n=encodeURIComponent(t);return o.a.post(this.params.bifrostURL+"/recovery-transaction","transaction_xdr="+n)}},{key:"_checkParams",value:function(e){if(void 0===e)throw new Error("params not provided");if(-1===["live","test"].indexOf(e.network))throw new Error("Invalid params.network");if(!a.StrKey.isValidEd25519PublicKey(e.issuingPublicKey))throw new Error("Invalid params.issuingPublicKey");var t=["bifrostURL","horizonURL","assetCode","price"],n=!0,r=!1,i=void 0;try{for(var o,s=t[Symbol.iterator]();!(n=(o=s.next()).done);n=!0){var u=o.value;if("string"!=typeof e[u])throw new Error("params."+u+" required and must be of type 'string'")}}catch(e){r=!0,i=e}finally{try{!n&&s.return&&s.return()}finally{if(r)throw i}}}}]),e}()},function(e,t,n){"use strict";n.d(t,"a",function(){return r}),n.d(t,"b",function(){return i});var r=function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("v-dialog",{attrs:{lazy:"",scrollable:"","max-width":"600"},on:{keydown:function(t){if(!("button"in t)&&e._k(t.keyCode,"esc",27,t.key))return null;e.visible=!1}},model:{value:e.visible,callback:function(t){e.visible=t},expression:"visible"}},[n("div",{staticClass:"main-container"},[e.showPurchase?e._e():n("div",{staticClass:"start-choice"},[n("div",[e._v("What would you like to use to purchase LMB tokens")]),e._v(" "),n("div",{staticClass:"button-holder"},[n("v-btn",{attrs:{small:""},on:{click:function(t){e.buttonClick("bitcoin")}}},[e._v("Bitcoin")]),e._v(" "),n("v-btn",{attrs:{small:""},on:{click:function(t){e.buttonClick("ethereum")}}},[e._v("Ethereum")])],1)]),e._v(" "),e.showPurchase?n("div",{staticClass:"purchase-container"},[n("v-btn",{attrs:{small:""},on:{click:function(t){e.buttonClick("back")}}},[e._v("Back")]),e._v(" "),n("div",{domProps:{innerHTML:e._s(e.sendMessage)}}),e._v(" "),n("div",[e._v("Address = "+e._s(e.address))]),e._v(" "),n("p",[n("strong",[e._v("Rinkeby testnet. Do not send real coins!")])]),e._v(" "),n("p",[e._v("Exchange rate: 1 ETH = 1 LMB token")]),e._v(" "),n("p",[n("a",{attrs:{href:"https://github.com/stellar/go/pull/81 ",target:"_blank "}},[e._v("Instructions")])]),e._v(" "),n("div",{staticClass:"progress "},[n("v-progress-linear",{model:{value:e.progress,callback:function(t){e.progress=t},expression:"progress "}})],1),e._v(" "),n("div",[e._v("Status = "+e._s(e.status))]),e._v(" "),n("div",[e._v("Public Key = "+e._s(e.publicKey))]),e._v(" "),n("div",[e._v("Secret Key = "+e._s(e.secretKey))])],1):e._e(),e._v(" "),n("div",{staticClass:"button-holder"},[n("v-btn",{attrs:{round:"",color:"primary"},on:{click:function(t){e.visible=!1}}},[e._v("\n        Close\n      ")])],1)])])},i=[];r._withStripped=!0},function(e,t,n){"use strict";function r(e){s||n(57)}var i=n(20),o=n(59),a=n(4),s=!1,u=r,c=Object(a.a)(i.a,o.a,o.b,!1,u,"data-v-f6668e82",null);c.options.__file="src\\vue\\DialogTitleBar.vue",t.a=c.exports},function(e,t,n){var r=n(58);"string"==typeof r&&(r=[[e.i,r,""]]),r.locals&&(e.exports=r.locals);var i=n(3).default;i("13db2e8c",r,!1,{})},function(e,t,n){t=e.exports=n(2)(!1),t.push([e.i,"\n.dialog-header[data-v-f6668e82] {\n  width: 100%;\n  display: flex;\n  position: relative;\n  justify-content: flex-end;\n  align-items: center;\n  background: #1976d2;\n  padding-right: 6px;\n  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);\n  flex: 0 0 40px;\n}\n.dialog-header button[data-v-f6668e82] {\n    margin: 2px;\n}\n.dialog-header .dialog-header-text[data-v-f6668e82] {\n    position: absolute;\n    top: 0;\n    left: 0;\n    bottom: 0;\n    right: 0;\n    pointer-events: none;\n    text-align: center;\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n}\n.dialog-header .dialog-header-text p[data-v-f6668e82] {\n      color: white;\n      font-weight: 600;\n      font-size: 1.2em;\n      margin: 0;\n      user-select: none;\n}\n",""])},function(e,t,n){"use strict";n.d(t,"a",function(){return r}),n.d(t,"b",function(){return i});var r=function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticClass:"dialog-header"},[n("div",{staticClass:"dialog-header-text"},[n("p",[e._v(e._s(e.title))])]),e._v(" "),n("v-tooltip",{attrs:{"open-delay":"200",bottom:""}},[e.showPrint?n("v-btn",{attrs:{slot:"activator",icon:"",dark:""},on:{click:function(t){e.buttonClick("print")}},slot:"activator"},[n("v-icon",[e._v("print")])],1):e._e(),e._v(" "),n("span",[e._v("Print")])],1),e._v(" "),n("v-tooltip",{attrs:{"open-delay":"200",bottom:""}},[n("v-btn",{attrs:{slot:"activator",icon:"",dark:""},on:{click:function(t){e.buttonClick("close")}},slot:"activator"},[n("v-icon",[e._v(e._s(e.icon))])],1),e._v(" "),n("span",{domProps:{innerHTML:e._s(e.tooltip)}})],1)],1)},i=[];r._withStripped=!0}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("stellar-sdk"), require("stellar-ledger-api"));
+	else if(typeof define === 'function' && define.amd)
+		define(["stellar-sdk", "stellar-ledger-api"], factory);
+	else if(typeof exports === 'object')
+		exports["stellar-js-utils"] = factory(require("stellar-sdk"), require("stellar-ledger-api"));
+	else
+		root["stellar-js-utils"] = factory(root["stellar-sdk"], root["stellar-ledger-api"]);
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_41__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 21);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bind = __webpack_require__(7);
+var isBuffer = __webpack_require__(24);
+
+/*global toString:true*/
+
+// utils is a library of generic helper functions non-specific to axios
+
+var toString = Object.prototype.toString;
+
+/**
+ * Determine if a value is an Array
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Array, otherwise false
+ */
+function isArray(val) {
+  return toString.call(val) === '[object Array]';
+}
+
+/**
+ * Determine if a value is an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an ArrayBuffer, otherwise false
+ */
+function isArrayBuffer(val) {
+  return toString.call(val) === '[object ArrayBuffer]';
+}
+
+/**
+ * Determine if a value is a FormData
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an FormData, otherwise false
+ */
+function isFormData(val) {
+  return (typeof FormData !== 'undefined') && (val instanceof FormData);
+}
+
+/**
+ * Determine if a value is a view on an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
+ */
+function isArrayBufferView(val) {
+  var result;
+  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
+    result = ArrayBuffer.isView(val);
+  } else {
+    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+  }
+  return result;
+}
+
+/**
+ * Determine if a value is a String
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a String, otherwise false
+ */
+function isString(val) {
+  return typeof val === 'string';
+}
+
+/**
+ * Determine if a value is a Number
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Number, otherwise false
+ */
+function isNumber(val) {
+  return typeof val === 'number';
+}
+
+/**
+ * Determine if a value is undefined
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if the value is undefined, otherwise false
+ */
+function isUndefined(val) {
+  return typeof val === 'undefined';
+}
+
+/**
+ * Determine if a value is an Object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Object, otherwise false
+ */
+function isObject(val) {
+  return val !== null && typeof val === 'object';
+}
+
+/**
+ * Determine if a value is a Date
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Date, otherwise false
+ */
+function isDate(val) {
+  return toString.call(val) === '[object Date]';
+}
+
+/**
+ * Determine if a value is a File
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a File, otherwise false
+ */
+function isFile(val) {
+  return toString.call(val) === '[object File]';
+}
+
+/**
+ * Determine if a value is a Blob
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Blob, otherwise false
+ */
+function isBlob(val) {
+  return toString.call(val) === '[object Blob]';
+}
+
+/**
+ * Determine if a value is a Function
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Function, otherwise false
+ */
+function isFunction(val) {
+  return toString.call(val) === '[object Function]';
+}
+
+/**
+ * Determine if a value is a Stream
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Stream, otherwise false
+ */
+function isStream(val) {
+  return isObject(val) && isFunction(val.pipe);
+}
+
+/**
+ * Determine if a value is a URLSearchParams object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+ */
+function isURLSearchParams(val) {
+  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+}
+
+/**
+ * Trim excess whitespace off the beginning and end of a string
+ *
+ * @param {String} str The String to trim
+ * @returns {String} The String freed of excess whitespace
+ */
+function trim(str) {
+  return str.replace(/^\s*/, '').replace(/\s*$/, '');
+}
+
+/**
+ * Determine if we're running in a standard browser environment
+ *
+ * This allows axios to run in a web worker, and react-native.
+ * Both environments support XMLHttpRequest, but not fully standard globals.
+ *
+ * web workers:
+ *  typeof window -> undefined
+ *  typeof document -> undefined
+ *
+ * react-native:
+ *  navigator.product -> 'ReactNative'
+ */
+function isStandardBrowserEnv() {
+  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+    return false;
+  }
+  return (
+    typeof window !== 'undefined' &&
+    typeof document !== 'undefined'
+  );
+}
+
+/**
+ * Iterate over an Array or an Object invoking a function for each item.
+ *
+ * If `obj` is an Array callback will be called passing
+ * the value, index, and complete array for each item.
+ *
+ * If 'obj' is an Object callback will be called passing
+ * the value, key, and complete object for each property.
+ *
+ * @param {Object|Array} obj The object to iterate
+ * @param {Function} fn The callback to invoke for each item
+ */
+function forEach(obj, fn) {
+  // Don't bother if no value provided
+  if (obj === null || typeof obj === 'undefined') {
+    return;
+  }
+
+  // Force an array if not already something iterable
+  if (typeof obj !== 'object') {
+    /*eslint no-param-reassign:0*/
+    obj = [obj];
+  }
+
+  if (isArray(obj)) {
+    // Iterate over array values
+    for (var i = 0, l = obj.length; i < l; i++) {
+      fn.call(null, obj[i], i, obj);
+    }
+  } else {
+    // Iterate over object keys
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        fn.call(null, obj[key], key, obj);
+      }
+    }
+  }
+}
+
+/**
+ * Accepts varargs expecting each argument to be an object, then
+ * immutably merges the properties of each object and returns result.
+ *
+ * When multiple objects contain the same key the later object in
+ * the arguments list will take precedence.
+ *
+ * Example:
+ *
+ * ```js
+ * var result = merge({foo: 123}, {foo: 456});
+ * console.log(result.foo); // outputs 456
+ * ```
+ *
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+function merge(/* obj1, obj2, obj3, ... */) {
+  var result = {};
+  function assignValue(val, key) {
+    if (typeof result[key] === 'object' && typeof val === 'object') {
+      result[key] = merge(result[key], val);
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+  return result;
+}
+
+/**
+ * Extends object a by mutably adding to it the properties of object b.
+ *
+ * @param {Object} a The object to be extended
+ * @param {Object} b The object to copy properties from
+ * @param {Object} thisArg The object to bind function to
+ * @return {Object} The resulting value of object a
+ */
+function extend(a, b, thisArg) {
+  forEach(b, function assignValue(val, key) {
+    if (thisArg && typeof val === 'function') {
+      a[key] = bind(val, thisArg);
+    } else {
+      a[key] = val;
+    }
+  });
+  return a;
+}
+
+module.exports = {
+  isArray: isArray,
+  isArrayBuffer: isArrayBuffer,
+  isBuffer: isBuffer,
+  isFormData: isFormData,
+  isArrayBufferView: isArrayBufferView,
+  isString: isString,
+  isNumber: isNumber,
+  isObject: isObject,
+  isUndefined: isUndefined,
+  isDate: isDate,
+  isFile: isFile,
+  isBlob: isBlob,
+  isFunction: isFunction,
+  isStream: isStream,
+  isURLSearchParams: isURLSearchParams,
+  isStandardBrowserEnv: isStandardBrowserEnv,
+  forEach: forEach,
+  merge: merge,
+  extend: extend,
+  trim: trim
+};
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["default"] = addStylesClient;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(45);
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+function addStylesClient (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = Object(__WEBPACK_IMPORTED_MODULE_0__listToStyles__["a" /* default */])(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = Object(__WEBPACK_IMPORTED_MODULE_0__listToStyles__["a" /* default */])(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = normalizeComponent;
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode /* vue-cli only */
+) {
+  scriptExports = scriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof scriptExports.default
+  if (type === 'object' || type === 'function') {
+    scriptExports = scriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(26);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(9);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(9);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(23);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(27);
+var buildURL = __webpack_require__(29);
+var parseHeaders = __webpack_require__(30);
+var isURLSameOrigin = __webpack_require__(31);
+var createError = __webpack_require__(10);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(32);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if (process.env.NODE_ENV !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(33);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(28);
+
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var StellarSdk = __webpack_require__(1);
+
+var HorizonServer = function () {
+  function HorizonServer(serverURL) {
+    var testnet = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    var serverOptions = arguments[2];
+
+    _classCallCheck(this, HorizonServer);
+
+    this._serverURL = serverURL;
+    this._testnet = testnet;
+
+    this._server = new StellarSdk.Server(serverURL, serverOptions);
+  }
+
+  _createClass(HorizonServer, [{
+    key: 'server',
+    value: function server() {
+      // this is global, so I set it everytime to be safe
+      if (this._testnet) {
+        StellarSdk.Network.useTestNetwork();
+      } else {
+        StellarSdk.Network.usePublicNetwork();
+      }
+
+      return this._server;
+    }
+  }, {
+    key: 'testnet',
+    value: function testnet() {
+      return this._testnet;
+    }
+  }, {
+    key: 'serverURL',
+    value: function serverURL() {
+      return this._serverURL;
+    }
+  }]);
+
+  return HorizonServer;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (HorizonServer);
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var StellarSdk = __webpack_require__(1);
+
+var StellarWallet = function () {
+  function StellarWallet() {
+    _classCallCheck(this, StellarWallet);
+  }
+
+  _createClass(StellarWallet, [{
+    key: 'publicKey',
+
+
+    // using promise so ledger and user entered have same API
+    value: function publicKey() {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        if (_this._publicKey) {
+          resolve(_this._publicKey);
+        }
+
+        if (!_this.usingLedger()) {
+          throw new Error('StellarWallet publicKey failed.  Should never get here.');
+        }
+
+        _this.ledgerAPI.getPublicKey().then(function (publicKey) {
+          _this._publicKey = publicKey;
+          resolve(publicKey);
+        });
+      });
+    }
+
+    // if true, alert the user to confirm on device
+
+  }, {
+    key: 'usingLedger',
+    value: function usingLedger() {
+      return this.ledgerAPI !== undefined;
+    }
+  }, {
+    key: 'signTransaction',
+    value: function signTransaction(transaction) {
+      var _this2 = this;
+
+      return new Promise(function (resolve, reject) {
+        _this2.publicKey().then(function (publicKey) {
+          if (_this2.usingLedger()) {
+            // tell the caller to display confirm transaction message to user
+            if (_this2.confirmCallback) {
+              _this2.confirmCallback();
+            }
+
+            return _this2.ledgerAPI.signTransaction(publicKey, transaction);
+          }
+          var sourceKeys = StellarSdk.Keypair.fromSecret(_this2._secret);
+
+          transaction.sign(sourceKeys);
+
+          return transaction;
+        }).then(function (signedTx) {
+          resolve(signedTx);
+        });
+      });
+    }
+  }], [{
+    key: 'secret',
+
+    // 'constructor' with secret
+    value: function secret(_secret) {
+      var result = new StellarWallet();
+
+      result._secret = _secret;
+      result._publicKey = StellarSdk.Keypair.fromSecret(_secret).publicKey();
+
+      return result;
+    }
+
+    // 'constructor' with ledgerAPI
+
+  }, {
+    key: 'ledger',
+    value: function ledger(ledgerAPI, confirmCallback) {
+      var result = new StellarWallet();
+      result.ledgerAPI = ledgerAPI;
+
+      // alert user to confirm transaction on device
+      result.confirmCallback = confirmCallback;
+
+      return result;
+    }
+  }]);
+
+  return StellarWallet;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (StellarWallet);
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var StellarSdk = __webpack_require__(1);
+var StellarLedger = __webpack_require__(41);
+var bip32Path = "44'/148'/0'";
+
+var LedgerAPI = function () {
+  function LedgerAPI() {
+    var browser = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+    _classCallCheck(this, LedgerAPI);
+
+    this.browser = browser;
+  }
+
+  _createClass(LedgerAPI, [{
+    key: 'createComm',
+    value: function createComm() {
+      var timeout = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+      if (!this.browser) {
+        return StellarLedger.comm_node.create_async(timeout);
+      }
+
+      return StellarLedger.comm.create_async(timeout);
+    }
+  }, {
+    key: 'connectLedger',
+    value: function connectLedger(callback) {
+      if (!this.browser) {
+        this.connectLedgerNode(callback);
+      } else {
+        this.connectLedgerBrowser(callback);
+      }
+    }
+  }, {
+    key: 'connectLedgerNode',
+    value: function connectLedgerNode(callback) {
+      var _this = this;
+
+      // for node we have to do our own loop to connect
+      var doConnect = function doConnect() {
+        _this.createComm().then(function (comm) {
+          new StellarLedger.Api(comm).connect(function () {
+            callback();
+          }, function (error) {
+            console.log('Error: ' + JSON.stringify(error));
+
+            // keep trying
+            setTimeout(doConnect, 1000);
+          });
+        });
+      };
+      doConnect();
+    }
+  }, {
+    key: 'connectLedgerBrowser',
+    value: function connectLedgerBrowser(callback) {
+      this.createComm(Number.MAX_VALUE).then(function (comm) {
+        new StellarLedger.Api(comm).connect(function () {
+          callback();
+        }, function (error) {
+          // saw this fail with errorCode:5 once, might need to loop
+          console.log('Error: ' + JSON.stringify(error));
+        });
+      });
+    }
+  }, {
+    key: 'getPublicKey',
+    value: function getPublicKey() {
+      return this.createComm().then(function (comm) {
+        var api = new StellarLedger.Api(comm);
+
+        return api.getPublicKey_async(bip32Path);
+      }).then(function (result) {
+        return result['publicKey'];
+      });
+    }
+  }, {
+    key: 'signTransaction',
+    value: function signTransaction(sourceKey, transaction) {
+      return this.createComm().then(function (comm) {
+        var api = new StellarLedger.Api(comm);
+
+        debugger;
+        return api.signTx_async(bip32Path, transaction);
+      }).then(function (result) {
+        var signature = result['signature'];
+
+        var keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey);
+        var hint = keyPair.signatureHint();
+        var decorated = new StellarSdk.xdr.DecoratedSignature({
+          hint: hint,
+          signature: signature
+        });
+
+        transaction.signatures.push(decorated);
+
+        return transaction;
+      });
+    }
+  }]);
+
+  return LedgerAPI;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (LedgerAPI);
+
+/***/ }),
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaymentView_vue__ = __webpack_require__(17);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  props: ['ping', 'nodeEnv', 'donationPublicKey'],
+  components: {
+    'donate-view': __WEBPACK_IMPORTED_MODULE_0__PaymentView_vue__["a" /* default */]
+  },
+  watch: {
+    ping: function ping() {
+      this.visible = true;
+    }
+  },
+  data: function data() {
+    return {
+      visible: false
+    };
+  }
+});
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PaymentView_vue__ = __webpack_require__(18);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_477f01bf_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PaymentView_vue__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(4);
+var disposed = false
+function injectStyle (context) {
+  if (disposed) return
+  __webpack_require__(46)
+}
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-477f01bf"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+
+var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PaymentView_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_477f01bf_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PaymentView_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_477f01bf_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PaymentView_vue__["b" /* staticRenderFns */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "src\\vue\\PaymentView.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-477f01bf", Component.options)
+  } else {
+    hotAPI.reload("data-v-477f01bf", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_utils_js__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_LedgerAPI_js__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_StellarWallet_js__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_HorizonServer_js__ = __webpack_require__(13);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+var StellarSdk = __webpack_require__(1);
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  props: ['nodeEnv', 'donationPublicKey'],
+  data: function data() {
+    return {
+      visible: false,
+      destinationPublicKey: '',
+      donate: false,
+      dialogMode: 'start',
+      status: '',
+      secretKey: '',
+      connected: true,
+      xlm: 10,
+      showSecret: false,
+      browserSupportMessage: '',
+      ledgerAPI: null,
+      horizon: null
+    };
+  },
+
+  computed: {
+    disableSendLumens: function disableSendLumens() {
+      return __WEBPACK_IMPORTED_MODULE_0__js_utils_js__["a" /* default */].strlen(this.secretKey) < 10 || this.xlm < 1;
+    },
+    headerMessage: function headerMessage() {
+      if (this.donate) {
+        return 'Your XLM donation is appreciated.';
+      }
+      return 'Make a payment.';
+    }
+  },
+  created: function created() {
+    this.horizon = new __WEBPACK_IMPORTED_MODULE_3__js_HorizonServer_js__["a" /* default */]('https://horizon.stellar.org', false);
+
+    if (__WEBPACK_IMPORTED_MODULE_0__js_utils_js__["a" /* default */].strOK(this.donationPublicKey)) {
+      this.donate = true;
+      this.destinationPublicKey = this.donationPublicKey;
+    }
+
+    if (this.nodeEnv) {
+      this.browserSupportMessage = 'Make sure "Browser Support" is disabled';
+    } else {
+      this.browserSupportMessage = 'Make sure "Browser Support" is enabled';
+    }
+
+    this.ledgerAPI = new __WEBPACK_IMPORTED_MODULE_1__js_LedgerAPI_js__["a" /* default */](!this.nodeEnv);
+  },
+
+  methods: {
+    buttonClick: function buttonClick(id) {
+      switch (id) {
+        case 'useNano':
+          this.dialogMode = 'useNano';
+          this.status = '';
+
+          this.connectLedger();
+          break;
+        case 'useKey':
+          this.dialogMode = 'useKey';
+          this.status = '';
+          break;
+        case 'sendWithNano':
+          this.sendWithNano();
+          break;
+        case 'sendWithSecret':
+          this.sendWithSecret();
+          break;
+        default:
+          console.log('not handled: ' + id);
+          break;
+      }
+    },
+    connectLedger: function connectLedger() {
+      var _this = this;
+
+      this.connected = false;
+
+      this.ledgerAPI.connectLedger(function () {
+        _this.connected = true;
+      }, !this.nodeEnv);
+    },
+    sendWithNano: function sendWithNano() {
+      var _this2 = this;
+
+      var sourceWallet = __WEBPACK_IMPORTED_MODULE_2__js_StellarWallet_js__["a" /* default */].ledger(this.ledgerAPI, function () {
+        _this2.status = 'Confirm transaction on Nano...';
+      });
+
+      this.sendPayment(sourceWallet);
+    },
+    sendWithSecret: function sendWithSecret() {
+      if (__WEBPACK_IMPORTED_MODULE_0__js_utils_js__["a" /* default */].strOK(this.secretKey)) {
+        this.status = 'Please enter your secret key';
+      } else {
+        this.sendPayment(__WEBPACK_IMPORTED_MODULE_2__js_StellarWallet_js__["a" /* default */].secret(this.secretKey));
+      }
+    },
+    verifyAccounts: function verifyAccounts(stellarWallet, destination) {
+      var _this3 = this;
+
+      return new Promise(function (resolve, reject) {
+        // test if destination exists
+        _this3.horizon.server().loadAccount(destination).then(function (destAccount) {
+          // proved that destination exists
+          // get source public key to test existence
+          return stellarWallet.publicKey();
+        }).then(function (sourcePublicKey) {
+          return _this3.horizon.server().loadAccount(sourcePublicKey);
+        }).then(function (sourceAccount) {
+          // proved that source and destination exists
+          resolve(sourceAccount);
+        });
+      });
+    },
+    sendPayment: function sendPayment(sourceWallet) {
+      var _this4 = this;
+
+      var destination = this.destinationPublicKey;
+      if (!__WEBPACK_IMPORTED_MODULE_0__js_utils_js__["a" /* default */].strOK(destination)) {
+        this.status = 'Destination is blank';
+        return;
+      }
+
+      if (this.xlm < 1) {
+        this.status = 'Lumens must be greater than 0';
+        return;
+      }
+
+      this.status = 'Building transaction...';
+
+      this.verifyAccounts(sourceWallet, destination).then(function (sourceAccount) {
+        var transaction = new StellarSdk.TransactionBuilder(sourceAccount).addOperation(StellarSdk.Operation.payment({
+          destination: destination,
+          asset: StellarSdk.Asset.native(),
+          amount: String(_this4.xlm)
+        })).build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        console.log('doing sign: ', JSON.stringify(signedTransaction));
+
+        _this4.status = 'Submitting transaction...';
+
+        return _this4.horizon.server().submitTransaction(signedTransaction);
+      }).then(function (response) {
+        _this4.status = 'Payment successful!';
+
+        // clear secret key
+        _this4.secretKey = '';
+
+        return null;
+      }).catch(function (error) {
+        _this4.status = 'Error making payment: ' + error;
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_Bifrost_js__ = __webpack_require__(54);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  props: ['ping', 'params', 'allowHTTP'],
+  data: function data() {
+    return {
+      showPurchase: false,
+      purchaseCoin: '',
+      progress: 0,
+      session: null,
+      status: '',
+      address: 'loading...',
+      publicKey: '',
+      secretKey: '',
+      visible: false
+    };
+  },
+
+  watch: {
+    ping: function ping() {
+      this.visible = true;
+    }
+  },
+  computed: {
+    sendMessage: function sendMessage() {
+      if (this.purchaseCoin === 'btc') {
+        return '<div class="lead">Send Bitcoin <strong>testnet</strong> BTC to the following address:</div>';
+      } else {
+        return '<div class="lead">Send Ropsten <strong>testnet</strong> ETH to the following address:</div>';
+      }
+    }
+  },
+  methods: {
+    initBifrost: function initBifrost() {
+      var opts = {};
+
+      if (this.allowHTTP) {
+        opts = {
+          allowHttp: true
+        };
+      }
+      this.session = new __WEBPACK_IMPORTED_MODULE_0__js_Bifrost_js__["e" /* Session */](this.params, opts); // ### for testing, allowHttp
+    },
+    startBitcoin: function startBitcoin() {
+      var _this = this;
+
+      this.showPurchase = true;
+      this.purchaseCoin = 'btc';
+      this.initBifrost();
+
+      this.session.startBitcoin(this.onEvent).then(function (result) {
+        _this.setStatus('Waiting for a transaction...', 10);
+        _this.address = result.address;
+        _this.publicKey = result.keypair.publicKey();
+        _this.secretKey = result.keypair.secret();
+      });
+    },
+    startEthereum: function startEthereum() {
+      var _this2 = this;
+
+      this.showPurchase = true;
+      this.purchaseCoin = 'eth';
+      this.initBifrost();
+
+      this.session.startEthereum(this.onEvent).then(function (result) {
+        _this2.setStatus('Waiting for a transaction...', 10);
+        _this2.address = result.address;
+        _this2.publicKey = result.keypair.publicKey();
+        _this2.secretKey = result.keypair.secret();
+      });
+    },
+    setStatus: function setStatus(status, progress) {
+      this.progress = progress;
+      this.status = status;
+    },
+    onEvent: function onEvent(event, data) {
+      switch (event) {
+        case __WEBPACK_IMPORTED_MODULE_0__js_Bifrost_js__["f" /* TransactionReceivedEvent */]:
+          this.setStatus('Transaction received, creating account...', 20);
+          break;
+        case __WEBPACK_IMPORTED_MODULE_0__js_Bifrost_js__["a" /* AccountCreatedEvent */]:
+          this.setStatus('Account created, creating trust lines...', 40);
+          break;
+        case __WEBPACK_IMPORTED_MODULE_0__js_Bifrost_js__["g" /* TrustLinesCreatedEvent */]:
+          this.setStatus('Trust lines created, waiting for tokens...', 60);
+          break;
+        case __WEBPACK_IMPORTED_MODULE_0__js_Bifrost_js__["b" /* AccountCreditedEvent */]:
+          this.setStatus('Account credited, exchanging...', 80);
+          break;
+        case __WEBPACK_IMPORTED_MODULE_0__js_Bifrost_js__["d" /* PurchasedEvent */]:
+          this.setStatus('Congrats! TOKE purchased.', 100);
+          break;
+        case __WEBPACK_IMPORTED_MODULE_0__js_Bifrost_js__["c" /* ErrorEvent */]:
+          this.setStatus('Error!', 0);
+          console.log(JSON.stringify(data));
+          break;
+        default:
+          this.setStatus('default swtich reached!', 0);
+          break;
+      }
+    },
+    buttonClick: function buttonClick(id) {
+      switch (id) {
+        case 'test':
+          this.test();
+          break;
+        case 'bitcoin':
+          this.startBitcoin();
+          break;
+        case 'ethereum':
+          this.startEthereum();
+          break;
+        case 'back':
+          this.showPurchase = false;
+          break;
+        default:
+          console.log('no button with that name');
+          break;
+      }
+    }
+  }
+});
+
+/***/ }),
+/* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  props: ['title', 'help', 'showPrint'],
+  computed: {
+    tooltip: function tooltip() {
+      if (this.help) {
+        return 'Help';
+      }
+      return 'Close';
+    },
+    icon: function icon() {
+      return this.help ? 'help_outline' : 'close';
+    }
+  },
+  methods: {
+    buttonClick: function buttonClick(buttonID) {
+      this.$emit(buttonID);
+    }
+  }
+});
+
+/***/ }),
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_js_StellarAPI_js__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_HorizonServer_js__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_js_StellarWallet_js__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_js_LedgerAPI_js__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_vue_PaymentDialog_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_vue_PaymentView_vue__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_vue_BuyTokenDialog_vue__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_vue_DialogTitleBar_vue__ = __webpack_require__(56);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StellarAPI", function() { return __WEBPACK_IMPORTED_MODULE_0__src_js_StellarAPI_js__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HorizonServer", function() { return __WEBPACK_IMPORTED_MODULE_1__src_js_HorizonServer_js__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "PaymentDialog", function() { return __WEBPACK_IMPORTED_MODULE_4__src_vue_PaymentDialog_vue__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "PaymentView", function() { return __WEBPACK_IMPORTED_MODULE_5__src_vue_PaymentView_vue__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DialogTitleBar", function() { return __WEBPACK_IMPORTED_MODULE_7__src_vue_DialogTitleBar_vue__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BuyTokenDialog", function() { return __WEBPACK_IMPORTED_MODULE_6__src_vue_BuyTokenDialog_vue__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StellarWallet", function() { return __WEBPACK_IMPORTED_MODULE_2__src_js_StellarWallet_js__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LedgerAPI", function() { return __WEBPACK_IMPORTED_MODULE_3__src_js_LedgerAPI_js__["a"]; });
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var StellarSdk = __webpack_require__(1);
+
+
+var StellarAPI = function () {
+  function StellarAPI(horizonServer) {
+    _classCallCheck(this, StellarAPI);
+
+    if (!horizonServer) {
+      console.log('StellarAPI constructor missing parameter');
+    }
+
+    this._horizonServer = horizonServer;
+  }
+
+  _createClass(StellarAPI, [{
+    key: 'server',
+    value: function server() {
+      return this._horizonServer.server();
+    }
+  }, {
+    key: 'serverURL',
+    value: function serverURL() {
+      return this._horizonServer.serverURL();
+    }
+  }, {
+    key: 'horizonMetrics',
+    value: function horizonMetrics() {
+      var url = this.serverURL() + '/metrics';
+
+      return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(url);
+    }
+  }, {
+    key: 'accountInfo',
+    value: function accountInfo(publicKey) {
+      return this.server().loadAccount(publicKey);
+    }
+  }, {
+    key: 'balances',
+    value: function balances(publicKey) {
+      return this.server().loadAccount(publicKey).then(function (account) {
+        var result = {};
+
+        account.balances.forEach(function (balance) {
+          if (balance.asset_type === 'native') {
+            result['XLM'] = balance.balance;
+          } else {
+            result[balance.asset_code] = balance.balance;
+          }
+        });
+
+        return result;
+      });
+    }
+  }, {
+    key: 'paths',
+    value: function paths(sourceKey, destinationPublic, destinationAsset, destinationAmount) {
+      return this.server().paths(sourceKey, destinationPublic, destinationAsset, destinationAmount);
+    }
+  }, {
+    key: 'mergeAccount',
+    value: function mergeAccount(sourceWallet, destKey) {
+      var _this = this;
+
+      return sourceWallet.publicKey().then(function (publicKey) {
+        return _this.server().loadAccount(publicKey);
+      }).then(function (account) {
+        var transaction = new StellarSdk.TransactionBuilder(account).addOperation(StellarSdk.Operation.accountMerge({
+          destination: destKey
+        })).build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        return _this.server().submitTransaction(signedTransaction);
+      });
+    }
+  }, {
+    key: 'manageOffer',
+    value: function manageOffer(sourceWallet, buying, selling, amount, price) {
+      var _this2 = this;
+
+      var offerID = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
+
+      return sourceWallet.publicKey().then(function (publicKey) {
+        return _this2.server().loadAccount(publicKey);
+      }).then(function (account) {
+        var transaction = new StellarSdk.TransactionBuilder(account).addOperation(StellarSdk.Operation.manageOffer({
+          selling: selling,
+          buying: buying,
+          amount: amount,
+          price: price,
+          offerId: offerID
+        })).build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        return _this2.server().submitTransaction(signedTransaction);
+      });
+    }
+  }, {
+    key: 'changeTrust',
+    value: function changeTrust(sourceWallet, asset, limit) {
+      var _this3 = this;
+
+      return sourceWallet.publicKey().then(function (publicKey) {
+        return _this3.server().loadAccount(publicKey);
+      }).then(function (account) {
+        var transaction = new StellarSdk.TransactionBuilder(account).addOperation(StellarSdk.Operation.changeTrust({
+          asset: asset,
+          limit: limit
+        })).build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        return _this3.server().submitTransaction(signedTransaction);
+      });
+    }
+  }, {
+    key: 'allowTrust',
+    value: function allowTrust(sourceWallet, trustor, asset, authorize) {
+      var _this4 = this;
+
+      return sourceWallet.publicKey().then(function (publicKey) {
+        return _this4.server().loadAccount(publicKey);
+      }).then(function (account) {
+        var transaction = new StellarSdk.TransactionBuilder(account).addOperation(StellarSdk.Operation.allowTrust({
+          trustor: trustor,
+          assetCode: asset.getCode(),
+          authorize: authorize
+        })).build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        return _this4.server().submitTransaction(signedTransaction);
+      });
+    }
+  }, {
+    key: 'makeMultiSig',
+    value: function makeMultiSig(sourceWallet, secondPublicKey) {
+      var _this5 = this;
+
+      return sourceWallet.publicKey().then(function (publicKey) {
+        return _this5.server().loadAccount(publicKey);
+      }).then(function (account) {
+        var transaction = new StellarSdk.TransactionBuilder(account).addOperation(StellarSdk.Operation.setOptions({
+          signer: {
+            ed25519PublicKey: secondPublicKey,
+            weight: 1
+          }
+        })).addOperation(StellarSdk.Operation.setOptions({
+          medThreshold: 2,
+          highThreshold: 2
+        })).build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        return _this5.server().submitTransaction(signedTransaction);
+      });
+    }
+  }, {
+    key: 'removeMultiSig',
+    value: function removeMultiSig(sourceWallet, secondSecret, secondPublicKey, transactionOpts) {
+      var _this6 = this;
+
+      return this.removeMultiSigTransaction(sourceWallet, secondSecret, secondPublicKey, transactionOpts).then(function (transaction) {
+        return _this6.server().submitTransaction(transaction);
+      });
+    }
+  }, {
+    key: 'submitTransaction',
+    value: function submitTransaction(transaction) {
+      return this.server().submitTransaction(transaction);
+    }
+  }, {
+    key: 'removeMultiSigTransaction',
+    value: function removeMultiSigTransaction(sourceWallet, secondSecret, secondPublicKey, transactionOpts) {
+      var _this7 = this;
+
+      return sourceWallet.publicKey().then(function (publicKey) {
+        return _this7.server().loadAccount(publicKey);
+      }).then(function (account) {
+        var transaction = new StellarSdk.TransactionBuilder(account, transactionOpts).addOperation(StellarSdk.Operation.setOptions({
+          medThreshold: 1,
+          highThreshold: 1
+        })).addOperation(StellarSdk.Operation.setOptions({
+          signer: {
+            ed25519PublicKey: secondPublicKey,
+            weight: 0
+          }
+        })).build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        signedTransaction.sign(StellarSdk.Keypair.fromSecret(secondSecret));
+
+        return signedTransaction;
+      });
+    }
+  }, {
+    key: 'sendAsset',
+    value: function sendAsset(sourceWallet, destKey, amount) {
+      var asset = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+      var _this8 = this;
+
+      var memo = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+      var additionalSigners = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
+
+      return this.server().loadAccount(destKey).then(function (destAccount) {
+        // dest account exists
+        return sourceWallet.publicKey();
+      }).then(function (sourcePublicKey) {
+        return _this8.server().loadAccount(sourcePublicKey);
+      }).then(function (sourceAccount) {
+        var builder = new StellarSdk.TransactionBuilder(sourceAccount).addOperation(StellarSdk.Operation.payment({
+          destination: destKey,
+          asset: asset === null ? StellarSdk.Asset.native() : asset,
+          amount: amount
+        }));
+
+        if (memo) {
+          builder = builder.addMemo(StellarSdk.Memo.text(memo));
+        }
+
+        var transaction = builder.build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        if (additionalSigners) {
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
+
+          try {
+            for (var _iterator = additionalSigners[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var signerKey = _step.value;
+
+              signedTransaction.sign(StellarSdk.Keypair.fromSecret(signerKey));
+            }
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+              }
+            } finally {
+              if (_didIteratorError) {
+                throw _iteratorError;
+              }
+            }
+          }
+        }
+
+        return _this8.server().submitTransaction(signedTransaction);
+      });
+    }
+  }, {
+    key: 'hasAssetTrustline',
+    value: function hasAssetTrustline(account, asset) {
+      var trusted = false;
+      trusted = account.balances.some(function (balance) {
+        return balance.asset_code === asset.getCode() && balance.asset_issuer === asset.getIssuer();
+      });
+
+      return trusted;
+    }
+  }, {
+    key: 'buyTokens',
+    value: function buyTokens(sourceWallet, sendAsset, destAsset, sendMax, destAmount) {
+      var _this9 = this;
+
+      return sourceWallet.publicKey().then(function (publicKey) {
+        return _this9.server().loadAccount(publicKey);
+      }).then(function (account) {
+        if (!_this9.hasAssetTrustline(account, destAsset)) {
+          throw new Error('No trustline from buyer to asset');
+        }
+
+        var transaction = new StellarSdk.TransactionBuilder(account).addOperation(StellarSdk.Operation.pathPayment({
+          destination: account.accountId(),
+          sendAsset: sendAsset,
+          sendMax: sendMax,
+          destAsset: destAsset,
+          destAmount: destAmount,
+          path: []
+        })).build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        return _this9.server().submitTransaction(signedTransaction);
+      });
+    }
+  }, {
+    key: 'getFlags',
+    value: function getFlags(sourceWallet) {
+      var _this10 = this;
+
+      return sourceWallet.publicKey().then(function (publicKey) {
+        return _this10.server().loadAccount(publicKey);
+      }).then(function (account) {
+        var result = 0;
+
+        if (account.flags.auth_required) {
+          result |= StellarSdk.AuthRequiredFlag;
+        }
+        if (account.flags.auth_revocable) {
+          result |= StellarSdk.AuthRevocableFlag;
+        }
+
+        return result;
+      });
+    }
+  }, {
+    key: 'createAccount',
+    value: function createAccount(sourceWallet, destinationKey, startingBalance) {
+      var _this11 = this;
+
+      return sourceWallet.publicKey().then(function (publicKey) {
+        return _this11.server().loadAccount(publicKey);
+      }).then(function (account) {
+        var options = {
+          destination: destinationKey,
+          startingBalance: startingBalance
+        };
+
+        var transaction = new StellarSdk.TransactionBuilder(account).addOperation(StellarSdk.Operation.createAccount(options)).build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        return _this11.server().submitTransaction(signedTransaction);
+      }).then(function (response) {
+        return _this11.server().loadAccount(destinationKey);
+      });
+    }
+  }, {
+    key: 'lockAccount',
+    value: function lockAccount(sourceWallet) {
+      var options = {
+        masterWeight: 0, // set master key weight to zero
+        lowThreshold: 1,
+        medThreshold: 1,
+        highThreshold: 1
+      };
+
+      return this.setOptions(sourceWallet, options);
+    }
+  }, {
+    key: 'setDomain',
+    value: function setDomain(sourceWallet, domain) {
+      var options = {
+        homeDomain: domain
+      };
+
+      return this.setOptions(sourceWallet, options);
+    }
+  }, {
+    key: 'setFlags',
+    value: function setFlags(sourceWallet, flags) {
+      var options = {
+        setFlags: flags
+      };
+
+      return this.setOptions(sourceWallet, options);
+    }
+  }, {
+    key: 'clearFlags',
+    value: function clearFlags(sourceWallet, flags) {
+      var options = {
+        clearFlags: flags
+      };
+
+      return this.setOptions(sourceWallet, options);
+    }
+  }, {
+    key: 'setInflationDestination',
+    value: function setInflationDestination(sourceWallet, inflationDest) {
+      var options = {
+        inflationDest: inflationDest
+      };
+
+      return this.setOptions(sourceWallet, options);
+    }
+  }, {
+    key: 'setOptions',
+    value: function setOptions(sourceWallet, options) {
+      var _this12 = this;
+
+      return sourceWallet.publicKey().then(function (publicKey) {
+        return _this12.server().loadAccount(publicKey);
+      }).then(function (account) {
+        var transaction = new StellarSdk.TransactionBuilder(account).addOperation(StellarSdk.Operation.setOptions(options)).build();
+
+        return sourceWallet.signTransaction(transaction);
+      }).then(function (signedTransaction) {
+        return _this12.server().submitTransaction(signedTransaction);
+      });
+    }
+  }]);
+
+  return StellarAPI;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (StellarAPI);
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var bind = __webpack_require__(7);
+var Axios = __webpack_require__(25);
+var defaults = __webpack_require__(5);
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  utils.extend(instance, Axios.prototype, context);
+
+  // Copy context to instance
+  utils.extend(instance, context);
+
+  return instance;
+}
+
+// Create the default instance to be exported
+var axios = createInstance(defaults);
+
+// Expose Axios class to allow class inheritance
+axios.Axios = Axios;
+
+// Factory for creating new instances
+axios.create = function create(instanceConfig) {
+  return createInstance(utils.merge(defaults, instanceConfig));
+};
+
+// Expose Cancel & CancelToken
+axios.Cancel = __webpack_require__(12);
+axios.CancelToken = __webpack_require__(39);
+axios.isCancel = __webpack_require__(11);
+
+// Expose all/spread
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = __webpack_require__(40);
+
+module.exports = axios;
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = axios;
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+// The _isBuffer check is for Safari 5-7 support, because it's missing
+// Object.prototype.constructor. Remove this eventually
+module.exports = function (obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+}
+
+function isBuffer (obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+// For Node v0.10 support. Remove this eventually.
+function isSlowBuffer (obj) {
+  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+}
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var defaults = __webpack_require__(5);
+var utils = __webpack_require__(0);
+var InterceptorManager = __webpack_require__(34);
+var dispatchRequest = __webpack_require__(35);
+
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = utils.merge({
+      url: arguments[0]
+    }, arguments[1]);
+  }
+
+  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
+  config.method = config.method.toLowerCase();
+
+  // Hook up interceptors middleware
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(10);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  // Note: status is not exposed by XDomainRequest
+  if (!response.status || !validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response.request,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, request, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+  error.request = request;
+  error.response = response;
+  return error;
+};
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+function encode(val) {
+  return encodeURIComponent(val).
+    replace(/%40/gi, '@').
+    replace(/%3A/gi, ':').
+    replace(/%24/g, '$').
+    replace(/%2C/gi, ',').
+    replace(/%20/g, '+').
+    replace(/%5B/gi, '[').
+    replace(/%5D/gi, ']');
+}
+
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+module.exports = function buildURL(url, params, paramsSerializer) {
+  /*eslint no-param-reassign:0*/
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      }
+
+      if (!utils.isArray(val)) {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+
+    serializedParams = parts.join('&');
+  }
+
+  if (serializedParams) {
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+
+  return url;
+};
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+// Headers whose duplicates are ignored by node
+// c.f. https://nodejs.org/api/http.html#http_message_headers
+var ignoreDuplicateOf = [
+  'age', 'authorization', 'content-length', 'content-type', 'etag',
+  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
+  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
+  'referer', 'retry-after', 'user-agent'
+];
+
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) { return parsed; }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
+        return;
+      }
+      if (key === 'set-cookie') {
+        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+      } else {
+        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      }
+    }
+  });
+
+  return parsed;
+};
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+  (function standardBrowserEnv() {
+    var msie = /(msie|trident)/i.test(navigator.userAgent);
+    var urlParsingNode = document.createElement('a');
+    var originURL;
+
+    /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+    function resolveURL(url) {
+      var href = url;
+
+      if (msie) {
+        // IE needs attribute set twice to normalize properties
+        urlParsingNode.setAttribute('href', href);
+        href = urlParsingNode.href;
+      }
+
+      urlParsingNode.setAttribute('href', href);
+
+      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+      return {
+        href: urlParsingNode.href,
+        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+        host: urlParsingNode.host,
+        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+        hostname: urlParsingNode.hostname,
+        port: urlParsingNode.port,
+        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+                  urlParsingNode.pathname :
+                  '/' + urlParsingNode.pathname
+      };
+    }
+
+    originURL = resolveURL(window.location.href);
+
+    /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+    return function isURLSameOrigin(requestURL) {
+      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+      return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+    };
+  })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return function isURLSameOrigin() {
+      return true;
+    };
+  })()
+);
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+function E() {
+  this.message = 'String contains an invalid character';
+}
+E.prototype = new Error;
+E.prototype.code = 5;
+E.prototype.name = 'InvalidCharacterError';
+
+function btoa(input) {
+  var str = String(input);
+  var output = '';
+  for (
+    // initialize result and counter
+    var block, charCode, idx = 0, map = chars;
+    // if the next str index does not exist:
+    //   change the mapping table to "="
+    //   check if d has no fractional digits
+    str.charAt(idx | 0) || (map = '=', idx % 1);
+    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+  ) {
+    charCode = str.charCodeAt(idx += 3 / 4);
+    if (charCode > 0xFF) {
+      throw new E();
+    }
+    block = block << 8 | charCode;
+  }
+  return output;
+}
+
+module.exports = btoa;
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+  (function standardBrowserEnv() {
+    return {
+      write: function write(name, value, expires, path, domain, secure) {
+        var cookie = [];
+        cookie.push(name + '=' + encodeURIComponent(value));
+
+        if (utils.isNumber(expires)) {
+          cookie.push('expires=' + new Date(expires).toGMTString());
+        }
+
+        if (utils.isString(path)) {
+          cookie.push('path=' + path);
+        }
+
+        if (utils.isString(domain)) {
+          cookie.push('domain=' + domain);
+        }
+
+        if (secure === true) {
+          cookie.push('secure');
+        }
+
+        document.cookie = cookie.join('; ');
+      },
+
+      read: function read(name) {
+        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+        return (match ? decodeURIComponent(match[3]) : null);
+      },
+
+      remove: function remove(name) {
+        this.write(name, '', Date.now() - 86400000);
+      }
+    };
+  })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return {
+      write: function write() {},
+      read: function read() { return null; },
+      remove: function remove() {}
+    };
+  })()
+);
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var transformData = __webpack_require__(36);
+var isCancel = __webpack_require__(11);
+var defaults = __webpack_require__(5);
+var isAbsoluteURL = __webpack_require__(37);
+var combineURLs = __webpack_require__(38);
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
+
+  // Ensure headers exist
+  config.headers = config.headers || {};
+
+  // Transform request data
+  config.data = transformData(
+    config.data,
+    config.headers,
+    config.transformRequest
+  );
+
+  // Flatten headers
+  config.headers = utils.merge(
+    config.headers.common || {},
+    config.headers[config.method] || {},
+    config.headers || {}
+  );
+
+  utils.forEach(
+    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+    function cleanHeaderConfig(method) {
+      delete config.headers[method];
+    }
+  );
+
+  var adapter = config.adapter || defaults.adapter;
+
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config);
+
+    // Transform response data
+    response.data = transformData(
+      response.data,
+      response.headers,
+      config.transformResponse
+    );
+
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      // Transform response data
+      if (reason && reason.response) {
+        reason.response.data = transformData(
+          reason.response.data,
+          reason.response.headers,
+          config.transformResponse
+        );
+      }
+    }
+
+    return Promise.reject(reason);
+  });
+};
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+
+  return data;
+};
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL
+    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    : baseURL;
+};
+
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(12);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_41__;
+
+/***/ }),
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PaymentDialog_vue__ = __webpack_require__(16);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_81abfb3c_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PaymentDialog_vue__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(4);
+var disposed = false
+function injectStyle (context) {
+  if (disposed) return
+  __webpack_require__(43)
+}
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-81abfb3c"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+
+var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PaymentDialog_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_81abfb3c_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PaymentDialog_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_81abfb3c_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PaymentDialog_vue__["b" /* staticRenderFns */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "src\\vue\\PaymentDialog.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-81abfb3c", Component.options)
+  } else {
+    hotAPI.reload("data-v-81abfb3c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(44);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(3).default
+var update = add("6f74fe75", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-81abfb3c\",\"scoped\":true,\"sourceMap\":false}!../../node_modules/sass-loader/lib/loader.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PaymentDialog.vue", function() {
+     var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-81abfb3c\",\"scoped\":true,\"sourceMap\":false}!../../node_modules/sass-loader/lib/loader.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PaymentDialog.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.main-container[data-v-81abfb3c] {\n  width: 100%;\n  flex: 0 1 auto;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);\n  background: white;\n  display: flex;\n  flex-direction: column;\n  border-radius: 6px;\n  overflow: hidden;\n  padding: 20px;\n}\n.main-container .button-holder[data-v-81abfb3c] {\n    margin-top: 20px;\n    display: flex;\n    justify-content: flex-end;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = listToStyles;
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(47);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(3).default
+var update = add("490c4d60", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-477f01bf\",\"scoped\":true,\"sourceMap\":false}!../../node_modules/sass-loader/lib/loader.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PaymentView.vue", function() {
+     var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-477f01bf\",\"scoped\":true,\"sourceMap\":false}!../../node_modules/sass-loader/lib/loader.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PaymentView.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.payment-view[data-v-477f01bf] {\n  display: flex;\n  flex-direction: column;\n  padding: 20px;\n}\n.payment-view .input-title[data-v-477f01bf] {\n    position: relative;\n    background: steelblue;\n    color: white;\n    text-align: center;\n    padding: 10px;\n    font-size: 1.2em;\n}\n.payment-view .input-title .back-button[data-v-477f01bf] {\n      position: absolute;\n      top: 5px;\n      left: 0;\n}\n.payment-view .payment-content[data-v-477f01bf] {\n    margin-top: 20px;\n}\n.payment-view .payment-content .own-wallet[data-v-477f01bf] {\n      margin-top: 20px;\n      text-align: center;\n}\n.payment-view .payment-content .own-wallet .xlm-address[data-v-477f01bf] {\n        font-size: 0.9em;\n        font-weight: bold;\n}\n.payment-view .payment-content .payment-start[data-v-477f01bf] {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n}\n.payment-view .payment-content .payment-start .title-start[data-v-477f01bf] {\n        font-size: 1.2em;\n        margin-bottom: 8px;\n}\n.payment-view .payment-content .payment-nano .sign-button-area[data-v-477f01bf] {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n}\n.payment-view .payment-content .payment-secret .sign-button-area[data-v-477f01bf] {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Utils = function () {
+  function Utils() {
+    _classCallCheck(this, Utils);
+  }
+
+  _createClass(Utils, null, [{
+    key: "strlen",
+    value: function strlen(inString) {
+      if (!inString) {
+        return 0;
+      }
+
+      return inString.length;
+    }
+  }, {
+    key: "strOK",
+    value: function strOK(inString) {
+      if (!inString) {
+        return false;
+      }
+
+      return inString.length > 0;
+    }
+  }]);
+
+  return Utils;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Utils);
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "payment-view" }, [
+    _c(
+      "div",
+      { staticClass: "input-title" },
+      [
+        _vm.dialogMode !== "start"
+          ? _c(
+              "v-icon",
+              {
+                staticClass: "back-button",
+                attrs: { dark: "", large: "" },
+                on: {
+                  click: function($event) {
+                    _vm.dialogMode = "start"
+                  }
+                }
+              },
+              [_vm._v("chevron_left")]
+            )
+          : _vm._e(),
+        _vm._v("\n    " + _vm._s(_vm.headerMessage) + "\n  ")
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "payment-content" }, [
+      _vm.dialogMode === "start"
+        ? _c("div", { staticClass: "payment-start" }, [
+            _c("div", { staticClass: "title-start" }, [
+              _vm._v("Choose Method")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              [
+                _c(
+                  "v-btn",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.buttonClick("useNano")
+                      }
+                    }
+                  },
+                  [_vm._v("Use Ledger Nano")]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              [
+                _c(
+                  "v-btn",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.buttonClick("useKey")
+                      }
+                    }
+                  },
+                  [_vm._v("Use secret key")]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm.donate
+              ? _c("div", { staticClass: "own-wallet" }, [
+                  _vm._v("\n        Or use your favorite wallet:"),
+                  _c("br"),
+                  _vm._v("To: "),
+                  _c("span", { staticClass: "xlm-address" }, [
+                    _vm._v(_vm._s(_vm.destinationPublicKey))
+                  ])
+                ])
+              : _vm._e()
+          ])
+        : _vm.dialogMode === "useNano"
+          ? _c(
+              "div",
+              { staticClass: "payment-nano" },
+              [
+                _c("v-text-field", {
+                  attrs: { label: "Lumens", type: "number", autofocus: "" },
+                  on: {
+                    keyup: function($event) {
+                      if (
+                        !("button" in $event) &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key)
+                      ) {
+                        return null
+                      }
+                      _vm.buttonClick("sendWithNano")
+                    }
+                  },
+                  model: {
+                    value: _vm.xlm,
+                    callback: function($$v) {
+                      _vm.xlm = typeof $$v === "string" ? $$v.trim() : $$v
+                    },
+                    expression: "xlm"
+                  }
+                }),
+                _vm._v(" "),
+                !_vm.donate
+                  ? _c(
+                      "div",
+                      { staticClass: "own-wallet" },
+                      [
+                        _c("v-text-field", {
+                          attrs: { label: "Destination" },
+                          on: {
+                            keyup: function($event) {
+                              if (
+                                !("button" in $event) &&
+                                _vm._k($event.keyCode, "enter", 13, $event.key)
+                              ) {
+                                return null
+                              }
+                              _vm.buttonClick("sendWithNano")
+                            }
+                          },
+                          model: {
+                            value: _vm.destinationPublicKey,
+                            callback: function($$v) {
+                              _vm.destinationPublicKey =
+                                typeof $$v === "string" ? $$v.trim() : $$v
+                            },
+                            expression: "destinationPublicKey"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "sign-button-area" },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: { disabled: !_vm.connected },
+                        on: {
+                          click: function($event) {
+                            _vm.buttonClick("sendWithNano")
+                          }
+                        }
+                      },
+                      [_vm._v("Send with Ledger Nano")]
+                    ),
+                    _vm._v(" "),
+                    !_vm.connected
+                      ? _c("div", [_vm._v(_vm._s(_vm.browserSupportMessage))])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", [_vm._v(_vm._s(_vm.status))])
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          : _vm.dialogMode === "useKey"
+            ? _c(
+                "div",
+                { staticClass: "payment-secret" },
+                [
+                  _c("v-text-field", {
+                    attrs: { label: "Amount", type: "number", autofocus: "" },
+                    model: {
+                      value: _vm.xlm,
+                      callback: function($$v) {
+                        _vm.xlm = typeof $$v === "string" ? $$v.trim() : $$v
+                      },
+                      expression: "xlm"
+                    }
+                  }),
+                  _vm._v(" "),
+                  !_vm.donate
+                    ? _c(
+                        "div",
+                        { staticClass: "own-wallet" },
+                        [
+                          _c("v-text-field", {
+                            attrs: { label: "Destination" },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !("button" in $event) &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key
+                                  )
+                                ) {
+                                  return null
+                                }
+                                _vm.buttonClick("sendWithSecret")
+                              }
+                            },
+                            model: {
+                              value: _vm.destinationPublicKey,
+                              callback: function($$v) {
+                                _vm.destinationPublicKey =
+                                  typeof $$v === "string" ? $$v.trim() : $$v
+                              },
+                              expression: "destinationPublicKey"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      label: "Secret Key",
+                      hint: "Starts with an 'S'",
+                      "append-icon": _vm.showSecret
+                        ? "visibility_off"
+                        : "visibility",
+                      "append-icon-cb": function() {
+                        return (_vm.showSecret = !_vm.showSecret)
+                      },
+                      type: _vm.showSecret ? "text" : "password"
+                    },
+                    on: {
+                      keyup: function($event) {
+                        if (
+                          !("button" in $event) &&
+                          _vm._k($event.keyCode, "enter", 13, $event.key)
+                        ) {
+                          return null
+                        }
+                        _vm.buttonClick("sendWithSecret")
+                      }
+                    },
+                    model: {
+                      value: _vm.secretKey,
+                      callback: function($$v) {
+                        _vm.secretKey =
+                          typeof $$v === "string" ? $$v.trim() : $$v
+                      },
+                      expression: "secretKey"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "sign-button-area" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { disabled: _vm.disableSendLumens },
+                          on: {
+                            click: function($event) {
+                              _vm.buttonClick("sendWithSecret")
+                            }
+                          }
+                        },
+                        [_vm._v("Send Lumens")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", [_vm._v(_vm._s(_vm.status))])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-477f01bf", { render: render, staticRenderFns: staticRenderFns })
+  }
+}
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-dialog",
+    {
+      attrs: { lazy: "", scrollable: "", "max-width": "600" },
+      on: {
+        keydown: function($event) {
+          if (
+            !("button" in $event) &&
+            _vm._k($event.keyCode, "esc", 27, $event.key)
+          ) {
+            return null
+          }
+          _vm.visible = false
+        }
+      },
+      model: {
+        value: _vm.visible,
+        callback: function($$v) {
+          _vm.visible = $$v
+        },
+        expression: "visible"
+      }
+    },
+    [
+      _vm.visible
+        ? _c(
+            "div",
+            { staticClass: "main-container" },
+            [
+              _c("donate-view", {
+                attrs: {
+                  nodeEnv: _vm.nodeEnv,
+                  donationPublicKey: _vm.donationPublicKey
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "button-holder" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { round: "", color: "primary" },
+                      on: {
+                        click: function($event) {
+                          _vm.visible = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n        Close\n      ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-81abfb3c", { render: render, staticRenderFns: staticRenderFns })
+  }
+}
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_BuyTokenDialog_vue__ = __webpack_require__(19);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3d011ef7_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_BuyTokenDialog_vue__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(4);
+var disposed = false
+function injectStyle (context) {
+  if (disposed) return
+  __webpack_require__(52)
+}
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-3d011ef7"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+
+var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_BuyTokenDialog_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3d011ef7_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_BuyTokenDialog_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3d011ef7_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_BuyTokenDialog_vue__["b" /* staticRenderFns */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "src\\vue\\BuyTokenDialog.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3d011ef7", Component.options)
+  } else {
+    hotAPI.reload("data-v-3d011ef7", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(53);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(3).default
+var update = add("621cda8c", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3d011ef7\",\"scoped\":true,\"sourceMap\":false}!../../node_modules/sass-loader/lib/loader.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BuyTokenDialog.vue", function() {
+     var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3d011ef7\",\"scoped\":true,\"sourceMap\":false}!../../node_modules/sass-loader/lib/loader.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BuyTokenDialog.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.main-container[data-v-3d011ef7] {\n  width: 100%;\n  flex: 0 1 auto;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);\n  background: white;\n  display: flex;\n  flex-direction: column;\n  border-radius: 6px;\n  overflow: hidden;\n}\n.main-container .start-choice[data-v-3d011ef7] {\n    font-size: 1.6em;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    margin: 50px;\n}\n.main-container .start-choice .button-holder[data-v-3d011ef7] {\n      padding: 10px;\n      display: flex;\n      justify-content: center;\n}\n.main-container .purchase-container[data-v-3d011ef7] {\n    background-color: #ffffff;\n    width: 600px;\n    text-align: center;\n    padding: 50px;\n}\n.main-container .button-holder[data-v-3d011ef7] {\n    margin-top: 20px;\n    display: flex;\n    justify-content: flex-end;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return TransactionReceivedEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AccountCreatedEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return TrustLinesCreatedEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return AccountCreditedEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return PurchasedEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ErrorEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return Session; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_stellar_sdk___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+
+var TransactionReceivedEvent = 'transaction_received';
+var AccountCreatedEvent = 'account_created';
+var TrustLinesCreatedEvent = 'trust_lines_created';
+var AccountCreditedEvent = 'account_credited';
+var PurchasedEvent = 'purchased';
+var ErrorEvent = 'error';
+
+var ProtocolVersion = 1;
+
+var ChainBitcoin = 'bitcoin';
+var ChainEthereum = 'ethereum';
+
+var Session = function () {
+  function Session(params, horizonOpts) {
+    _classCallCheck(this, Session);
+
+    this._checkParams(params);
+    this.params = params;
+    this.horizon = new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Server"](this.params.horizonURL, horizonOpts);
+    if (params.network === 'test') {
+      __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Network"].useTestNetwork();
+    } else {
+      __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Network"].usePublicNetwork();
+    }
+    this.started = false;
+  }
+
+  _createClass(Session, [{
+    key: 'startBitcoin',
+    value: function startBitcoin(onEvent) {
+      return this._start(ChainBitcoin, onEvent);
+    }
+  }, {
+    key: 'startEthereum',
+    value: function startEthereum(onEvent) {
+      return this._start(ChainEthereum, onEvent);
+    }
+  }, {
+    key: '_start',
+    value: function _start(chain, onEvent) {
+      var _this = this;
+
+      if (this.started) {
+        throw new Error('Session already started');
+      }
+      this.started = true;
+      this.keypair = __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Keypair"].random();
+
+      return new Promise(function (resolve, reject) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(_this.params.bifrostURL + '/generate-' + chain + '-address', 'stellar_public_key=' + _this.keypair.publicKey()).then(function (response) {
+          if (response.data.chain !== chain) {
+            return reject('Invalid chain');
+          }
+
+          if (response.data.protocol_version !== ProtocolVersion) {
+            return reject('Invalid protocol_version. Make sure Bifrost server is using the same protocol version.');
+          }
+
+          var address = response.data.address;
+          resolve({
+            address: address,
+            keypair: _this.keypair
+          });
+
+          var source = new EventSource(_this.params.bifrostURL + '/events?stream=' + address);
+          source.addEventListener('transaction_received', function (e) {
+            return onEvent(TransactionReceivedEvent);
+          }, false);
+          source.addEventListener('account_created', function (e) {
+            return _this._onAccountCreated(onEvent, chain);
+          }, false);
+          source.addEventListener('account_credited', function (e) {
+            _this._onAccountCredited(onEvent, JSON.parse(e.data));
+            source.close();
+          }, false);
+          source.addEventListener('error', function (e) {
+            return console.error(e);
+          }, false);
+        }).catch(reject);
+      });
+    }
+  }, {
+    key: '_onAccountCreated',
+    value: function _onAccountCreated(onEvent, chain) {
+      var _this2 = this;
+
+      onEvent(AccountCreatedEvent);
+
+      var chainAssetCode = void 0;
+      if (chain === ChainBitcoin) {
+        chainAssetCode = 'BTC';
+      } else if (chain === ChainEthereum) {
+        chainAssetCode = 'ETH';
+      }
+
+      // Create trust lines
+      this.horizon.loadAccount(this.keypair.publicKey()).then(function (sourceAccount) {
+        _this2._onAccountCreatedRecoveryTransactions(sourceAccount.sequenceNumber(), chainAssetCode);
+
+        var transaction = new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["TransactionBuilder"](sourceAccount).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].changeTrust({
+          asset: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](chainAssetCode, _this2.params.issuingPublicKey)
+        })).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].changeTrust({
+          asset: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](_this2.params.assetCode, _this2.params.issuingPublicKey)
+        })).build();
+        transaction.sign(_this2.keypair);
+        return _this2.horizon.submitTransaction(transaction);
+      }).then(function () {
+        onEvent(TrustLinesCreatedEvent);
+      }).catch(function (e) {
+        return onEvent(ErrorEvent, e);
+      });
+    }
+  }, {
+    key: '_onAccountCredited',
+    value: function _onAccountCredited(onEvent, _ref) {
+      var _this3 = this;
+
+      var assetCode = _ref.assetCode,
+          amount = _ref.amount;
+
+      onEvent(AccountCreditedEvent);
+      // Buy asset
+      this.horizon.loadAccount(this.keypair.publicKey()).then(function (sourceAccount) {
+        _this3._onAccountCreditedRecoveryTransactions(sourceAccount.sequenceNumber(), assetCode, amount);
+
+        if (_this3.params.preSaleMode) {
+          return;
+        }
+
+        var transaction = new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["TransactionBuilder"](sourceAccount).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].manageOffer({
+          selling: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](assetCode, _this3.params.issuingPublicKey),
+          buying: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](_this3.params.assetCode, _this3.params.issuingPublicKey),
+          amount: amount,
+          price: _this3.params.price
+        })).build();
+        transaction.sign(_this3.keypair);
+        return _this3.horizon.submitTransaction(transaction);
+      }).then(function () {
+        return _this3.horizon.loadAccount(_this3.keypair.publicKey());
+      }).then(function (account) {
+        _this3._onPurchasedRecoveryTransactions(account);
+        onEvent(PurchasedEvent);
+      }).catch(function (e) {
+        return onEvent(ErrorEvent, e);
+      });
+    }
+  }, {
+    key: '_onAccountCreatedRecoveryTransactions',
+    value: function _onAccountCreatedRecoveryTransactions(currentSequenceNumber, chainAssetCode) {
+      var account = new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Account"](this.keypair.publicKey(), currentSequenceNumber);
+
+      // Fail after account creation and before change_trust
+      var transaction = new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["TransactionBuilder"](account).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].accountMerge({
+        destination: this.params.issuingPublicKey
+      })).build();
+      transaction.sign(this.keypair);
+      this._submitRecovery(transaction);
+
+      // Fail after change_trust and before BTC/ETH receive
+      transaction = new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["TransactionBuilder"](account).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].changeTrust({
+        asset: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](chainAssetCode, this.params.issuingPublicKey),
+        limit: '0'
+      })).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].changeTrust({
+        asset: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](this.params.assetCode, this.params.issuingPublicKey),
+        limit: '0'
+      })).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].accountMerge({
+        destination: this.params.issuingPublicKey
+      })).build();
+      transaction.sign(this.keypair);
+      this._submitRecovery(transaction);
+    }
+  }, {
+    key: '_onAccountCreditedRecoveryTransactions',
+    value: function _onAccountCreditedRecoveryTransactions(currentSequenceNumber, chainAssetCode, amount) {
+      // Fail after change_trust and BTC/ETH received. We're creating two transactions:
+      // - First, if c operation wasn't even sent.
+      // - Second, if _onAccountCreditedRecoveryTransactions operation failed.
+      var account = new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Account"](this.keypair.publicKey(), currentSequenceNumber);
+      for (var i = 0; i < 2; i++) {
+        var transaction = new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["TransactionBuilder"](account).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].payment({
+          destination: this.params.issuingPublicKey,
+          asset: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](chainAssetCode, this.params.issuingPublicKey),
+          amount: amount
+        })).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].changeTrust({
+          asset: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](chainAssetCode, this.params.issuingPublicKey),
+          limit: '0'
+        })).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].changeTrust({
+          asset: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](this.params.assetCode, this.params.issuingPublicKey),
+          limit: '0'
+        })).addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].accountMerge({
+          destination: this.params.issuingPublicKey
+        })).build();
+        transaction.sign(this.keypair);
+        this._submitRecovery(transaction);
+      }
+    }
+  }, {
+    key: '_onPurchasedRecoveryTransactions',
+    value: function _onPurchasedRecoveryTransactions(account) {
+      var transactionBuilder = new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["TransactionBuilder"](account);
+
+      // Send back assets and remove trust lines
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = account.balances[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var balance = _step.value;
+
+          if (balance.asset_type === 'native') {
+            continue;
+          }
+
+          if (balance.balance !== '0.0000000') {
+            transactionBuilder.addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].payment({
+              destination: this.params.issuingPublicKey,
+              asset: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](balance.asset_code, balance.asset_issuer),
+              amount: balance.balance
+            }));
+          }
+
+          transactionBuilder.addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].changeTrust({
+            asset: new __WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Asset"](balance.asset_code, balance.asset_issuer),
+            limit: '0'
+          }));
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      transactionBuilder.addOperation(__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["Operation"].accountMerge({
+        destination: this.params.issuingPublicKey
+      }));
+
+      var transaction = transactionBuilder.build();
+      transaction.sign(this.keypair);
+      this._submitRecovery(transaction);
+    }
+  }, {
+    key: '_submitRecovery',
+    value: function _submitRecovery(transaction) {
+      var envelope = transaction.toEnvelope().toXDR().toString('base64');
+      var envelopeEncoded = encodeURIComponent(envelope);
+      return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(this.params.bifrostURL + '/recovery-transaction', 'transaction_xdr=' + envelopeEncoded);
+    }
+  }, {
+    key: '_checkParams',
+    value: function _checkParams(params) {
+      if (params === undefined) {
+        throw new Error('params not provided');
+      }
+
+      if (['live', 'test'].indexOf(params.network) === -1) {
+        throw new Error('Invalid params.network');
+      }
+
+      if (!__WEBPACK_IMPORTED_MODULE_1_stellar_sdk__["StrKey"].isValidEd25519PublicKey(params.issuingPublicKey)) {
+        throw new Error('Invalid params.issuingPublicKey');
+      }
+
+      var requiredParams = ['bifrostURL', 'horizonURL', 'assetCode', 'price'];
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = requiredParams[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var param = _step2.value;
+
+          if (typeof params[param] !== 'string') {
+            throw new Error('params.' + param + ' required and must be of type \'string\'');
+          }
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+    }
+  }]);
+
+  return Session;
+}();
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-dialog",
+    {
+      attrs: { lazy: "", scrollable: "", "max-width": "600" },
+      on: {
+        keydown: function($event) {
+          if (
+            !("button" in $event) &&
+            _vm._k($event.keyCode, "esc", 27, $event.key)
+          ) {
+            return null
+          }
+          _vm.visible = false
+        }
+      },
+      model: {
+        value: _vm.visible,
+        callback: function($$v) {
+          _vm.visible = $$v
+        },
+        expression: "visible"
+      }
+    },
+    [
+      _c("div", { staticClass: "main-container" }, [
+        !_vm.showPurchase
+          ? _c("div", { staticClass: "start-choice" }, [
+              _c("div", [
+                _vm._v("What would you like to use to purchase LMB tokens")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "button-holder" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { small: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.buttonClick("bitcoin")
+                        }
+                      }
+                    },
+                    [_vm._v("Bitcoin")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { small: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.buttonClick("ethereum")
+                        }
+                      }
+                    },
+                    [_vm._v("Ethereum")]
+                  )
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.showPurchase
+          ? _c(
+              "div",
+              { staticClass: "purchase-container" },
+              [
+                _c(
+                  "v-btn",
+                  {
+                    attrs: { small: "" },
+                    on: {
+                      click: function($event) {
+                        _vm.buttonClick("back")
+                      }
+                    }
+                  },
+                  [_vm._v("Back")]
+                ),
+                _vm._v(" "),
+                _c("div", { domProps: { innerHTML: _vm._s(_vm.sendMessage) } }),
+                _vm._v(" "),
+                _c("div", [_vm._v("Address = " + _vm._s(_vm.address))]),
+                _vm._v(" "),
+                _c("p", [
+                  _c("strong", [
+                    _vm._v("Rinkeby testnet. Do not send real coins!")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("p", [_vm._v("Exchange rate: 1 ETH = 1 LMB token")]),
+                _vm._v(" "),
+                _c("p", [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "https://github.com/stellar/go/pull/81 ",
+                        target: "_blank "
+                      }
+                    },
+                    [_vm._v("Instructions")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "progress " },
+                  [
+                    _c("v-progress-linear", {
+                      model: {
+                        value: _vm.progress,
+                        callback: function($$v) {
+                          _vm.progress = $$v
+                        },
+                        expression: "progress "
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", [_vm._v("Status = " + _vm._s(_vm.status))]),
+                _vm._v(" "),
+                _c("div", [_vm._v("Public Key = " + _vm._s(_vm.publicKey))]),
+                _vm._v(" "),
+                _c("div", [_vm._v("Secret Key = " + _vm._s(_vm.secretKey))])
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "button-holder" },
+          [
+            _c(
+              "v-btn",
+              {
+                attrs: { round: "", color: "primary" },
+                on: {
+                  click: function($event) {
+                    _vm.visible = false
+                  }
+                }
+              },
+              [_vm._v("\n        Close\n      ")]
+            )
+          ],
+          1
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3d011ef7", { render: render, staticRenderFns: staticRenderFns })
+  }
+}
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DialogTitleBar_vue__ = __webpack_require__(20);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f6668e82_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_DialogTitleBar_vue__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(4);
+var disposed = false
+function injectStyle (context) {
+  if (disposed) return
+  __webpack_require__(57)
+}
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-f6668e82"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+
+var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DialogTitleBar_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f6668e82_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_DialogTitleBar_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f6668e82_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_DialogTitleBar_vue__["b" /* staticRenderFns */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "src\\vue\\DialogTitleBar.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f6668e82", Component.options)
+  } else {
+    hotAPI.reload("data-v-f6668e82", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(58);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(3).default
+var update = add("13db2e8c", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f6668e82\",\"scoped\":true,\"sourceMap\":false}!../../node_modules/sass-loader/lib/loader.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DialogTitleBar.vue", function() {
+     var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f6668e82\",\"scoped\":true,\"sourceMap\":false}!../../node_modules/sass-loader/lib/loader.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DialogTitleBar.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.dialog-header[data-v-f6668e82] {\n  width: 100%;\n  display: flex;\n  position: relative;\n  justify-content: flex-end;\n  align-items: center;\n  background: #1976d2;\n  padding-right: 6px;\n  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);\n  flex: 0 0 40px;\n}\n.dialog-header button[data-v-f6668e82] {\n    margin: 2px;\n}\n.dialog-header .dialog-header-text[data-v-f6668e82] {\n    position: absolute;\n    top: 0;\n    left: 0;\n    bottom: 0;\n    right: 0;\n    pointer-events: none;\n    text-align: center;\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n}\n.dialog-header .dialog-header-text p[data-v-f6668e82] {\n      color: white;\n      font-weight: 600;\n      font-size: 1.2em;\n      margin: 0;\n      user-select: none;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "dialog-header" },
+    [
+      _c("div", { staticClass: "dialog-header-text" }, [
+        _c("p", [_vm._v(_vm._s(_vm.title))])
+      ]),
+      _vm._v(" "),
+      _c(
+        "v-tooltip",
+        { attrs: { "open-delay": "200", bottom: "" } },
+        [
+          _vm.showPrint
+            ? _c(
+                "v-btn",
+                {
+                  attrs: { slot: "activator", icon: "", dark: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.buttonClick("print")
+                    }
+                  },
+                  slot: "activator"
+                },
+                [_c("v-icon", [_vm._v("print")])],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("span", [_vm._v("Print")])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-tooltip",
+        { attrs: { "open-delay": "200", bottom: "" } },
+        [
+          _c(
+            "v-btn",
+            {
+              attrs: { slot: "activator", icon: "", dark: "" },
+              on: {
+                click: function($event) {
+                  _vm.buttonClick("close")
+                }
+              },
+              slot: "activator"
+            },
+            [_c("v-icon", [_vm._v(_vm._s(_vm.icon))])],
+            1
+          ),
+          _vm._v(" "),
+          _c("span", { domProps: { innerHTML: _vm._s(_vm.tooltip) } })
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-f6668e82", { render: render, staticRenderFns: staticRenderFns })
+  }
+}
+
+/***/ })
+/******/ ]);
+});
