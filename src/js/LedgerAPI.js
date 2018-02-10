@@ -24,24 +24,34 @@ export default class LedgerAPI {
   }
 
   connectLedgerNode(callback) {
+    console.log('node')
     // for node we have to do our own loop to connect
     const doConnect = () => {
       this.createComm()
         .then((comm) => {
           new StellarLedger.Api(comm).connect(() => {
+            console.log('connected')
+
             callback()
           }, (error) => {
             console.log('Error: ' + JSON.stringify(error))
+            console.log('errrror')
 
             // keep trying
             setTimeout(doConnect, 1000)
           })
         })
+        .catch((error) => {
+          console.log('catch: ', JSON.stringify(error))
+        })
     }
     doConnect()
+
+    console.log('exit')
   }
 
   connectLedgerBrowser(callback) {
+    console.log('browser')
     this.createComm(Number.MAX_VALUE)
       .then((comm) => {
         new StellarLedger.Api(comm).connect(() => {
