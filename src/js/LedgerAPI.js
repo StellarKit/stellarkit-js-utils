@@ -56,9 +56,7 @@ export default class LedgerAPI {
   getPublicKey() {
     return this.createComm()
       .then((comm) => {
-        const api = new StellarLedger.Api(comm)
-
-        return api.getPublicKey_async(bip32Path)
+        return new StellarLedger.Api(comm).getPublicKey_async(bip32Path)
       })
       .then((result) => {
         return result['publicKey']
@@ -68,7 +66,7 @@ export default class LedgerAPI {
   signTransaction(sourceKey, transaction) {
     return this.createComm()
       .then((comm) => {
-        new StellarLedger.Api(comm).api.signTx_async(bip32Path, transaction)
+        new StellarLedger.Api(comm).signTx_async(bip32Path, transaction)
           .then((result) => {
             const signature = result['signature']
 
