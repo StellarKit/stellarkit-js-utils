@@ -9,8 +9,11 @@ export default class LedgerAPI {
 
   createComm(timeout = 0) {
     if (!this.browser) {
+      console.log('not browser')
       return StellarLedger.comm_node.create_async(timeout)
     }
+
+    console.log('wtf')
 
     return StellarLedger.comm.create_async(timeout)
   }
@@ -54,6 +57,7 @@ export default class LedgerAPI {
   }
 
   getPublicKey() {
+    console.log('getPublick')
     return this.createComm()
       .then((comm) => {
         console.log('getPublic')
