@@ -78,6 +78,7 @@ export default class LedgerAPI {
             })
 
             transaction.signatures.push(decorated)
+            console.log('returning trans')
 
             return transaction
           })
