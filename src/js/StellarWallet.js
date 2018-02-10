@@ -14,10 +14,10 @@ export default class StellarWallet {
   // 'constructor' with ledgerAPI
   static ledger(ledgerAPI, confirmCallback) {
     const result = new StellarWallet()
-    result.ledgerAPI = ledgerAPI
+    result._ledgerAPI = ledgerAPI
 
     // alert user to confirm transaction on device
-    result.confirmCallback = confirmCallback
+    result._confirmCallback = confirmCallback
 
     return result
   }
@@ -30,10 +30,10 @@ export default class StellarWallet {
       }
 
       if (!this.usingLedger()) {
-        throw new Error('StellarWallet publicKey failed.  Should never get here.')
+        reject(new Error('StellarWallet publicKey failed.  Should never get here.'))
       }
 
-      this.ledgerAPI.getPublicKey()
+      this._ledgerAPI.getPublicKey()
         .then((publicKey) => {
           this._publicKey = publicKey
           resolve(publicKey)
@@ -43,7 +43,7 @@ export default class StellarWallet {
 
   // if true, alert the user to confirm on device
   usingLedger() {
-    return this.ledgerAPI !== undefined
+    return this._ledgerAPI !== undefined
   }
 
   signTransaction(transaction) {
@@ -51,11 +51,11 @@ export default class StellarWallet {
       .then((publicKey) => {
         if (this.usingLedger()) {
           // tell the caller to display confirm transaction message to user
-          if (this.confirmCallback) {
-            this.confirmCallback()
+          if (this._confirmCallback) {
+            this._confirmCallback()
           }
 
-          return this.ledgerAPI.signTransaction(publicKey, transaction)
+          return this._ledgerAPI.signTransaction(publicKey, transaction)
         }
         const sourceKeys = StellarSdk.Keypair.fromSecret(this._secret)
 

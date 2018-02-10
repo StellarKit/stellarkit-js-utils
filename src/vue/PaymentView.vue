@@ -149,22 +149,20 @@ export default {
       }
     },
     verifyAccounts(stellarWallet, destination) {
-      return new Promise((resolve, reject) => {
-        // test if destination exists
-        this.horizon.server().loadAccount(destination)
-          .then((destAccount) => {
-            // proved that destination exists
-            // get source public key to test existence
-            return stellarWallet.publicKey()
-          })
-          .then((sourcePublicKey) => {
-            return this.horizon.server().loadAccount(sourcePublicKey)
-          })
-          .then((sourceAccount) => {
-            // proved that source and destination exists
-            resolve(sourceAccount)
-          })
-      })
+      // test if destination exists
+      return this.horizon.server().loadAccount(destination)
+        .then((destAccount) => {
+          // proved that destination exists
+          // get source public key to test existence
+          return stellarWallet.publicKey()
+        })
+        .then((sourcePublicKey) => {
+          return this.horizon.server().loadAccount(sourcePublicKey)
+        })
+        .then((sourceAccount) => {
+          // proved that source and destination exists
+          return sourceAccount
+        })
     },
     sendPayment(sourceWallet) {
       const destination = this.destinationPublicKey
@@ -206,7 +204,7 @@ export default {
           return null
         })
         .catch((error) => {
-          this.status = 'Error making payment: ' + error
+          this.status = 'Error making payment: ' + JSON.stringify(error)
         })
     }
   }
