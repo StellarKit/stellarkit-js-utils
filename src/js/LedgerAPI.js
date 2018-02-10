@@ -80,6 +80,9 @@ export default class LedgerAPI {
 
         transaction.signatures.push(decorated)
 
+        console.log(JSON.stringify(sourceKey))
+        console.log(JSON.stringify(decorated))
+
         return transaction
       })
   }

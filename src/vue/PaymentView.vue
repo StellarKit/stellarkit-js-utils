@@ -204,6 +204,7 @@ export default {
           return null
         })
         .catch((error) => {
+          console.log('err ' + error)
           this.status = 'Error making payment: ' + JSON.stringify(error)
         })
     }

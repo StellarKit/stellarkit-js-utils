@@ -55,6 +55,9 @@ export default class StellarWallet {
             this._confirmCallback()
           }
 
+          console.log('--' + JSON.stringify(publicKey))
+          console.log(JSON.stringify(transaction))
+
           return this._ledgerAPI.signTransaction(publicKey, transaction)
         }
         const sourceKeys = StellarSdk.Keypair.fromSecret(this._secret)
