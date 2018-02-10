@@ -76,6 +76,8 @@ export default class LedgerAPI {
   }
 
   signTransaction(sourceKey, transaction) {
+    console.log('signing')
+
     return this.createComm()
       .then((comm) => {
         const api = new StellarLedger.Api(comm)
@@ -92,9 +94,13 @@ export default class LedgerAPI {
           signature: signature
         })
 
+        console.log('pushing')
         transaction.signatures.push(decorated)
 
         return transaction
+      })
+      .catch((error) => {
+        console.log('errrr: ', JSON.stringify(error))
       })
   }
 }
