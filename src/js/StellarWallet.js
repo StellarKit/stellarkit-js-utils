@@ -50,14 +50,11 @@ export default class StellarWallet {
     return new Promise((resolve, reject) => {
       this.publicKey()
         .then((publicKey) => {
-          console.log('publicKey: ', publicKey)
           if (this.usingLedger()) {
             // tell the caller to display confirm transaction message to user
             if (this.confirmCallback) {
               this.confirmCallback()
             }
-
-            console.log('doing sign: ', JSON.stringify(transaction))
 
             return this.ledgerAPI.signTransaction(publicKey, transaction)
           }
@@ -68,6 +65,7 @@ export default class StellarWallet {
           return transaction
         })
         .then((signedTx) => {
+          console.log(JSON.stringify(signedTx))
           resolve(signedTx)
         })
     })

@@ -182,29 +182,30 @@ export default {
 
       this.verifyAccounts(sourceWallet, destination)
         .then((sourceAccount) => {
-          const builder = new StellarSdk.TransactionBuilder(sourceAccount)
+          const transaction = new StellarSdk.TransactionBuilder(sourceAccount)
             .addOperation(StellarSdk.Operation.payment({
               destination: destination,
               asset: StellarSdk.Asset.native(),
               amount: String(this.xlm)
             }))
+            .build()
 
-          const transaction = builder.build()
+          return sourceWallet.signTransaction(transaction)
+        })
+        .then((signedTransaction) => {
+          console.log('doing sign: ', JSON.stringify(signedTransaction))
 
-          sourceWallet.signTransaction(transaction)
-            .then((signedTransaction) => {
-              this.status = 'Submitting transaction...'
+          this.status = 'Submitting transaction...'
 
-              return this.horizon.server().submitTransaction(signedTransaction)
-            })
-            .then((response) => {
-              this.status = 'Payment successful!'
+          return this.horizon.server().submitTransaction(signedTransaction)
+        })
+        .then((response) => {
+          this.status = 'Payment successful!'
 
-              // clear secret key
-              this.secretKey = ''
+          // clear secret key
+          this.secretKey = ''
 
-              return null
-            })
+          return null
         })
         .catch((error) => {
           this.status = 'Error making payment: ' + error

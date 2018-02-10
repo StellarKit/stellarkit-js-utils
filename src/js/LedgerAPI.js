@@ -30,28 +30,19 @@ export default class LedgerAPI {
       this.createComm()
         .then((comm) => {
           new StellarLedger.Api(comm).connect(() => {
-            console.log('connected')
-
             callback()
           }, (error) => {
             console.log('Error: ' + JSON.stringify(error))
-            console.log('errrror')
 
             // keep trying
             setTimeout(doConnect, 1000)
           })
         })
-        .catch((error) => {
-          console.log('catch: ', JSON.stringify(error))
-        })
     }
     doConnect()
-
-    console.log('exit')
   }
 
   connectLedgerBrowser(callback) {
-    console.log('browser')
     this.createComm(Number.MAX_VALUE)
       .then((comm) => {
         new StellarLedger.Api(comm).connect(() => {
@@ -76,13 +67,9 @@ export default class LedgerAPI {
   }
 
   signTransaction(sourceKey, transaction) {
-    console.log('signing')
-
     return this.createComm()
       .then((comm) => {
         const api = new StellarLedger.Api(comm)
-
-        console.log('signTx_async: ', JSON.stringify(transaction))
 
         return api.signTx_async(bip32Path, transaction)
       })
@@ -96,13 +83,9 @@ export default class LedgerAPI {
           signature: signature
         })
 
-        console.log('pushing')
         transaction.signatures.push(decorated)
 
         return transaction
-      })
-      .catch((error) => {
-        console.log('errrr: ', JSON.stringify(error))
       })
   }
 }
