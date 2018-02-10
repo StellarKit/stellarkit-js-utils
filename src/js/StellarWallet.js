@@ -47,28 +47,26 @@ export default class StellarWallet {
   }
 
   signTransaction(transaction) {
-    return new Promise((resolve, reject) => {
-      this.publicKey()
-        .then((publicKey) => {
-          if (this.usingLedger()) {
-            // tell the caller to display confirm transaction message to user
-            if (this.confirmCallback) {
-              this.confirmCallback()
-            }
-
-            return this.ledgerAPI.signTransaction(publicKey, transaction)
+    return this.publicKey()
+      .then((publicKey) => {
+        if (this.usingLedger()) {
+          // tell the caller to display confirm transaction message to user
+          if (this.confirmCallback) {
+            this.confirmCallback()
           }
-          const sourceKeys = StellarSdk.Keypair.fromSecret(this._secret)
 
-          transaction.sign(sourceKeys)
+          return this.ledgerAPI.signTransaction(publicKey, transaction)
+        }
+        const sourceKeys = StellarSdk.Keypair.fromSecret(this._secret)
 
-          return transaction
-        })
-        .then((signedTx) => {
-          console.log('got trans ' + JSON.stringify(signedTx))
+        transaction.sign(sourceKeys)
 
-          resolve(signedTx)
-        })
-    })
+        return transaction
+      })
+      .then((signedTx) => {
+        console.log('got trans ' + JSON.stringify(signedTx))
+
+        return signedTx
+      })
   }
 }
