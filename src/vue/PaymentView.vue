@@ -150,10 +150,14 @@ export default {
     },
     verifyAccounts(stellarWallet, destination) {
       // test if destination exists
+      console.log('verifying')
       return this.horizon.server().loadAccount(destination)
         .then((destAccount) => {
           // proved that destination exists
           // get source public key to test existence
+
+          console.log('dest ' + JSON.stringify(destination))
+
           return stellarWallet.publicKey()
         })
         .then((sourcePublicKey) => {
