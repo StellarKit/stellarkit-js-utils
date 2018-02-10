@@ -193,8 +193,6 @@ export default {
           return sourceWallet.signTransaction(transaction)
         })
         .then((signedTransaction) => {
-          console.log('doing sign: ', JSON.stringify(signedTransaction))
-
           this.status = 'Submitting transaction...'
 
           return this.horizon.server().submitTransaction(signedTransaction)

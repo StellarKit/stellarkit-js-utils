@@ -9,7 +9,7 @@ export default class LedgerAPI {
 
   createComm(timeout = 0) {
     if (!this.browser) {
-      return StellarLedger.comm_node.create_async(timeout, true)
+      return StellarLedger.comm_node.create_async(timeout)
     }
 
     return StellarLedger.comm.create_async(timeout)
@@ -70,7 +70,6 @@ export default class LedgerAPI {
       .then((comm) => {
         const api = new StellarLedger.Api(comm)
 
-        debugger
         return api.signTx_async(bip32Path, transaction)
       })
       .then((result) => {
