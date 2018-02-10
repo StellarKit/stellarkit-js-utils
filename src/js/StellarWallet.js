@@ -57,7 +57,7 @@ export default class StellarWallet {
               this.confirmCallback()
             }
 
-            console.log('doing sign: ', publicKey)
+            console.log('doing sign: ', JSON.stringify(transaction))
 
             return this.ledgerAPI.signTransaction(publicKey, transaction)
           }

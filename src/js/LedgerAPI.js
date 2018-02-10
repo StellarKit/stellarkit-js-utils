@@ -82,6 +82,8 @@ export default class LedgerAPI {
       .then((comm) => {
         const api = new StellarLedger.Api(comm)
 
+        console.log('signTx_async: ', JSON.stringify(transaction))
+
         return api.signTx_async(bip32Path, transaction)
       })
       .then((result) => {
