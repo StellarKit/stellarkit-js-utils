@@ -1560,10 +1560,10 @@ var LedgerAPI = function () {
   _createClass(LedgerAPI, [{
     key: 'createComm',
     value: function createComm() {
-      var timeout = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      var timeout = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
 
       if (!this.browser) {
-        return StellarLedger.comm_node.create_async(timeout);
+        return StellarLedger.comm_node.create_async(timeout, true);
       }
 
       return StellarLedger.comm.create_async(timeout);

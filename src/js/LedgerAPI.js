@@ -7,9 +7,9 @@ export default class LedgerAPI {
     this.browser = browser
   }
 
-  createComm(timeout = 0) {
+  createComm(timeout = 10) {
     if (!this.browser) {
-      return StellarLedger.comm_node.create_async(timeout)
+      return StellarLedger.comm_node.create_async(timeout, true)
     }
 
     return StellarLedger.comm.create_async(timeout)
