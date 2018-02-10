@@ -65,7 +65,6 @@ export default class StellarWallet {
           return transaction
         })
         .then((signedTx) => {
-          console.log(JSON.stringify(signedTx))
           resolve(signedTx)
         })
     })
