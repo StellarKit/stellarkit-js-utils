@@ -72,20 +72,20 @@ export default class LedgerAPI {
         const api = new StellarLedger.Api(comm)
 
         return api.signTx_async(bip32Path, transaction)
-      })
-      .then((result) => {
-        const signature = result['signature']
+          .then((result) => {
+            const signature = result['signature']
 
-        const keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey)
-        const hint = keyPair.signatureHint()
-        const decorated = new StellarSdk.xdr.DecoratedSignature({
-          hint: hint,
-          signature: signature
-        })
+            const keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey)
+            const hint = keyPair.signatureHint()
+            const decorated = new StellarSdk.xdr.DecoratedSignature({
+              hint: hint,
+              signature: signature
+            })
 
-        transaction.signatures.push(decorated)
+            transaction.signatures.push(decorated)
 
-        return transaction
+            return transaction
+          })
       })
   }
 }
