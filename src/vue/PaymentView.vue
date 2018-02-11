@@ -135,11 +135,13 @@ export default {
       }, !this.nodeEnv)
     },
     sendWithNano() {
-      const sourceWallet = StellarWallet.ledger(this.ledgerAPI, () => {
-        this.status = 'Confirm transaction on Nano...'
-      })
+      if (this.connected) {
+        const sourceWallet = StellarWallet.ledger(this.ledgerAPI, () => {
+          this.status = 'Confirm transaction on Nano...'
+        })
 
-      this.sendPayment(sourceWallet)
+        this.sendPayment(sourceWallet)
+      }
     },
     sendWithSecret() {
       if (Utils.strOK(this.secretKey)) {
