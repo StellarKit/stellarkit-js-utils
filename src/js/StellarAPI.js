@@ -129,7 +129,8 @@ export default class StellarAPI {
       })
   }
 
-  makeMultiSig(sourceWallet, secondPublicKey) {
+  // pass 1 for threshold if either account can sign for med/high operations
+  makeMultiSig(sourceWallet, secondPublicKey, threshold = 2) {
     return sourceWallet.publicKey()
       .then((publicKey) => {
         return this.server().loadAccount(publicKey)
@@ -143,8 +144,8 @@ export default class StellarAPI {
             }
           }))
           .addOperation(StellarSdk.Operation.setOptions({
-            medThreshold: 2,
-            highThreshold: 2
+            medThreshold: threshold,
+            highThreshold: threshold
           }))
           .build()
 
