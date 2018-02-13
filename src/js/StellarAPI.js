@@ -215,7 +215,7 @@ export default class StellarAPI {
     })
   }
 
-  sendAsset(sourceWallet, destKey, amount, asset = null, memo = null, additionalSigners = null) {
+  sendAsset(sourceWallet, destKey, amount, asset = null, memo = null, additionalSigners = null, signWithSource = true) {
     return this.server().loadAccount(destKey)
       .then((destAccount) => {
         // dest account exists
@@ -238,7 +238,12 @@ export default class StellarAPI {
 
         const transaction = builder.build()
 
-        return sourceWallet.signTransaction(transaction)
+        // transaction might be signed by additionalSigners and including source would cause a tx_bad_auth_extra
+        if (signWithSource) {
+          return sourceWallet.signTransaction(transaction)
+        }
+
+        return transaction
       })
       .then((signedTransaction) => {
         if (!additionalSigners) {
