@@ -195,6 +195,26 @@ export default class StellarAPI {
       })
   }
 
+  signTransactionWithArray(transaction, signers) {
+    return new Promise((resolve, reject) => {
+      const signerWallet = signers.pop()
+
+      if (signerWallet) {
+        signerWallet.signTransaction(transaction)
+          .then((signedTramsaction) => {
+            resolve(this.signTransactionWithArray(transaction, signers))
+          })
+          .catch((error) => {
+            console.log(JSON.stringify(error))
+
+            reject(error)
+          })
+      } else {
+        resolve(true)
+      }
+    })
+  }
+
   sendAsset(sourceWallet, destKey, amount, asset = null, memo = null, additionalSigners = null) {
     return this.server().loadAccount(destKey)
       .then((destAccount) => {
@@ -221,13 +241,14 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        if (additionalSigners) {
-          for (const signerKey of additionalSigners) {
-            signedTransaction.sign(StellarSdk.Keypair.fromSecret(signerKey))
-          }
+        if (!additionalSigners) {
+          return this.server().submitTransaction(signedTransaction)
+        } else {
+          this.signTransactionWithArray(signedTransaction, additionalSigners)
+            .then((additionalSignedTransaction) => {
+              return this.server().submitTransaction(additionalSignedTransaction)
+            })
         }
-
-        return this.server().submitTransaction(signedTransaction)
       })
   }
 
