@@ -202,7 +202,7 @@ export default class StellarAPI {
       if (signerWallet) {
         signerWallet.signTransaction(transaction)
           .then((signedTramsaction) => {
-            resolve(this.signTransactionWithArray(transaction, signers))
+            resolve(this.signTransactionWithArray(signedTramsaction, signers))
           })
           .catch((error) => {
             console.log(JSON.stringify(error))
@@ -210,7 +210,7 @@ export default class StellarAPI {
             reject(error)
           })
       } else {
-        resolve(true)
+        resolve(transaction)
       }
     })
   }
