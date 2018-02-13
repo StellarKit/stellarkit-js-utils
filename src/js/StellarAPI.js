@@ -244,7 +244,7 @@ export default class StellarAPI {
         if (!additionalSigners) {
           return this.server().submitTransaction(signedTransaction)
         } else {
-          this.signTransactionWithArray(signedTransaction, additionalSigners)
+          return this.signTransactionWithArray(signedTransaction, additionalSigners)
             .then((additionalSignedTransaction) => {
               return this.server().submitTransaction(additionalSignedTransaction)
             })
