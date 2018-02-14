@@ -1,5 +1,6 @@
 const StellarSdk = require('stellar-sdk')
 import axios from 'axios'
+import Utils from './utils.js'
 
 export default class StellarAPI {
   constructor(horizonServer) {
@@ -305,7 +306,7 @@ export default class StellarAPI {
         const transaction = new StellarSdk.TransactionBuilder(account)
           .addOperation(StellarSdk.Operation.manageData({
             name: name,
-            value: value
+            value: Utils.strOK(value) ? value : null // pass null to remove name/value
           }))
           .build()
 
