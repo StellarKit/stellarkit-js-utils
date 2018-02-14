@@ -296,15 +296,21 @@ export default class StellarAPI {
       })
   }
 
-  manageData(name, value) {
-    const transaction = new StellarSdk.TransactionBuilder(account)
-      .addOperation(StellarSdk.Operation.manageData({
-        name: name,
-        value: value
-      }))
-      .build()
+  manageData(sourceWallet, name, value) {
+    return sourceWallet.publicKey()
+      .then((publicKey) => {
+        return this.server().loadAccount(publicKey)
+      })
+      .then((account) => {
+        const transaction = new StellarSdk.TransactionBuilder(account)
+          .addOperation(StellarSdk.Operation.manageData({
+            name: name,
+            value: value
+          }))
+          .build()
 
-    return sourceWallet.signTransaction(transaction)
+        return sourceWallet.signTransaction(transaction)
+      })
       .then((signedTransaction) => {
         return this.server().submitTransaction(signedTransaction)
       })
