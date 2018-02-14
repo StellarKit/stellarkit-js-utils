@@ -296,6 +296,20 @@ export default class StellarAPI {
       })
   }
 
+  manageData(name, value) {
+    const transaction = new StellarSdk.TransactionBuilder(account)
+      .addOperation(StellarSdk.Operation.manageData({
+        name: name,
+        value: value
+      }))
+      .build()
+
+    return sourceWallet.signTransaction(transaction)
+      .then((signedTransaction) => {
+        return this.server().submitTransaction(signedTransaction)
+      })
+  }
+
   getFlags(sourceWallet) {
     return sourceWallet.publicKey()
       .then((publicKey) => {
