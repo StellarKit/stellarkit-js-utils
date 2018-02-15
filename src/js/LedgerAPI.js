@@ -23,9 +23,13 @@ export default class LedgerAPI {
   connectLedger(callback) {
     this.createTransport()
       .then((transport) => {
+        transport.setDebugMode(true)
+
         transport.on('disconnect', () => {
           console.log('disconnected')
         })
+
+        console.log('got transport: ' + JSON.stringify(transport))
 
         const stellarApp = new StellarApp(transport)
         return stellarApp.getAppConfiguration()
@@ -34,7 +38,7 @@ export default class LedgerAPI {
         callback()
       })
       .catch((error) => {
-        console.log(JSON.stringify(error))
+        console.log('Error in connectLedger: ' + JSON.stringify(error))
       })
   }
 
