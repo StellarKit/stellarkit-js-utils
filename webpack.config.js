@@ -14,7 +14,9 @@ module.exports = {
     // also package will be huge
     'jquery',
     'stellar-sdk',
-    'stellar-ledger-api'
+    '@ledgerhq/hw-transport-node-hid',
+    '@ledgerhq/hw-transport-u2f',
+    '@ledgerhq/hw-app-str'
   ],
   module: {
     rules: [{

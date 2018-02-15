@@ -14,12 +14,7 @@ Includes:
 + Donate dialog with Ledger nano support.
 + Bifrost dialog for buying tokens.
 + High level JS API for Stellar
-
-Requirements - You code must include these packages:
-'jquery',
-'stellar-sdk',
-'stellar-ledger-api'
-
+ 
 See [Stellar Client](https://github.com/StellarKit/stellar-client) for an example of using this package
 
 The UI part uses Vuetify and VueJS, so these dialogs will only work within a vuetify v-app tag

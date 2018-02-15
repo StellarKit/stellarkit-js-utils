@@ -1,5 +1,7 @@
 const StellarSdk = require('stellar-sdk')
-const StellarLedger = require('stellar-ledger-api')
+const StellarTransport = require('@ledgerhq/hw-transport-u2f').default
+const StellarTransportNode = require('@ledgerhq/hw-transport-node-hid').default
+const StellarApp = require('@ledgerhq/hw-app-str').default
 const bip32Path = "44'/148'/0'"
 
 export default class LedgerAPI {
@@ -7,56 +9,40 @@ export default class LedgerAPI {
     this.browser = browser
   }
 
-  createComm(timeout = 0) {
+  createTransport() {
+    const openTimeout = 3600000
+    const listenTimeout = 3600000
+
     if (!this.browser) {
-      return StellarLedger.comm_node.create_async(timeout)
+      return StellarTransportNode.create(openTimeout, listenTimeout)
     }
 
-    return StellarLedger.comm.create_async(timeout)
+    return StellarTransport.create(openTimeout, listenTimeout)
   }
 
   connectLedger(callback) {
-    if (!this.browser) {
-      this.connectLedgerNode(callback)
-    } else {
-      this.connectLedgerBrowser(callback)
-    }
-  }
-
-  connectLedgerNode(callback) {
-    // for node we have to do our own loop to connect
-    const doConnect = () => {
-      this.createComm()
-        .then((comm) => {
-          new StellarLedger.Api(comm).connect(() => {
-            callback()
-          }, (error) => {
-            console.log('Error: ' + JSON.stringify(error))
-
-            // keep trying
-            setTimeout(doConnect, 1000)
-          })
+    this.createTransport()
+      .then((transport) => {
+        transport.on('disconnect', () => {
+          console.log('disconnected')
         })
-    }
-    doConnect()
-  }
 
-  connectLedgerBrowser(callback) {
-    this.createComm(Number.MAX_VALUE)
-      .then((comm) => {
-        new StellarLedger.Api(comm).connect(() => {
-          callback()
-        }, (error) => {
-          // saw this fail with errorCode:5 once, might need to loop
-          console.log('Error: ' + JSON.stringify(error))
-        })
+        const stellarApp = new StellarApp(transport)
+        return stellarApp.getAppConfiguration()
+      })
+      .then((result) => {
+        callback()
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error))
       })
   }
 
   getPublicKey() {
-    return this.createComm()
-      .then((comm) => {
-        return new StellarLedger.Api(comm).getPublicKey_async(bip32Path)
+    return this.createTransport()
+      .then((transport) => {
+        const stellarApp = new StellarApp(transport)
+        return stellarApp(transport).getPublicKey(bip32Path)
       })
       .then((result) => {
         return result['publicKey']
@@ -64,21 +50,27 @@ export default class LedgerAPI {
   }
 
   signTransaction(sourceKey, transaction) {
-    return this.createComm()
-      .then((comm) => {
-        return new StellarLedger.Api(comm).signTx_async(bip32Path, transaction)
+    return this.createTransport()
+      .then((transport) => {
+        const stellarApp = new StellarApp(transport)
+
+        return stellarApp.signTx_async(bip32Path, transaction.signatureBase())
       })
       .then((result) => {
         const signature = result['signature']
-
         const keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey)
-        const hint = keyPair.signatureHint()
-        const decorated = new StellarSdk.xdr.DecoratedSignature({
-          hint: hint,
-          signature: signature
-        })
 
-        transaction.signatures.push(decorated)
+        if (keyPair.verify(transaction.hash(), signature)) {
+          const hint = keyPair.signatureHint()
+          const decorated = new StellarSdk.xdr.DecoratedSignature({
+            hint: hint,
+            signature: signature
+          })
+
+          transaction.signatures.push(decorated)
+        } else {
+          console.error('Failure: Bad signature')
+        }
 
         return transaction
       })
