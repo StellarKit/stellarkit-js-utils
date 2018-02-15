@@ -13,11 +13,11 @@ module.exports = {
     // without this, we'll get two copies of jquery and triggers will fail
     // also package will be huge
     'jquery',
-    'stellar-sdk',
-    '@ledgerhq/hw-transport-node-hid',
-    '@ledgerhq/hw-transport-u2f',
-    '@ledgerhq/hw-app-str'
+    'stellar-sdk'
   ],
+  node: {
+    fs: 'empty'
+  },
   module: {
     rules: [{
         enforce: 'pre',

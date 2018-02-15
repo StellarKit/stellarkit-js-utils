@@ -183,6 +183,8 @@ export default {
 
       this.verifyAccounts(sourceWallet, destination)
         .then((sourceAccount) => {
+          console.log('got account')
+
           const transaction = new StellarSdk.TransactionBuilder(sourceAccount)
             .addOperation(StellarSdk.Operation.payment({
               destination: destination,
