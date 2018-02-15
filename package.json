@@ -24,7 +24,8 @@
     "axios": "^0.17.1",
     "@ledgerhq/hw-transport-node-hid": "^4.0.0",
     "@ledgerhq/hw-transport-u2f": "^4.0.0",
-    "@ledgerhq/hw-app-str": "^4.0.0"
+    "@ledgerhq/hw-app-str": "^4.0.0",
+    "babel-runtime": "^6.26.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

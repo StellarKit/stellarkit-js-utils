@@ -14,12 +14,8 @@ export default class LedgerAPI {
     const listenTimeout = 10000
 
     if (!this.browser) {
-      console.log('createTransport')
-
       return StellarTransportNode.create(openTimeout, listenTimeout)
     }
-
-    console.log('WTF')
 
     return StellarTransport.create(openTimeout, listenTimeout)
   }
@@ -27,13 +23,9 @@ export default class LedgerAPI {
   connectLedger(callback) {
     this.createTransport()
       .then((transport) => {
-        transport.setDebugMode(true)
-
         transport.on('disconnect', () => {
           console.log('disconnected')
         })
-
-        console.log('got transport: ' + JSON.stringify(transport))
 
         const stellarApp = new StellarApp(transport)
         return stellarApp.getAppConfiguration()
