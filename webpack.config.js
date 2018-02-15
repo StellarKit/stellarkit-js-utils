@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: './index.js',
@@ -9,15 +10,7 @@ module.exports = {
     library: 'stellar-js-utils',
     libraryTarget: 'umd'
   },
-  externals: [
-    'jquery',
-    'stellar-sdk',
-    'axios',
-    '@ledgerhq/hw-transport-node-hid',
-    '@ledgerhq/hw-transport-u2f',
-    '@ledgerhq/hw-app-str',
-    'babel-runtime'
-  ],
+  externals: [nodeExternals()],
   module: {
     rules: [{
         enforce: 'pre',
