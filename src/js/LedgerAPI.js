@@ -54,7 +54,7 @@ export default class LedgerAPI {
       .then((transport) => {
         const stellarApp = new StellarApp(transport)
 
-        return stellarApp.signTx_async(bip32Path, transaction.signatureBase())
+        return stellarApp.signTransaction(bip32Path, transaction.signatureBase())
       })
       .then((result) => {
         const signature = result['signature']
