@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: './index.js',
@@ -9,15 +10,7 @@ module.exports = {
     library: 'stellar-js-utils',
     libraryTarget: 'umd'
   },
-  externals: [
-    // without this, we'll get two copies of jquery and triggers will fail
-    // also package will be huge
-    'jquery',
-    'stellar-sdk'
-  ],
-  node: {
-    fs: 'empty'
-  },
+  externals: [nodeExternals()],
   module: {
     rules: [{
         enforce: 'pre',
