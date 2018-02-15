@@ -36,7 +36,6 @@ export default class StellarWallet {
       this._ledgerAPI.getPublicKey()
         .then((publicKey) => {
           this._publicKey = publicKey
-          console.log(publicKey)
           resolve(publicKey)
         })
     })
@@ -50,8 +49,6 @@ export default class StellarWallet {
   signTransaction(transaction) {
     return this.publicKey()
       .then((publicKey) => {
-        console.log('got pk in signtx')
-
         if (this.usingLedger()) {
           // tell the caller to display confirm transaction message to user
           if (this._confirmCallback) {

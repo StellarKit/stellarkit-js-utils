@@ -42,7 +42,7 @@ export default class LedgerAPI {
     return this.createTransport()
       .then((transport) => {
         const stellarApp = new StellarApp(transport)
-        return stellarApp(transport).getPublicKey(bip32Path)
+        return stellarApp.getPublicKey(bip32Path)
       })
       .then((result) => {
         return result['publicKey']
@@ -50,12 +50,8 @@ export default class LedgerAPI {
   }
 
   signTransaction(sourceKey, transaction) {
-    console.log('ledger signTransaction')
-
     return this.createTransport()
       .then((transport) => {
-        console.log('ledger transport')
-
         const stellarApp = new StellarApp(transport)
 
         return stellarApp.signTx_async(bip32Path, transaction.signatureBase())
@@ -63,7 +59,6 @@ export default class LedgerAPI {
       .then((result) => {
         const signature = result['signature']
         const keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey)
-        console.log('signed')
 
         if (keyPair.verify(transaction.hash(), signature)) {
           const hint = keyPair.signatureHint()
