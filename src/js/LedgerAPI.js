@@ -10,10 +10,12 @@ export default class LedgerAPI {
   }
 
   createTransport() {
-    const openTimeout = 3600000
-    const listenTimeout = 3600000
+    const openTimeout = 10000
+    const listenTimeout = 10000
 
     if (!this.browser) {
+      console.log('createTransport')
+
       return StellarTransportNode.create(openTimeout, listenTimeout)
     }
 
