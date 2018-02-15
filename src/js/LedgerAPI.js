@@ -19,6 +19,8 @@ export default class LedgerAPI {
       return StellarTransportNode.create(openTimeout, listenTimeout)
     }
 
+    console.log('WTF')
+
     return StellarTransport.create(openTimeout, listenTimeout)
   }
 
