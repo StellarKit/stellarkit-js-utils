@@ -7,17 +7,33 @@ const bip32Path = "44'/148'/0'"
 export default class LedgerAPI {
   constructor(browser = true) {
     this.browser = browser
+
+    this.transport = null
   }
 
   createTransport() {
-    const openTimeout = 100000
-    const listenTimeout = 100000
+    return new Promise((resolve, reject) => {
+      if (this.transport) {
+        resolve(this.transport)
+      } else {
+        const openTimeout = 100000
+        const listenTimeout = 100000
 
-    if (!this.browser) {
-      return StellarTransportNode.create(openTimeout, listenTimeout)
-    }
+        if (!this.browser) {
+          return StellarTransportNode.create(openTimeout, listenTimeout)
+            .then((transport) => {
+              this.transport = transport
+              resolve(this.transport)
+            })
+        }
 
-    return StellarTransport.create(openTimeout, listenTimeout)
+        return StellarTransport.create(openTimeout, listenTimeout)
+          .then((transport) => {
+            this.transport = transport
+            resolve(this.transport)
+          })
+      }
+    })
   }
 
   connectLedger(callback) {
