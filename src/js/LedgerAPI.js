@@ -60,7 +60,10 @@ export default class LedgerAPI {
 
           // could fail if in browser mode on node or vis versa
           // try again in one second
-          setTimeout(doConnect, 1000)
+          setTimeout(() => {
+            console.log('trying again to connect')
+            doConnect()
+          }, 1000)
         })
     }
 
@@ -86,26 +89,23 @@ export default class LedgerAPI {
         return stellarApp.signTransaction(bip32Path, transaction.signatureBase())
       })
       .then((result) => {
-        console.log('signed')
         const signature = result['signature']
         const keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey)
 
         // verify broken for Electron (window !== null)
         if (keyPair.verify(transaction.hash(), signature)) {
-          console.log('OK sig')
-        } else {
-          console.log('Failure: Bad signature')
+          const hint = keyPair.signatureHint()
+          const decorated = new StellarSdk.xdr.DecoratedSignature({
+            hint: hint,
+            signature: signature
+          })
+          transaction.signatures.push(decorated)
+
+          return transaction
         }
 
-        const hint = keyPair.signatureHint()
-        const decorated = new StellarSdk.xdr.DecoratedSignature({
-          hint: hint,
-          signature: signature
-        })
-
-        transaction.signatures.push(decorated)
-
-        return transaction
+        console.log('Failure: Bad signature')
+        throw new Error('Verify signature failed')
       })
   }
 }
