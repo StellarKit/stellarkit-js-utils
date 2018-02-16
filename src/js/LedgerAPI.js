@@ -10,8 +10,8 @@ export default class LedgerAPI {
   }
 
   createTransport() {
-    const openTimeout = 10000
-    const listenTimeout = 10000
+    const openTimeout = 100000
+    const listenTimeout = 100000
 
     if (!this.browser) {
       return StellarTransportNode.create(openTimeout, listenTimeout)
@@ -57,15 +57,16 @@ export default class LedgerAPI {
         return stellarApp.signTransaction(bip32Path, transaction.signatureBase())
       })
       .then((result) => {
+        console.log('signed')
         const signature = result['signature']
         const keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey)
 
         // verify broken for Electron (window !== null)
-        if (keyPair.verify(transaction.hash(), signature)) {
-          console.log('OK sig')
-        } else {
-          console.log('Failure: Bad signature')
-        }
+        // if (keyPair.verify(transaction.hash(), signature)) {
+        //   console.log('OK sig')
+        // } else {
+        //   console.log('Failure: Bad signature')
+        // }
 
         const hint = keyPair.signatureHint()
         const decorated = new StellarSdk.xdr.DecoratedSignature({
