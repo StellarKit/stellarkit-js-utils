@@ -10,8 +10,8 @@ export default class LedgerAPI {
   }
 
   getTransport() {
-    const openTimeout = 180000 // 3 minutes
-    const listenTimeout = 180000
+    const openTimeout = 100000
+    const listenTimeout = 100000
 
     if (!this.browser) {
       return StellarTransportNode.create(openTimeout, listenTimeout)
@@ -41,6 +41,7 @@ export default class LedgerAPI {
               }, 1000)
             })
             .finally(() => {
+              console.log('closing')
               transport.close()
             })
         })
@@ -58,6 +59,7 @@ export default class LedgerAPI {
             return result['publicKey']
           })
           .finally(() => {
+            console.log('closing')
             transport.close()
           })
       })
@@ -89,6 +91,7 @@ export default class LedgerAPI {
             throw new Error('Verify signature failed')
           })
           .finally(() => {
+            console.log('closing')
             transport.close()
           })
       })
