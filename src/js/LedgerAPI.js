@@ -61,17 +61,19 @@ export default class LedgerAPI {
         const keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey)
 
         // verify broken for Electron (window !== null)
-        if (!this.browser || keyPair.verify(transaction.hash(), signature)) {
-          const hint = keyPair.signatureHint()
-          const decorated = new StellarSdk.xdr.DecoratedSignature({
-            hint: hint,
-            signature: signature
-          })
-
-          transaction.signatures.push(decorated)
+        if (keyPair.verify(transaction.hash(), signature)) {
+          console.log('OK sig')
         } else {
-          console.error('Failure: Bad signature')
+          console.log('Failure: Bad signature')
         }
+
+        const hint = keyPair.signatureHint()
+        const decorated = new StellarSdk.xdr.DecoratedSignature({
+          hint: hint,
+          signature: signature
+        })
+
+        transaction.signatures.push(decorated)
 
         return transaction
       })
