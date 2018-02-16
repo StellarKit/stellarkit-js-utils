@@ -10,10 +10,10 @@ class SharedTransport {
     console.log('setting transport')
     this.stellarApp = stellarApp
 
-    this.stellarApp.on('disconnect', () => {
-      console.log('disconnected')
-      this.stellarApp = null
-    })
+    // this.stellarApp.on('disconnect', () => {
+    //   console.log('disconnected')
+    //   this.stellarApp = null
+    // })
   }
 
   static get() {
@@ -32,8 +32,8 @@ export default class LedgerAPI {
         console.log('reusing transport')
         resolve(SharedTransport.get())
       } else {
-        const openTimeout = 180000 // 3 minutes
-        const listenTimeout = 180000
+        const openTimeout = 100000
+        const listenTimeout = 100000
 
         if (!this.browser) {
           return StellarTransportNode.create(openTimeout, listenTimeout)
