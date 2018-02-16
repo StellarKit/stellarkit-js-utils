@@ -11,25 +11,34 @@ export default class LedgerAPI {
     this.transport = null
   }
 
-  createTransport() {
+  setTransport(transport) {
+    this.transport = transport
+
+    this.transport.on('disconnect', () => {
+      console.log('disconnected')
+      this.transport = null
+    })
+  }
+
+  getTransport() {
     return new Promise((resolve, reject) => {
       if (this.transport) {
         resolve(this.transport)
       } else {
-        const openTimeout = 100000
-        const listenTimeout = 100000
+        const openTimeout = 180000 // 3 minutes
+        const listenTimeout = 180000
 
         if (!this.browser) {
           return StellarTransportNode.create(openTimeout, listenTimeout)
             .then((transport) => {
-              this.transport = transport
+              this.setTransport(transport)
               resolve(this.transport)
             })
         }
 
         return StellarTransport.create(openTimeout, listenTimeout)
           .then((transport) => {
-            this.transport = transport
+            this.setTransport(transport)
             resolve(this.transport)
           })
       }
@@ -37,25 +46,29 @@ export default class LedgerAPI {
   }
 
   connectLedger(callback) {
-    this.createTransport()
-      .then((transport) => {
-        transport.on('disconnect', () => {
-          console.log('disconnected')
+    const doConnect = () => {
+      this.getTransport()
+        .then((transport) => {
+          const stellarApp = new StellarApp(transport)
+          return stellarApp.getAppConfiguration()
         })
+        .then((result) => {
+          callback()
+        })
+        .catch((error) => {
+          console.log('Error in connectLedger: ' + JSON.stringify(error))
 
-        const stellarApp = new StellarApp(transport)
-        return stellarApp.getAppConfiguration()
-      })
-      .then((result) => {
-        callback()
-      })
-      .catch((error) => {
-        console.log('Error in connectLedger: ' + JSON.stringify(error))
-      })
+          // could fail if in browser mode on node or vis versa
+          // try again in one second
+          setTimeout(doConnect, 1000)
+        })
+    }
+
+    doConnect()
   }
 
   getPublicKey() {
-    return this.createTransport()
+    return this.getTransport()
       .then((transport) => {
         const stellarApp = new StellarApp(transport)
         return stellarApp.getPublicKey(bip32Path)
@@ -66,7 +79,7 @@ export default class LedgerAPI {
   }
 
   signTransaction(sourceKey, transaction) {
-    return this.createTransport()
+    return this.getTransport()
       .then((transport) => {
         const stellarApp = new StellarApp(transport)
 
@@ -78,11 +91,11 @@ export default class LedgerAPI {
         const keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey)
 
         // verify broken for Electron (window !== null)
-        // if (keyPair.verify(transaction.hash(), signature)) {
-        //   console.log('OK sig')
-        // } else {
-        //   console.log('Failure: Bad signature')
-        // }
+        if (keyPair.verify(transaction.hash(), signature)) {
+          console.log('OK sig')
+        } else {
+          console.log('Failure: Bad signature')
+        }
 
         const hint = keyPair.signatureHint()
         const decorated = new StellarSdk.xdr.DecoratedSignature({
