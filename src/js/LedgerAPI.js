@@ -4,14 +4,10 @@ const StellarTransportNode = require('@ledgerhq/hw-transport-node-hid').default
 const StellarApp = require('@ledgerhq/hw-app-str').default
 const bip32Path = "44'/148'/0'"
 
-export default class LedgerAPI {
-  constructor(browser = true) {
-    this.browser = browser
-
-    this.transport = null
-  }
-
-  setTransport(transport) {
+// we can only have one transport, otherwise it fails
+class SharedTransport {
+  static set(transport) {
+    console.log('setting transport')
     this.transport = transport
 
     this.transport.on('disconnect', () => {
@@ -20,10 +16,21 @@ export default class LedgerAPI {
     })
   }
 
+  static get() {
+    return this.transport
+  }
+}
+
+export default class LedgerAPI {
+  constructor(browser = true) {
+    this.browser = browser
+  }
+
   getTransport() {
     return new Promise((resolve, reject) => {
-      if (this.transport) {
-        resolve(this.transport)
+      if (SharedTransport.get()) {
+        console.log('reusing transport')
+        resolve(SharedTransport.get())
       } else {
         const openTimeout = 180000 // 3 minutes
         const listenTimeout = 180000
@@ -31,15 +38,15 @@ export default class LedgerAPI {
         if (!this.browser) {
           return StellarTransportNode.create(openTimeout, listenTimeout)
             .then((transport) => {
-              this.setTransport(transport)
-              resolve(this.transport)
+              SharedTransport.set(transport)
+              resolve(SharedTransport.get())
             })
         }
 
         return StellarTransport.create(openTimeout, listenTimeout)
           .then((transport) => {
-            this.setTransport(transport)
-            resolve(this.transport)
+            SharedTransport.set(transport)
+            resolve(SharedTransport.get())
           })
       }
     })
