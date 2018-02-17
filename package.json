@@ -22,10 +22,8 @@
     "jquery": "^3.3.1",
     "stellar-sdk": "^0.8.0",
     "axios": "^0.17.1",
-    "@ledgerhq/hw-transport-node-hid": "^4.0.0",
     "@ledgerhq/hw-transport-u2f": "^4.0.0",
-    "@ledgerhq/hw-app-str": "^4.0.0",
-    "babel-runtime": "^6.26.0"
+    "@ledgerhq/hw-app-str": "^4.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -42,7 +40,6 @@
     "vue-loader": "^14.1.1",
     "vue-template-compiler": "^2.5.13",
     "vuetify": "^0.17.7",
-    "webpack": "^3.11.0",
-    "webpack-node-externals": "^1.6.0"
+    "webpack": "^3.11.0"
   }
 }

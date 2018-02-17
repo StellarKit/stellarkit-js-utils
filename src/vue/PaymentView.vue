@@ -54,12 +54,13 @@
 <script>
 import Utils from '../js/utils.js'
 import LedgerAPI from '../js/LedgerAPI.js'
+import LedgerAPITransport from '../js/LedgerAPITransport.js'
 import StellarWallet from '../js/StellarWallet.js'
 import HorizonServer from '../js/HorizonServer.js'
 const StellarSdk = require('stellar-sdk')
 
 export default {
-  props: ['nodeEnv', 'donationPublicKey'],
+  props: ['donationPublicKey'],
   data() {
     return {
       visible: false,
@@ -95,13 +96,13 @@ export default {
       this.destinationPublicKey = this.donationPublicKey
     }
 
-    if (this.nodeEnv) {
+    if (LedgerAPITransport.isNodeTransport()) {
       this.browserSupportMessage = 'Make sure "Browser Support" is disabled'
     } else {
       this.browserSupportMessage = 'Make sure "Browser Support" is enabled'
     }
 
-    this.ledgerAPI = new LedgerAPI(!this.nodeEnv)
+    this.ledgerAPI = new LedgerAPI()
   },
   methods: {
     buttonClick(id) {
@@ -132,7 +133,7 @@ export default {
 
       this.ledgerAPI.connectLedger(() => {
         this.connected = true
-      }, !this.nodeEnv)
+      })
     },
     sendWithNano() {
       if (this.connected) {

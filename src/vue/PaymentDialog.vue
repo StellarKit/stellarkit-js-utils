@@ -2,7 +2,7 @@
 <v-dialog lazy v-model='visible' scrollable @keydown.esc="visible = false" max-width="600">
   <!-- if visible added below so the view will be destroyed and recreated to reset state -->
   <div v-if='visible' class='main-container'>
-    <donate-view :nodeEnv='nodeEnv' :donationPublicKey='donationPublicKey' />
+    <donate-view :donationPublicKey='donationPublicKey' />
 
     <div class='button-holder'>
       <v-btn round color='primary' @click="visible = false">
@@ -17,7 +17,7 @@
 import PaymentView from './PaymentView.vue'
 
 export default {
-  props: ['ping', 'nodeEnv', 'donationPublicKey'],
+  props: ['ping', 'donationPublicKey'],
   components: {
     'donate-view': PaymentView
   },

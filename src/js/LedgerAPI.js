@@ -1,22 +1,16 @@
 const StellarSdk = require('stellar-sdk')
-const StellarTransport = require('@ledgerhq/hw-transport-u2f').default
-const StellarTransportNode = require('@ledgerhq/hw-transport-node-hid').default
 const StellarApp = require('@ledgerhq/hw-app-str').default
 const bip32Path = "44'/148'/0'"
+const LedgerAPITransport = require('./LedgerAPITransport')
 
 export default class LedgerAPI {
-  constructor(browser = true) {
-    this.transportAPI = StellarTransportNode
-    if (browser) {
-      this.transportAPI = StellarTransport
-    }
-
+  constructor() {
     this.transport = null
     this.str = null
   }
 
   doConnect() {
-    return this.transportAPI.create(180000, 180000)
+    return LedgerAPITransport.create()
       .then((t) => {
         this.transport = t
         this.str = new StellarApp(this.transport)
