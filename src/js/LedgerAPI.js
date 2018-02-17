@@ -17,6 +17,8 @@ export default class LedgerAPI {
       })
       .catch((error) => {
         console.log(JSON.stringify(error))
+
+        throw error
       })
   }
 
@@ -68,6 +70,8 @@ export default class LedgerAPI {
       })
       .catch((error) => {
         console.log('Error: getPublicKey: ' + JSON.stringify(error))
+
+        throw error
       })
   }
 
@@ -97,6 +101,8 @@ export default class LedgerAPI {
       })
       .catch((error) => {
         console.log('Error: signTransaction: ' + JSON.stringify(error))
+
+        throw error
       })
   }
 }
