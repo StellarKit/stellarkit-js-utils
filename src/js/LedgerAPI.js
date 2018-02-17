@@ -4,61 +4,50 @@ const StellarTransportNode = require('@ledgerhq/hw-transport-node-hid').default
 const StellarApp = require('@ledgerhq/hw-app-str').default
 const bip32Path = "44'/148'/0'"
 
-// we can only have one transport, otherwise it fails
-class SharedTransport {
-  static set(stellarApp) {
-    console.log('setting transport')
-    this.stellarApp = stellarApp
-
-    // this.stellarApp.on('disconnect', () => {
-    //   console.log('disconnected')
-    //   this.stellarApp = null
-    // })
-  }
-
-  static get() {
-    return this.stellarApp
-  }
-}
-
 export default class LedgerAPI {
   constructor(browser = true) {
     this.browser = browser
+
+    this.transportAPI = StellarTransportNode
+    if (browser) {
+      this.transportAPI = StellarTransport
+    }
+
+    this.transport = null
+    this.str = null
   }
 
-  getTransport() {
-    return new Promise((resolve, reject) => {
-      if (SharedTransport.get()) {
-        console.log('reusing transport')
-        resolve(SharedTransport.get())
-      } else {
-        const openTimeout = 100000
-        const listenTimeout = 100000
+  doConnect() {
+    return this.transportAPI.create(180000, 180000)
+      .then((t) => {
+        this.transport = t
+        this.str = new StellarApp(this.transport)
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error))
+      })
+  }
 
-        if (!this.browser) {
-          return StellarTransportNode.create(openTimeout, listenTimeout)
-            .then((transport) => {
-              SharedTransport.set(new StellarApp(transport))
-              resolve(SharedTransport.get())
-            })
-        }
+  connect() {
+    if (this.str) {
+      return this.str.getAppConfiguration()
+        .catch(() => {
+          this.transport.close()
 
-        return StellarTransport.create(openTimeout, listenTimeout)
-          .then((transport) => {
-            SharedTransport.set(new StellarApp(transport))
-            resolve(SharedTransport.get())
-          })
-      }
-    })
+          this.str = null
+          this.transport = null
+
+          return this.doConnect()
+        })
+    } else {
+      return this.doConnect()
+    }
   }
 
   connectLedger(callback) {
     const doConnect = () => {
-      this.getTransport()
-        .then((stellarApp) => {
-          return stellarApp.getAppConfiguration()
-        })
-        .then((result) => {
+      this.connect()
+        .then(() => {
           callback()
         })
         .catch((error) => {
@@ -68,6 +57,7 @@ export default class LedgerAPI {
           // try again in one second
           setTimeout(() => {
             console.log('trying again to connect')
+
             doConnect()
           }, 1000)
         })
@@ -77,23 +67,23 @@ export default class LedgerAPI {
   }
 
   getPublicKey() {
-    return this.getTransport()
-      .then((stellarApp) => {
-        return stellarApp.getPublicKey(bip32Path)
+    this.connect()
+      .then(() => {
+        return this.str.getPublicKey(bip32Path)
       })
       .then((result) => {
-        return result['publicKey']
+        return result.publicKey
       })
   }
 
-  signTransaction(sourceKey, transaction) {
-    return this.getTransport()
-      .then((stellarApp) => {
-        return stellarApp.signTransaction(bip32Path, transaction.signatureBase())
+  signTransaction(publicKey, transaction) {
+    this.connect()
+      .then(() => {
+        return this.str.signTransaction(bip32Path, transaction.signatureBase())
       })
       .then((result) => {
         const signature = result['signature']
-        const keyPair = StellarSdk.Keypair.fromPublicKey(sourceKey)
+        const keyPair = StellarSdk.Keypair.fromPublicKey(publicKey)
 
         // verify broken for Electron (window !== null)
         if (keyPair.verify(transaction.hash(), signature)) {
