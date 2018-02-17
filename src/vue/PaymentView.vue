@@ -152,18 +152,26 @@ export default {
       }
     },
     verifyAccounts(stellarWallet, destination) {
+      console.log(destination)
+      console.log(stellarWallet)
+
       // test if destination exists
       return this.horizon.server().loadAccount(destination)
         .then((destAccount) => {
           // proved that destination exists
           // get source public key to test existence
+          console.log('dest ok')
 
           return stellarWallet.publicKey()
         })
         .then((sourcePublicKey) => {
+          console.log(sourcePublicKey)
+
           return this.horizon.server().loadAccount(sourcePublicKey)
         })
         .then((sourceAccount) => {
+          console.log('got here')
+
           // proved that source and destination exists
           return sourceAccount
         })
