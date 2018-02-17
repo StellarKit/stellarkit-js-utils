@@ -182,8 +182,12 @@ export default {
 
       this.status = 'Building transaction...'
 
+      console.log('verifying')
+
       this.verifyAccounts(sourceWallet, destination)
         .then((sourceAccount) => {
+          console.log(JSON.stringify(sourceAccount))
+
           const transaction = new StellarSdk.TransactionBuilder(sourceAccount)
             .addOperation(StellarSdk.Operation.payment({
               destination: destination,
@@ -192,10 +196,13 @@ export default {
             }))
             .build()
 
+          console.log('signing')
+
           return sourceWallet.signTransaction(transaction)
         })
         .then((signedTransaction) => {
           this.status = 'Submitting transaction...'
+          console.log(JSON.stringify(signedTransaction))
 
           return this.horizon.server().submitTransaction(signedTransaction)
         })

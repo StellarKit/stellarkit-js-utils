@@ -72,6 +72,7 @@ export default class LedgerAPI {
   }
 
   signTransaction(publicKey, transaction) {
+    console.log(publicKey)
     this.connect()
       .then(() => {
         return this.str.signTransaction(bip32Path, transaction.signatureBase())
