@@ -152,6 +152,7 @@ export default {
       }
     },
     verifyAccounts(stellarWallet, destination) {
+      console.log('here')
       console.log(destination)
       console.log(stellarWallet)
 
@@ -190,7 +191,7 @@ export default {
 
       this.status = 'Building transaction...'
 
-      console.log('verifying')
+      console.log('verifying: ' + destination)
 
       this.verifyAccounts(sourceWallet, destination)
         .then((sourceAccount) => {
