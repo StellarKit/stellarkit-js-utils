@@ -24,8 +24,11 @@ export default class StellarWallet {
 
   // using promise so ledger and user entered have same API
   publicKey() {
+    console.log('getting pk')
     return new Promise((resolve, reject) => {
       if (this._publicKey) {
+        console.log('getting pk resolved' + this._publicKey)
+
         resolve(this._publicKey)
       }
 
@@ -33,9 +36,14 @@ export default class StellarWallet {
         reject(new Error('StellarWallet publicKey failed.  Should never get here.'))
       }
 
+      console.log('getting pk ask leger')
+
       this._ledgerAPI.getPublicKey()
         .then((publicKey) => {
           this._publicKey = publicKey
+
+          console.log('getting pk got it' + this._publicKey)
+
           resolve(publicKey)
         })
     })
