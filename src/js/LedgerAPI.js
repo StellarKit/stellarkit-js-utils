@@ -6,8 +6,6 @@ const bip32Path = "44'/148'/0'"
 
 export default class LedgerAPI {
   constructor(browser = true) {
-    this.browser = browser
-
     this.transportAPI = StellarTransportNode
     if (browser) {
       this.transportAPI = StellarTransport
@@ -74,6 +72,9 @@ export default class LedgerAPI {
       .then((result) => {
         return result.publicKey
       })
+      .catch((error) => {
+        console.log('Error: getPublicKey: ' + JSON.stringify(error))
+      })
   }
 
   signTransaction(publicKey, transaction) {
@@ -99,6 +100,9 @@ export default class LedgerAPI {
 
         console.log('Failure: Bad signature')
         throw new Error('Verify signature failed')
+      })
+      .catch((error) => {
+        console.log('Error: signTransaction: ' + JSON.stringify(error))
       })
   }
 }
