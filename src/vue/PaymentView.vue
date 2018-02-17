@@ -152,27 +152,18 @@ export default {
       }
     },
     verifyAccounts(stellarWallet, destination) {
-      console.log('here')
-      console.log(destination)
-      console.log(stellarWallet)
-
       // test if destination exists
       return this.horizon.server().loadAccount(destination)
         .then((destAccount) => {
           // proved that destination exists
           // get source public key to test existence
-          console.log('dest ok')
 
           return stellarWallet.publicKey()
         })
         .then((sourcePublicKey) => {
-          console.log(sourcePublicKey)
-
           return this.horizon.server().loadAccount(sourcePublicKey)
         })
         .then((sourceAccount) => {
-          console.log('got here')
-
           // proved that source and destination exists
           return sourceAccount
         })
@@ -191,12 +182,8 @@ export default {
 
       this.status = 'Building transaction...'
 
-      console.log('verifying: ' + destination)
-
       this.verifyAccounts(sourceWallet, destination)
         .then((sourceAccount) => {
-          console.log(JSON.stringify(sourceAccount))
-
           const transaction = new StellarSdk.TransactionBuilder(sourceAccount)
             .addOperation(StellarSdk.Operation.payment({
               destination: destination,
@@ -205,13 +192,10 @@ export default {
             }))
             .build()
 
-          console.log('signing')
-
           return sourceWallet.signTransaction(transaction)
         })
         .then((signedTransaction) => {
           this.status = 'Submitting transaction...'
-          console.log(JSON.stringify(signedTransaction))
 
           return this.horizon.server().submitTransaction(signedTransaction)
         })

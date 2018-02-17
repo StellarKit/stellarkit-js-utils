@@ -59,7 +59,7 @@ export default class LedgerAPI {
   }
 
   getPublicKey() {
-    this.connect()
+    return this.connect()
       .then(() => {
         return this.str.getPublicKey(bip32Path)
       })
@@ -72,8 +72,7 @@ export default class LedgerAPI {
   }
 
   signTransaction(publicKey, transaction) {
-    console.log(publicKey)
-    this.connect()
+    return this.connect()
       .then(() => {
         return this.str.signTransaction(bip32Path, transaction.signatureBase())
       })
