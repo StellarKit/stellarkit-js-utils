@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: './index.js',
@@ -9,17 +10,12 @@ module.exports = {
     library: 'stellar-js-utils',
     libraryTarget: 'umd'
   },
-  externals: [
-    'jquery',
-    'stellar-sdk',
-    'fs'
-  ],
+  externals: [nodeExternals()],
   module: {
     rules: [{
         enforce: 'pre',
         test: /.(vue|js)$/,
-        use: 'eslint-loader',
-        exclude: /node_modules/
+        use: 'eslint-loader'
       },
       {
         test: /\.vue$/,
@@ -29,8 +25,7 @@ module.exports = {
         test: /\.js$/,
         use: [{
           loader: 'babel-loader'
-        }],
-        exclude: /node_modules/,
+        }]
       }
     ]
   },
