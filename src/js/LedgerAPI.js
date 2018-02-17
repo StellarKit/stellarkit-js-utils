@@ -1,7 +1,7 @@
 const StellarSdk = require('stellar-sdk')
 const StellarApp = require('@ledgerhq/hw-app-str').default
 const bip32Path = "44'/148'/0'"
-const LedgerAPITransport = require('./LedgerAPITransport.js')
+import LedgerAPITransport from './LedgerAPITransport.js'
 
 export default class LedgerAPI {
   constructor() {
