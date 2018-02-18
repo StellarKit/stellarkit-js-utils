@@ -13,6 +13,7 @@ export default class LedgerAPI {
     return LedgerAPITransport.create()
       .then((t) => {
         this.transport = t
+        this.transport.setDebugMode(true)
         this.str = new StellarApp(this.transport)
       })
       .catch((error) => {
