@@ -7,6 +7,8 @@ export default class LedgerAPI {
   constructor() {
     this.transport = null
     this.str = null
+
+    console.log('creating...')
   }
 
   doConnect() {
