@@ -26,6 +26,8 @@ export default class StellarWallet {
   publicKey() {
     return new Promise((resolve, reject) => {
       if (this._publicKey) {
+        console.log('returning public: ' + this._publicKey)
+
         resolve(this._publicKey)
       }
 
@@ -33,11 +35,12 @@ export default class StellarWallet {
         reject(new Error('StellarWallet publicKey failed.  Should never get here.'))
       }
 
-      return this._ledgerAPI.getPublicKey()
+      this._ledgerAPI.getPublicKey()
         .then((publicKey) => {
           this._publicKey = publicKey
+          console.log('saving public: ' + this._publicKey)
 
-          resolve(publicKey)
+          resolve(this._publicKey)
         })
     })
   }
