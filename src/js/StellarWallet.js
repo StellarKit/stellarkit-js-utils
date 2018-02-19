@@ -29,19 +29,19 @@ export default class StellarWallet {
         console.log('returning public: ' + this._publicKey)
 
         resolve(this._publicKey)
+      } else {
+        if (!this.usingLedger()) {
+          reject(new Error('StellarWallet publicKey failed.  Should never get here.'))
+        }
+
+        this._ledgerAPI.getPublicKey()
+          .then((publicKey) => {
+            this._publicKey = publicKey
+            console.log('saving public: ' + this._publicKey)
+
+            resolve(this._publicKey)
+          })
       }
-
-      if (!this.usingLedger()) {
-        reject(new Error('StellarWallet publicKey failed.  Should never get here.'))
-      }
-
-      this._ledgerAPI.getPublicKey()
-        .then((publicKey) => {
-          this._publicKey = publicKey
-          console.log('saving public: ' + this._publicKey)
-
-          resolve(this._publicKey)
-        })
     })
   }
 
