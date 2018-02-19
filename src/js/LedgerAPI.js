@@ -19,6 +19,8 @@ export default class LedgerAPI {
       .then((t) => {
         this.transport = t
         this.str = new StellarApp(this.transport)
+
+        return null
       })
       .catch((error) => {
         console.log(JSON.stringify(error))
