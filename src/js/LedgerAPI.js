@@ -7,11 +7,14 @@ export default class LedgerAPI {
   constructor() {
     this.transport = null
     this.str = null
-
-    this.createTransport()
   }
 
   createTransport() {
+    // already exists, just return
+    if (this.str) {
+      return Promise.resolve()
+    }
+
     return LedgerAPITransport.create()
       .then((t) => {
         this.transport = t
@@ -40,10 +43,17 @@ export default class LedgerAPI {
   }
 
   connect() {
-    return this.verifyConnect()
-      .catch((result) => {
-        // trying one more time before failure
+    return this.createTransport()
+      .then(() => {
         return this.verifyConnect()
+          .catch((result) => {
+            // trying one more time before failure
+            // transport could have already existed, but went bad, create and verify again
+            return this.createTransport()
+              .then(() => {
+                return this.verifyConnect()
+              })
+          })
       })
   }
 
