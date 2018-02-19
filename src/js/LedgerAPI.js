@@ -18,7 +18,9 @@ export default class LedgerAPI {
     return LedgerAPITransport.create()
       .then((t) => {
         this.transport = t
+        this.transport.setDebugMode(true)
         this.str = new StellarApp(this.transport)
+        console.log('transport created')
 
         return null
       })
@@ -35,6 +37,7 @@ export default class LedgerAPI {
         return null
       })
       .catch(() => {
+        console.log('transport closed')
         this.transport.close()
 
         this.str = null
