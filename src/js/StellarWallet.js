@@ -24,25 +24,21 @@ export default class StellarWallet {
 
   // using promise so ledger and user entered have same API
   publicKey() {
-    return new Promise((resolve, reject) => {
-      if (this._publicKey) {
-        console.log('returning public: ' + this._publicKey)
+    if (this._publicKey) {
+      return Promise.resolve(this._publicKey)
+    }
 
-        resolve(this._publicKey)
-      } else {
-        if (!this.usingLedger()) {
-          reject(new Error('StellarWallet publicKey failed.  Should never get here.'))
-        }
+    if (!this.usingLedger()) {
+      throw new Error('StellarWallet publicKey failed.  Should never get here.')
+    }
 
-        this._ledgerAPI.getPublicKey()
-          .then((publicKey) => {
-            this._publicKey = publicKey
-            console.log('saving public: ' + this._publicKey)
+    return this._ledgerAPI.getPublicKey()
+      .then((publicKey) => {
+        this._publicKey = publicKey
+        console.log('saving public: ' + this._publicKey)
 
-            resolve(this._publicKey)
-          })
-      }
-    })
+        return this._publicKey
+      })
   }
 
   // if true, alert the user to confirm on device
