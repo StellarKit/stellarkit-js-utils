@@ -71,7 +71,7 @@ export default class LedgerAPI {
           console.log('Error in connectLedger: ' + JSON.stringify(error))
 
           // could fail if in browser mode on node or vis versa
-          // try again in one second
+          // try again in two seconds
           setTimeout(() => {
             console.log('trying again to connect')
 
@@ -89,7 +89,6 @@ export default class LedgerAPI {
         return this.str.getPublicKey(bip32Path)
       })
       .then((result) => {
-        console.log(result.publicKey)
         return result.publicKey
       })
       .catch((error) => {
