@@ -25,6 +25,7 @@ export default class LedgerAPI {
 
   connect() {
     if (this.str) {
+      console.log('calling getAppConfiguration')
       return this.str.getAppConfiguration()
         .catch(() => {
           this.transport.close()
@@ -64,6 +65,7 @@ export default class LedgerAPI {
   getPublicKey() {
     return this.connect()
       .then(() => {
+        console.log('calling getPublicKey')
         return this.str.getPublicKey(bip32Path)
       })
       .then((result) => {
@@ -79,6 +81,7 @@ export default class LedgerAPI {
   signTransaction(publicKey, transaction) {
     return this.connect()
       .then(() => {
+        console.log('calling signTransaction')
         return this.str.signTransaction(bip32Path, transaction.signatureBase())
       })
       .then((result) => {
