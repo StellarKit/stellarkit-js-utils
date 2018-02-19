@@ -18,9 +18,7 @@ export default class LedgerAPI {
     return LedgerAPITransport.create()
       .then((t) => {
         this.transport = t
-        this.transport.setDebugMode(true)
         this.str = new StellarApp(this.transport)
-        console.log('transport created')
 
         return null
       })
@@ -37,7 +35,6 @@ export default class LedgerAPI {
         return null
       })
       .catch(() => {
-        console.log('transport closed')
         this.transport.close()
 
         this.str = null
@@ -79,7 +76,7 @@ export default class LedgerAPI {
             console.log('trying again to connect')
 
             doConnect()
-          }, 1000)
+          }, 2000)
         })
     }
 
@@ -92,6 +89,7 @@ export default class LedgerAPI {
         return this.str.getPublicKey(bip32Path)
       })
       .then((result) => {
+        console.log(result.publicKey)
         return result.publicKey
       })
       .catch((error) => {
