@@ -67,6 +67,8 @@ export default class LedgerAPI {
       this.connect()
         .then(() => {
           callback()
+
+          return null
         })
         .catch((error) => {
           console.log('Error in connectLedger: ' + JSON.stringify(error))
