@@ -33,7 +33,7 @@ export default class StellarWallet {
         reject(new Error('StellarWallet publicKey failed.  Should never get here.'))
       }
 
-      this._ledgerAPI.getPublicKey()
+      return this._ledgerAPI.getPublicKey()
         .then((publicKey) => {
           this._publicKey = publicKey
 
