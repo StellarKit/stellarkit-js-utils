@@ -7,9 +7,11 @@ export default class LedgerAPI {
   constructor() {
     this.transport = null
     this.str = null
+
+    this.createTransport()
   }
 
-  doConnect() {
+  createTransport() {
     return LedgerAPITransport.create()
       .then((t) => {
         this.transport = t
@@ -22,20 +24,27 @@ export default class LedgerAPI {
       })
   }
 
+  verifyConnect() {
+    return this.str.getAppConfiguration()
+      .then(() => {
+        return null
+      })
+      .catch(() => {
+        this.transport.close()
+
+        this.str = null
+        this.transport = null
+
+        throw new Error('connection to ledger failed')
+      })
+  }
+
   connect() {
-    if (this.str) {
-      return this.str.getAppConfiguration()
-        .catch(() => {
-          this.transport.close()
-
-          this.str = null
-          this.transport = null
-
-          return this.doConnect()
-        })
-    } else {
-      return this.doConnect()
-    }
+    return this.verifyConnect()
+      .catch((result) => {
+        // trying one more time before failure
+        return this.verifyConnect()
+      })
   }
 
   connectLedger(callback) {
