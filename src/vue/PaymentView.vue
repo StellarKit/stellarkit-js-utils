@@ -28,7 +28,7 @@
       </div>
 
       <div class='sign-button-area'>
-        <v-btn @click="buttonClick('sendWithNano')">Send with Ledger Nano</v-btn>
+        <v-btn @click="buttonClick('sendWithNano')" :disabled='sendingPayment'>Send with Ledger Nano</v-btn>
         <div>{{status}}</div>
       </div>
     </div>
@@ -68,6 +68,7 @@ export default {
       dialogMode: 'start',
       status: '',
       secretKey: '',
+      sendingPayment: false,
       xlm: 10,
       showSecret: false,
       browserSupportMessage: '',
@@ -168,6 +169,7 @@ export default {
       }
 
       this.status = 'Building transaction...'
+      this.sendingPayment = true
 
       this.verifyAccounts(sourceWallet, destination)
         .then((sourceAccount) => {
@@ -200,6 +202,9 @@ export default {
           } else {
             this.status = 'Error making payment: ' + error.message
           }
+        })
+        .finally(() => {
+          this.sendingPayment = false
         })
     }
   }
