@@ -95,9 +95,9 @@ export default {
     }
 
     if (LedgerAPITransport.isNodeTransport()) {
-      this.browserSupportMessage = 'Make sure "Browser Support" is disabled'
+      this.browserSupportMessage = 'Error: Make sure "Browser Support" is disabled'
     } else {
-      this.browserSupportMessage = 'Make sure "Browser Support" is enabled'
+      this.browserSupportMessage = 'Error: Make sure "Browser Support" is enabled'
     }
 
     this.ledgerAPI = new LedgerAPI()
