@@ -57,30 +57,11 @@ export default class LedgerAPI {
               })
           })
       })
-  }
+      .catch((error) => {
+        console.log('Error: connect: ' + JSON.stringify(error))
 
-  connectLedger(callback) {
-    const doConnect = () => {
-      this.connect()
-        .then(() => {
-          callback()
-
-          return null
-        })
-        .catch((error) => {
-          console.log('Error in connectLedger: ' + JSON.stringify(error))
-
-          // could fail if in browser mode on node or vis versa
-          // try again in two seconds
-          setTimeout(() => {
-            console.log('trying again to connect')
-
-            doConnect()
-          }, 2000)
-        })
-    }
-
-    doConnect()
+        throw new Error('connection failed')
+      })
   }
 
   getPublicKey() {

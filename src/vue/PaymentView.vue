@@ -28,8 +28,7 @@
       </div>
 
       <div class='sign-button-area'>
-        <v-btn @click="buttonClick('sendWithNano')" :disabled="!connected">Send with Ledger Nano</v-btn>
-        <div v-if="!connected">{{browserSupportMessage}}</div>
+        <v-btn @click="buttonClick('sendWithNano')">Send with Ledger Nano</v-btn>
         <div>{{status}}</div>
       </div>
     </div>
@@ -69,7 +68,6 @@ export default {
       dialogMode: 'start',
       status: '',
       secretKey: '',
-      connected: true,
       xlm: 10,
       showSecret: false,
       browserSupportMessage: '',
@@ -110,8 +108,6 @@ export default {
         case 'useNano':
           this.dialogMode = 'useNano'
           this.status = ''
-
-          this.connectLedger()
           break
         case 'useKey':
           this.dialogMode = 'useKey'
@@ -128,21 +124,12 @@ export default {
           break
       }
     },
-    connectLedger() {
-      this.connected = false
-
-      this.ledgerAPI.connectLedger(() => {
-        this.connected = true
-      })
-    },
     sendWithNano() {
-      if (this.connected) {
-        const sourceWallet = StellarWallet.ledger(this.ledgerAPI, () => {
-          this.status = 'Confirm transaction on Nano...'
-        })
+      const sourceWallet = StellarWallet.ledger(this.ledgerAPI, () => {
+        this.status = 'Confirm transaction on Nano...'
+      })
 
-        this.sendPayment(sourceWallet)
-      }
+      this.sendPayment(sourceWallet)
     },
     sendWithSecret() {
       if (Utils.strOK(this.secretKey)) {
@@ -208,7 +195,11 @@ export default {
           return null
         })
         .catch((error) => {
-          this.status = 'Error making payment: ' + JSON.stringify(error)
+          if (error.message === 'connection failed') {
+            this.status = this.browserSupportMessage
+          } else {
+            this.status = 'Error making payment: ' + error.message
+          }
         })
     }
   }
