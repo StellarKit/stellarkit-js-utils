@@ -290,9 +290,6 @@ export default class StellarAPI {
             }))
           .build()
 
-        // sets network
-        this.server().beforeSign()
-
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {

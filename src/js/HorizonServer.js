@@ -14,15 +14,6 @@ export default class HorizonServer {
     this._server = new StellarSdk.Server(serverURL, serverOptions)
   }
 
-  beforeSign() {
-    // this is global, so I set it everytime to be safe
-    if (this._testnet) {
-      StellarSdk.Network.useTestNetwork()
-    } else {
-      StellarSdk.Network.usePublicNetwork()
-    }
-  }
-
   server() {
     // this is global, so I set it everytime to be safe
     if (this._testnet) {
