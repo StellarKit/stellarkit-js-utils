@@ -3,7 +3,8 @@
 
 Build:
 ```
-yarn dist
+npm install
+npm run dist
 ```
 
 ### High level calls to Stellar JS SDK
@@ -14,7 +15,7 @@ Includes:
 + Donate dialog with Ledger nano support.
 + Bifrost dialog for buying tokens.
 + High level JS API for Stellar
- 
+
 See [Stellar Client](https://github.com/StellarKit/stellar-client) for an example of using this package
 
 The UI part uses Vuetify and VueJS, so these dialogs will only work within a vuetify v-app tag
