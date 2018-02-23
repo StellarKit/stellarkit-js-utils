@@ -64,7 +64,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        return this.server().submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction)
       })
   }
 
@@ -86,7 +86,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        return this.server().submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction)
       })
   }
 
@@ -105,7 +105,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        return this.server().submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction)
       })
   }
 
@@ -126,7 +126,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        return this.server().submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction)
       })
   }
 
@@ -153,14 +153,14 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        return this.server().submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction)
       })
   }
 
-  removeMultiSig(sourceWallet, secondSecret, secondPublicKey, transactionOpts) {
-    return this.removeMultiSigTransaction(sourceWallet, secondSecret, secondPublicKey, transactionOpts)
+  removeMultiSig(sourceWallet, secondWallet, transactionOpts) {
+    return this.removeMultiSigTransaction(sourceWallet, secondWallet, transactionOpts)
       .then((transaction) => {
-        return this.server().submitTransaction(transaction)
+        return this.submitTransaction(transaction)
       })
   }
 
@@ -168,13 +168,20 @@ export default class StellarAPI {
     return this.server().submitTransaction(transaction)
   }
 
-  removeMultiSigTransaction(sourceWallet, secondSecret, secondPublicKey, transactionOpts) {
+  removeMultiSigTransaction(sourceWallet, secondWallet, transactionOpts) {
+    let sourceAccount = null
+
     return sourceWallet.publicKey()
       .then((publicKey) => {
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
-        const transaction = new StellarSdk.TransactionBuilder(account, transactionOpts)
+        sourceAccount = account
+
+        return secondWallet.publicKey()
+      })
+      .then((secondPublicKey) => {
+        const transaction = new StellarSdk.TransactionBuilder(sourceAccount, transactionOpts)
           .addOperation(StellarSdk.Operation.setOptions({
             medThreshold: 1,
             highThreshold: 1
@@ -190,9 +197,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        signedTransaction.sign(StellarSdk.Keypair.fromSecret(secondSecret))
-
-        return signedTransaction
+        return secondWallet.signTransaction(signedTransaction)
       })
   }
 
@@ -248,11 +253,11 @@ export default class StellarAPI {
       })
       .then((signedTransaction) => {
         if (!additionalSigners) {
-          return this.server().submitTransaction(signedTransaction)
+          return this.submitTransaction(signedTransaction)
         } else {
           return this.signTransactionWithArray(signedTransaction, additionalSigners)
             .then((additionalSignedTransaction) => {
-              return this.server().submitTransaction(additionalSignedTransaction)
+              return this.submitTransaction(additionalSignedTransaction)
             })
         }
       })
@@ -293,7 +298,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        return this.server().submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction)
       })
   }
 
@@ -313,7 +318,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        return this.server().submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction)
       })
   }
 
@@ -354,7 +359,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        return this.server().submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction)
       })
       .then((response) => {
         return this.server().loadAccount(destinationKey)
@@ -417,7 +422,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        return this.server().submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction)
       })
   }
 }
