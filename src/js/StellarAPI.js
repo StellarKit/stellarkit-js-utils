@@ -433,22 +433,32 @@ export default class StellarAPI {
   _processAccounts(sourceWallet, fundingWallet) {
     return sourceWallet.publicKey()
       .then((publicKey) => {
-        return this.server().loadAccount(publicKey)
-      })
-      .then((account) => {
-        if (sourceWallet) {
-          // get sourceWallet's publicKey if not null
+        if (fundingWallet) {
           return fundingWallet.publicKey()
-            .then((publicKey) => {
+            .then((fundingPublicKey) => {
               return {
-                account: account,
-                fundingPublicKey: publicKey
+                sourcePublicKey: publicKey,
+                fundingPublicKey: fundingPublicKey
               }
             })
         }
+
         return {
-          account: account
+          sourcePublicKey: publicKey
         }
+      })
+      .then((result) => {
+        let publicKey = result.sourcePublicKey
+        if (result.fundingPublicKey) {
+          publicKey = result.fundingPublicKey
+        }
+
+        return this.server().loadAccount(publicKey)
+          .then((account) => {
+            result.account = account
+
+            return result
+          })
       })
   }
 
