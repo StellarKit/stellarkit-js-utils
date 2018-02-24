@@ -69,12 +69,12 @@ export default class StellarAPI {
   }
 
   // sourceWallet is normally null unless you want to pay with a different accout for the sourceWallet Account
-  manageOffer(transWallet, sourceWallet, buying, selling, amount, price, offerID = 0) {
-    return this._processAccounts(transWallet, sourceWallet)
+  manageOffer(sourceWallet, fundingWallet, buying, selling, amount, price, offerID = 0) {
+    return this._processAccounts(sourceWallet, fundingWallet)
       .then((accountInfo) => {
-        const operation = this._manageOfferOperation(buying, selling, amount, price, offerID, accountInfo.sourcePublicKey)
+        const operation = this._manageOfferOperation(buying, selling, amount, price, offerID, accountInfo.fundingPublicKey)
 
-        return this._submitOperation(transWallet, sourceWallet, operation, accountInfo)
+        return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo)
       })
   }
 
@@ -418,31 +418,31 @@ export default class StellarAPI {
   // Private
   // ======================================================================
 
-  _manageOfferOperation(buying, selling, amount, price, offerID = 0, sourcePublicKey = null) {
+  _manageOfferOperation(buying, selling, amount, price, offerID = 0, fundingPublicKey = null) {
     const opts = {
       selling: selling,
       buying: buying,
       amount: amount,
       price: price,
       offerId: offerID,
-      source: sourcePublicKey
+      source: fundingPublicKey
     }
     return StellarSdk.Operation.manageOffer(opts)
   }
 
-  _processAccounts(transWallet, sourceWallet) {
-    return transWallet.publicKey()
+  _processAccounts(sourceWallet, fundingWallet) {
+    return sourceWallet.publicKey()
       .then((publicKey) => {
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
         if (sourceWallet) {
           // get sourceWallet's publicKey if not null
-          return sourceWallet.publicKey()
+          return fundingWallet.publicKey()
             .then((publicKey) => {
               return {
                 account: account,
-                sourcePublicKey: publicKey
+                fundingPublicKey: publicKey
               }
             })
         }
@@ -453,16 +453,16 @@ export default class StellarAPI {
   }
 
   // sourceWallet is normally null unless you want to pay with a different accout for the sourceWallet Account
-  _submitOperation(transWallet, sourceWallet, operation, accountInfo) {
+  _submitOperation(sourceWallet, fundingWallet, operation, accountInfo) {
     const transaction = new StellarSdk.TransactionBuilder(accountInfo.account)
       .addOperation(operation)
       .build()
 
-    return transWallet.signTransaction(transaction)
+    return sourceWallet.signTransaction(transaction)
       .then((signedTx) => {
-        if (sourceWallet) {
+        if (fundingWallet) {
           // sign with source if not null
-          return sourceWallet.signTransaction(signedTx)
+          return fundingWallet.signTransaction(signedTx)
         }
 
         return signedTx
