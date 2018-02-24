@@ -68,25 +68,13 @@ export default class StellarAPI {
       })
   }
 
-  manageOffer(sourceWallet, buying, selling, amount, price, offerID = 0) {
-    return sourceWallet.publicKey()
-      .then((publicKey) => {
-        return this.server().loadAccount(publicKey)
-      })
-      .then((account) => {
-        const transaction = new StellarSdk.TransactionBuilder(account)
-          .addOperation(StellarSdk.Operation.manageOffer({
-            selling: selling,
-            buying: buying,
-            amount: amount,
-            price: price,
-            offerId: offerID
-          })).build()
+  // sourceWallet is normally null unless you want to pay with a different accout for the sourceWallet Account
+  manageOffer(transWallet, sourceWallet, buying, selling, amount, price, offerID = 0) {
+    return this._processAccounts(transWallet, sourceWallet)
+      .then((accountInfo) => {
+        const operation = this._manageOfferOperation(buying, selling, amount, price, offerID, accountInfo.sourcePublicKey)
 
-        return sourceWallet.signTransaction(transaction)
-      })
-      .then((signedTransaction) => {
-        return this.submitTransaction(signedTransaction)
+        return this._submitOperation(transWallet, sourceWallet, operation, accountInfo)
       })
   }
 
@@ -423,6 +411,64 @@ export default class StellarAPI {
       })
       .then((signedTransaction) => {
         return this.submitTransaction(signedTransaction)
+      })
+  }
+
+  // ======================================================================
+  // Private
+  // ======================================================================
+
+  _manageOfferOperation(buying, selling, amount, price, offerID = 0, sourcePublicKey = null) {
+    const opts = {
+      selling: selling,
+      buying: buying,
+      amount: amount,
+      price: price,
+      offerId: offerID,
+      source: sourcePublicKey
+    }
+    return StellarSdk.Operation.manageOffer(opts)
+  }
+
+  _processAccounts(transWallet, sourceWallet) {
+    return transWallet.publicKey()
+      .then((publicKey) => {
+        return this.server().loadAccount(publicKey)
+      })
+      .then((account) => {
+        if (sourceWallet) {
+          // get sourceWallet's publicKey if not null
+          return sourceWallet.publicKey()
+            .then((publicKey) => {
+              return {
+                account: account,
+                sourcePublicKey: publicKey
+              }
+            })
+        }
+        return {
+          account: account
+        }
+      })
+  }
+
+  // sourceWallet is normally null unless you want to pay with a different accout for the sourceWallet Account
+  _submitOperation(transWallet, sourceWallet, operation, accountInfo) {
+    const transaction = new StellarSdk.TransactionBuilder(accountInfo.account)
+      .addOperation(operation)
+      .build()
+
+    return transWallet.signTransaction(transaction)
+      .then((signedTx) => {
+        if (sourceWallet) {
+          // sign with source if not null
+          return sourceWallet.signTransaction(signedTx)
+        }
+
+        return signedTx
+      })
+      .then((signedTx) => {
+        return this.submitTransaction(signedTx)
       })
   }
 }
