@@ -195,7 +195,7 @@ export default class StellarAPI {
     return this.server().loadAccount(destKey)
       .then((destAccount) => {
         // dest has a trustline?
-        if (!this._hasAssetTrustline(destAccount, inAsset)) {
+        if (!this._hasAssetTrustline(destAccount, asset)) {
           throw new Error('No trustline from destination to asset')
         }
 
