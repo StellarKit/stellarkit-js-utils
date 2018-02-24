@@ -355,13 +355,14 @@ export default class StellarAPI {
   // ======================================================================
 
   _hasAssetTrustline(account, asset) {
-    let trusted = false
-    trusted = account.balances.some((balance) => {
+    if (asset.isNative()) {
+      return true
+    }
+
+    return account.balances.some((balance) => {
       return balance.asset_code === asset.getCode() &&
         balance.asset_issuer === asset.getIssuer()
     })
-
-    return trusted
   }
 
   _paymentOperation(destKey, amount, asset, sourcePublicKey) {
