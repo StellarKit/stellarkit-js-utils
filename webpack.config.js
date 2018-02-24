@@ -11,7 +11,8 @@ module.exports = {
   },
   externals: [
     "jquery",
-    "stellar-sdk"
+    "stellar-sdk",
+    "axios"
   ],
   module: {
     rules: [{
