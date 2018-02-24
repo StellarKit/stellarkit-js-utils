@@ -72,7 +72,7 @@ export default class StellarAPI {
   manageOffer(sourceWallet, fundingWallet, buying, selling, amount, price, offerID = 0) {
     return this._processAccounts(sourceWallet, fundingWallet)
       .then((accountInfo) => {
-        const operation = this._manageOfferOperation(buying, selling, amount, price, offerID, accountInfo.fundingPublicKey)
+        const operation = this._manageOfferOperation(buying, selling, amount, price, offerID, accountInfo.sourcePublicKey)
 
         return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo)
       })
