@@ -68,7 +68,7 @@ export default class StellarAPI {
       })
   }
 
-  // sourceWallet is normally null unless you want to pay with a different accout for the sourceWallet Account
+  // fundingWallet is normally null unless you want to pay with a different accout for the sourceWallet Account
   manageOffer(sourceWallet, fundingWallet, buying, selling, amount, price, offerID = 0) {
     return this._processAccounts(sourceWallet, fundingWallet)
       .then((accountInfo) => {
@@ -189,76 +189,23 @@ export default class StellarAPI {
       })
   }
 
-  signTransactionWithArray(transaction, signers) {
-    return new Promise((resolve, reject) => {
-      const signerWallet = signers.pop()
+  sendAsset(sourceWallet, fundingWallet, destKey, amount, inAsset = null, memo = null, additionalSigners = null) {
+    const asset = inAsset === null ? StellarSdk.Asset.native() : inAsset
 
-      if (signerWallet) {
-        signerWallet.signTransaction(transaction)
-          .then((signedTramsaction) => {
-            resolve(this.signTransactionWithArray(signedTramsaction, signers))
-          })
-          .catch((error) => {
-            console.log(JSON.stringify(error))
-
-            reject(error)
-          })
-      } else {
-        resolve(transaction)
-      }
-    })
-  }
-
-  sendAsset(sourceWallet, destKey, amount, asset = null, memo = null, additionalSigners = null, signWithSource = true) {
     return this.server().loadAccount(destKey)
       .then((destAccount) => {
-        // dest account exists
-        return sourceWallet.publicKey()
-      })
-      .then((sourcePublicKey) => {
-        return this.server().loadAccount(sourcePublicKey)
-      })
-      .then((sourceAccount) => {
-        let builder = new StellarSdk.TransactionBuilder(sourceAccount)
-          .addOperation(StellarSdk.Operation.payment({
-            destination: destKey,
-            asset: asset === null ? StellarSdk.Asset.native() : asset,
-            amount: amount
-          }))
-
-        if (memo) {
-          builder = builder.addMemo(StellarSdk.Memo.text(memo))
+        // dest has a trustline?
+        if (!this._hasAssetTrustline(destAccount, inAsset)) {
+          throw new Error('No trustline from destination to asset')
         }
 
-        const transaction = builder.build()
-
-        // transaction might be signed by additionalSigners and including source would cause a tx_bad_auth_extra
-        if (signWithSource) {
-          return sourceWallet.signTransaction(transaction)
-        }
-
-        return transaction
+        return this._processAccounts(sourceWallet, fundingWallet)
       })
-      .then((signedTransaction) => {
-        if (!additionalSigners) {
-          return this.submitTransaction(signedTransaction)
-        } else {
-          return this.signTransactionWithArray(signedTransaction, additionalSigners)
-            .then((additionalSignedTransaction) => {
-              return this.submitTransaction(additionalSignedTransaction)
-            })
-        }
+      .then((accountInfo) => {
+        const operation = this._paymentOperation(destKey, amount, asset, accountInfo.sourcePublicKey)
+
+        return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo, memo, additionalSigners)
       })
-  }
-
-  hasAssetTrustline(account, asset) {
-    let trusted = false
-    trusted = account.balances.some((balance) => {
-      return balance.asset_code === asset.getCode() &&
-        balance.asset_issuer === asset.getIssuer()
-    })
-
-    return trusted
   }
 
   buyTokens(sourceWallet, sendAsset, destAsset, sendMax, destAmount) {
@@ -267,7 +214,7 @@ export default class StellarAPI {
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
-        if (!this.hasAssetTrustline(account, destAsset)) {
+        if (!this._hasAssetTrustline(account, destAsset)) {
           throw new Error('No trustline from buyer to asset')
         }
 
@@ -290,23 +237,12 @@ export default class StellarAPI {
       })
   }
 
-  manageData(sourceWallet, name, value) {
-    return sourceWallet.publicKey()
-      .then((publicKey) => {
-        return this.server().loadAccount(publicKey)
-      })
-      .then((account) => {
-        const transaction = new StellarSdk.TransactionBuilder(account)
-          .addOperation(StellarSdk.Operation.manageData({
-            name: name,
-            value: Utils.strOK(value) ? value : null // pass null to remove name/value
-          }))
-          .build()
+  manageData(sourceWallet, fundingWallet, name, value) {
+    return this._processAccounts(sourceWallet, fundingWallet)
+      .then((accountInfo) => {
+        const operation = this._manageDataOperation(name, value, accountInfo.sourcePublicKey)
 
-        return sourceWallet.signTransaction(transaction)
-      })
-      .then((signedTransaction) => {
-        return this.submitTransaction(signedTransaction)
+        return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo)
       })
   }
 
@@ -418,16 +354,47 @@ export default class StellarAPI {
   // Private
   // ======================================================================
 
-  _manageOfferOperation(buying, selling, amount, price, offerID = 0, fundingPublicKey = null) {
+  _hasAssetTrustline(account, asset) {
+    let trusted = false
+    trusted = account.balances.some((balance) => {
+      return balance.asset_code === asset.getCode() &&
+        balance.asset_issuer === asset.getIssuer()
+    })
+
+    return trusted
+  }
+
+  _paymentOperation(destKey, amount, asset, sourcePublicKey) {
+    const opts = {
+      destination: destKey,
+      asset: asset,
+      amount: amount,
+      source: sourcePublicKey
+    }
+
+    return StellarSdk.Operation.payment(opts)
+  }
+
+  _manageOfferOperation(buying, selling, amount, price, offerID = 0, sourcePublicKey = null) {
     const opts = {
       selling: selling,
       buying: buying,
       amount: amount,
       price: price,
       offerId: offerID,
-      source: fundingPublicKey
+      source: sourcePublicKey
     }
     return StellarSdk.Operation.manageOffer(opts)
+  }
+
+  _manageDataOperation(name, value, sourcePublicKey = null) {
+    const opts = {
+      name: name,
+      value: Utils.strOK(value) ? value : null, // pass null to remove name/value
+      source: sourcePublicKey
+    }
+
+    return StellarSdk.Operation.manageData(opts)
   }
 
   _processAccounts(sourceWallet, fundingWallet) {
@@ -462,11 +429,15 @@ export default class StellarAPI {
       })
   }
 
-  // sourceWallet is normally null unless you want to pay with a different accout for the sourceWallet Account
-  _submitOperation(sourceWallet, fundingWallet, operation, accountInfo) {
-    const transaction = new StellarSdk.TransactionBuilder(accountInfo.account)
+  _submitOperation(sourceWallet, fundingWallet, operation, accountInfo, memo = null, additionalSigners = null) {
+    const builder = new StellarSdk.TransactionBuilder(accountInfo.account)
       .addOperation(operation)
-      .build()
+
+    if (Utils.strOK(memo)) {
+      builder.addMemo(StellarSdk.Memo.text(memo))
+    }
+
+    const transaction = builder.build()
 
     return sourceWallet.signTransaction(transaction)
       .then((signedTx) => {
@@ -478,7 +449,27 @@ export default class StellarAPI {
         return signedTx
       })
       .then((signedTx) => {
+        if (additionalSigners) {
+          return this._signTransactionWithArray(signedTx, additionalSigners)
+            .then((signedTxMore) => {
+              return this.submitTransaction(signedTxMore)
+            })
+        }
+
         return this.submitTransaction(signedTx)
       })
+  }
+
+  _signTransactionWithArray(transaction, signers) {
+    const signerWallet = signers.pop()
+
+    if (signerWallet) {
+      return signerWallet.signTransaction(transaction)
+        .then((signedTramsaction) => {
+          return this._signTransactionWithArray(signedTramsaction, signers)
+        })
+    } else {
+      return Promise.resolve(transaction)
+    }
   }
 }
