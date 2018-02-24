@@ -192,6 +192,8 @@ export default class StellarAPI {
   sendAsset(sourceWallet, fundingWallet, destKey, amount, inAsset = null, memo = null, additionalSigners = null) {
     const asset = inAsset === null ? StellarSdk.Asset.native() : inAsset
 
+    console.log('loading destKey ' + destKey)
+
     return this.server().loadAccount(destKey)
       .then((destAccount) => {
         // dest has a trustline?
@@ -199,9 +201,13 @@ export default class StellarAPI {
           throw new Error('No trustline from destination to asset')
         }
 
+        console.log('dest has trustline!')
+
         return this._processAccounts(sourceWallet, fundingWallet)
       })
       .then((accountInfo) => {
+        console.log('accountInfo: ' + JSON.stringify(accountInfo))
+
         const operation = this._paymentOperation(destKey, amount, asset, accountInfo.sourcePublicKey)
 
         return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo, memo, additionalSigners)
@@ -442,8 +448,9 @@ export default class StellarAPI {
 
     return sourceWallet.signTransaction(transaction)
       .then((signedTx) => {
+        console.log('signed')
+
         if (fundingWallet) {
-          // sign with source if not null
           return fundingWallet.signTransaction(signedTx)
         }
 
@@ -456,6 +463,7 @@ export default class StellarAPI {
               return this.submitTransaction(signedTxMore)
             })
         }
+        console.log('submitting')
 
         return this.submitTransaction(signedTx)
       })
