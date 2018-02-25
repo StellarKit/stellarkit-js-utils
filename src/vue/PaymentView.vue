@@ -221,6 +221,7 @@ export default {
         background: steelblue;
         color: white;
         text-align: center;
+        padding: 10px;
         font-size: 1.2em;
 
         .back-button {
