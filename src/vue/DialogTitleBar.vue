@@ -5,14 +5,14 @@
   </div>
 
   <v-tooltip open-delay='200' bottom>
-    <v-btn v-if='showPrint' icon dark @click="buttonClick('print')" slot="activator">
+    <v-btn small v-if='showPrint' icon dark @click="buttonClick('print')" slot="activator">
       <v-icon>print</v-icon>
     </v-btn>
     <span>Print</span>
   </v-tooltip>
 
   <v-tooltip open-delay='200' bottom>
-    <v-btn icon dark @click="buttonClick('close')" slot="activator">
+    <v-btn small icon dark @click="buttonClick('close')" slot="activator">
       <v-icon>{{icon}}</v-icon>
     </v-btn>
     <span v-html='tooltip'></span>
@@ -76,7 +76,7 @@ export default {
         p {
             color: $text-color;
             font-weight: $bold;
-            font-size: 1.2em;
+            font-size: 1.1em;
             margin: 0;
             user-select: none;
         }
