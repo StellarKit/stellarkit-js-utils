@@ -40,7 +40,7 @@ export default {
 .main-container {
     @include standard-dialog-contents();
 
-    padding: 20px;
+    padding: 10px;
 
     .button-holder {
         margin-top: 10px;
