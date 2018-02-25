@@ -215,14 +215,12 @@ export default {
 .payment-view {
     display: flex;
     flex-direction: column;
-    padding: 20px;
 
     .input-title {
         position: relative;
         background: steelblue;
         color: white;
         text-align: center;
-        padding: 10px;
         font-size: 1.2em;
 
         .back-button {
@@ -233,7 +231,7 @@ export default {
     }
 
     .payment-content {
-        margin-top: 20px;
+        margin-top: 10px;
 
         .own-wallet {
             margin-top: 20px;
