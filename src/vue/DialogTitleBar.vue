@@ -54,7 +54,7 @@ export default {
     background: $active-color;
     padding-right: 6px;
     box-shadow: 0 0 4px rgba(0, 0, 0, .5);
-    flex: 0 0 40px;
+    flex: 0 0 36px;
 
     button {
         margin: 2px;
