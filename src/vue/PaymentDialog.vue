@@ -43,7 +43,6 @@ export default {
     padding: 10px;
 
     .button-holder {
-        margin-top: 10px;
         display: flex;
         justify-content: flex-end;
     }

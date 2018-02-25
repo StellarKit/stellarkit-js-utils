@@ -232,7 +232,7 @@ export default {
     }
 
     .payment-content {
-        margin-top: 10px;
+        margin: 10px;
 
         .own-wallet {
             margin-top: 20px;
