@@ -25,7 +25,7 @@ export default class HorizonServer {
     return this._server
   }
 
-  testnet() {
+  isTestnet() {
     return this._testnet
   }
 
