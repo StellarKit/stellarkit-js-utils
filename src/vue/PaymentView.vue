@@ -39,7 +39,8 @@
         <v-text-field label="Destination" v-model.trim="destinationPublicKey" @keyup.enter="buttonClick('sendWithSecret')"></v-text-field>
       </div>
 
-      <v-text-field label="Secret Key" v-model.trim="secretKey" @keyup.enter="buttonClick('sendWithSecret')" hint="Starts with an 'S'" :append-icon="showSecret ? 'visibility_off' : 'visibility'" :append-icon-cb="() => (showSecret = !showSecret)" :type="showSecret ? 'text' : 'password'"></v-text-field>
+      <v-text-field label="Secret Key" v-model.trim="secretKey" :counter="56" @keyup.enter="buttonClick('sendWithSecret')" hint="Starts with an 'S'" :append-icon="showSecret ? 'visibility_off' : 'visibility'" :append-icon-cb="() => (showSecret = !showSecret)"
+        :type="showSecret ? 'text' : 'password'"></v-text-field>
 
       <div class='sign-button-area'>
         <v-btn @click="buttonClick('sendWithSecret')" :disabled="disableSendLumens">Send Lumens</v-btn>
@@ -77,10 +78,10 @@ export default {
     }
   },
   computed: {
-    disableSendLumens: function () {
+    disableSendLumens: function() {
       return Utils.strlen(this.secretKey) < 10 || this.xlm < 1
     },
-    headerMessage: function () {
+    headerMessage: function() {
       if (this.donate) {
         return 'Your XLM donation is appreciated.'
       }
