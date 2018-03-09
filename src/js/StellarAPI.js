@@ -52,18 +52,21 @@ export default class StellarAPI {
 
   mergeAccount(sourceWallet, destWallet) {
     let destKey = ''
+    console.log('here')
 
     return destWallet.publicKey()
       .then((destPublicKey) => {
         destKey = destPublicKey
+        console.log(destKey + 'dk')
 
         sourceWallet.publicKey()
       })
       .then((publicKey) => {
+        console.log(publicKey + 'pk')
+
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
-        console.log(destKey)
         const transaction = new StellarSdk.TransactionBuilder(account)
           .addOperation(StellarSdk.Operation.accountMerge({
             destination: destKey
