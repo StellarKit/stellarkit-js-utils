@@ -51,24 +51,34 @@ export default class StellarAPI {
   }
 
   mergeAccount(sourceWallet, destWallet) {
-    let destKey = ''
+    let sourcePublicKey = ''
+    let destPublicKey = ''
 
-    return destWallet.publicKey()
-      .then((destPublicKey) => {
-        destKey = destPublicKey
+    return sourceWallet.publicKey()
+      .then((publicKey) => {
+        sourcePublicKey = publicKey
 
-        return sourceWallet.publicKey()
+        return destWallet.publicKey()
       })
       .then((publicKey) => {
+        destPublicKey = publicKey
+
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
+        // we are using the destWallet to perform the transaction
+        // the source wallet could have 1 XLM which would fail tx_insufficient_balance
         const transaction = new StellarSdk.TransactionBuilder(account)
           .addOperation(StellarSdk.Operation.accountMerge({
-            destination: destKey
+            destination: destPublicKey,
+            source: sourcePublicKey
           })).build()
 
-        return sourceWallet.signTransaction(transaction)
+        return destWallet.signTransaction(transaction)
+      })
+      .then((signedTransaction) => {
+        // must also sign by source
+        return sourceWallet.signTransaction(signedTransaction)
       })
       .then((signedTransaction) => {
         return this.submitTransaction(signedTransaction)
