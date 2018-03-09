@@ -50,8 +50,15 @@ export default class StellarAPI {
     return this.server().paths(sourceKey, destinationPublic, destinationAsset, destinationAmount)
   }
 
-  mergeAccount(sourceWallet, destKey) {
-    return sourceWallet.publicKey()
+  mergeAccount(sourceWallet, destWallet) {
+    let destKey = ''
+
+    return destWallet.publicKey()
+      .then((destPublicKey) => {
+        destKey = destPublicKey
+
+        sourceWallet.publicKey()
+      })
       .then((publicKey) => {
         return this.server().loadAccount(publicKey)
       })
