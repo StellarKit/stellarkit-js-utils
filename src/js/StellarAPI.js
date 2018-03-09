@@ -63,6 +63,7 @@ export default class StellarAPI {
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
+        console.log(destKey)
         const transaction = new StellarSdk.TransactionBuilder(account)
           .addOperation(StellarSdk.Operation.accountMerge({
             destination: destKey
