@@ -5,12 +5,10 @@
   </div>
 
   <div class='left-side-buttons'>
-    <v-tooltip open-delay='200' bottom>
-      <v-btn small v-if='showBack' class='dialog-back-button' icon dark @click="buttonClick('back')" slot="activator">
-        <v-icon>chevron_left</v-icon>
-      </v-btn>
-      <span>Go Back</span>
-    </v-tooltip>
+    <!-- no tooltip, going back rebuilds view and tooltip hangs in the air -->
+    <v-btn v-if='showBack' class='dialog-back-button' icon dark @click="buttonClick('back')" slot="activator">
+      <v-icon>chevron_left</v-icon>
+    </v-btn>
   </div>
 
   <div class='right-side-buttons'>
