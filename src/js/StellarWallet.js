@@ -22,6 +22,15 @@ export default class StellarWallet {
     return result
   }
 
+  // 'constructor' with publicKey (can't sign anything)
+  static public(publicKey) {
+    const result = new StellarWallet()
+
+    result._publicKey = publicKey
+
+    return result
+  }
+
   // using promise so ledger and user entered have same API
   publicKey() {
     if (this._publicKey) {

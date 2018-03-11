@@ -213,10 +213,15 @@ export default class StellarAPI {
       })
   }
 
-  sendAsset(sourceWallet, fundingWallet, destKey, amount, inAsset = null, memo = null, additionalSigners = null) {
+  sendAsset(sourceWallet, fundingWallet, destWallet, amount, inAsset = null, memo = null, additionalSigners = null) {
     const asset = inAsset === null ? StellarSdk.Asset.native() : inAsset
+    let destKey = null
 
-    return this.server().loadAccount(destKey)
+    return destWallet.publicKey()
+      .then((publicKey) => {
+        destKey = publicKey
+        return this.server().loadAccount(destKey)
+      })
       .then((destAccount) => {
         // dest has a trustline?
         if (!this._hasAssetTrustline(destAccount, asset)) {
