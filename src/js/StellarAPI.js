@@ -316,7 +316,7 @@ export default class StellarAPI {
       })
   }
 
-  lockAccount(sourceWallet) {
+  lockAccount(sourceWallet, fundingWallet = null) {
     const options = {
       masterWeight: 0, // set master key weight to zero
       lowThreshold: 1,
@@ -324,55 +324,47 @@ export default class StellarAPI {
       highThreshold: 1
     }
 
-    return this.setOptions(sourceWallet, options)
+    return this.setOptions(sourceWallet, options, fundingWallet)
   }
 
-  setDomain(sourceWallet, domain) {
+  setDomain(sourceWallet, domain, fundingWallet = null) {
     const options = {
       homeDomain: domain
     }
 
-    return this.setOptions(sourceWallet, options)
+    return this.setOptions(sourceWallet, options, fundingWallet)
   }
 
-  setFlags(sourceWallet, flags) {
+  setFlags(sourceWallet, flags, fundingWallet = null) {
     const options = {
       setFlags: flags
     }
 
-    return this.setOptions(sourceWallet, options)
+    return this.setOptions(sourceWallet, options, fundingWallet)
   }
 
-  clearFlags(sourceWallet, flags) {
+  clearFlags(sourceWallet, flags, fundingWallet = null) {
     const options = {
       clearFlags: flags
     }
 
-    return this.setOptions(sourceWallet, options)
+    return this.setOptions(sourceWallet, options, fundingWallet)
   }
 
-  setInflationDestination(sourceWallet, inflationDest) {
+  setInflationDestination(sourceWallet, inflationDest, fundingWallet = null) {
     const options = {
       inflationDest: inflationDest
     }
 
-    return this.setOptions(sourceWallet, options)
+    return this.setOptions(sourceWallet, options, fundingWallet)
   }
 
-  setOptions(sourceWallet, options) {
-    return sourceWallet.publicKey()
-      .then((publicKey) => {
-        return this.server().loadAccount(publicKey)
-      })
-      .then((account) => {
-        const transaction = new StellarSdk.TransactionBuilder(account)
-          .addOperation(StellarSdk.Operation.setOptions(options))
-          .build()
+  setOptions(sourceWallet, options, fundingWallet = null) {
+    return this._processAccounts(sourceWallet, fundingWallet)
+      .then((accountInfo) => {
+        const operation = this._setOptionsOperation(options, accountInfo.sourcePublicKey)
 
-        return sourceWallet.signTransaction(transaction)
-      })
-      .then((signedTransaction) => {
-        return this.submitTransaction(signedTransaction)
+        return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo)
       })
   }
 
@@ -412,6 +404,15 @@ export default class StellarAPI {
       source: sourcePublicKey
     }
     return StellarSdk.Operation.manageOffer(opts)
+  }
+
+  _setOptionsOperation(options, sourcePublicKey = null) {
+    const opts = options
+
+    // just need to add the source public key to passed in options
+    opts.source = sourcePublicKey
+
+    return StellarSdk.Operation.setOptions(opts)
   }
 
   _manageDataOperation(name, value, sourcePublicKey = null) {
