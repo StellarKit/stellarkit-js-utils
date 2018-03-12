@@ -95,22 +95,12 @@ export default class StellarAPI {
       })
   }
 
-  changeTrust(sourceWallet, asset, limit) {
-    return sourceWallet.publicKey()
-      .then((publicKey) => {
-        return this.server().loadAccount(publicKey)
-      })
-      .then((account) => {
-        const transaction = new StellarSdk.TransactionBuilder(account)
-          .addOperation(StellarSdk.Operation.changeTrust({
-            asset: asset,
-            limit: limit
-          })).build()
+  changeTrust(sourceWallet, fundingWallet, asset, limit) {
+    return this._processAccounts(sourceWallet, fundingWallet)
+      .then((accountInfo) => {
+        const operation = this._changeTrustOperation(asset, limit, accountInfo.sourcePublicKey)
 
-        return sourceWallet.signTransaction(transaction)
-      })
-      .then((signedTransaction) => {
-        return this.submitTransaction(signedTransaction)
+        return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo)
       })
   }
 
@@ -432,6 +422,16 @@ export default class StellarAPI {
     }
 
     return StellarSdk.Operation.manageData(opts)
+  }
+
+  _changeTrustOperation(asset, limit, sourcePublicKey = null) {
+    const opts = {
+      asset: asset,
+      limit: limit,
+      source: sourcePublicKey
+    }
+
+    return StellarSdk.Operation.changeTrust(opts)
   }
 
   _processAccounts(sourceWallet, fundingWallet) {
