@@ -294,14 +294,21 @@ export default class StellarAPI {
       })
   }
 
-  createAccount(sourceWallet, destinationKey, startingBalance) {
-    return sourceWallet.publicKey()
+  createAccount(sourceWallet, newWallet, startingBalance) {
+    let newKey
+
+    return newWallet.publicKey()
+      .then((publicKey) => {
+        newKey = publicKey
+
+        return sourceWallet.publicKey()
+      })
       .then((publicKey) => {
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
         const options = {
-          destination: destinationKey,
+          destination: newKey,
           startingBalance: startingBalance
         }
 
@@ -315,7 +322,7 @@ export default class StellarAPI {
         return this.submitTransaction(signedTransaction)
       })
       .then((response) => {
-        return this.server().loadAccount(destinationKey)
+        return this.server().loadAccount(newKey)
       })
   }
 
