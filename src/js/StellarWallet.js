@@ -1,4 +1,5 @@
 const StellarSdk = require('stellar-sdk')
+import Utils from './utils.js'
 
 export default class StellarWallet {
   // 'constructor' with secret
@@ -60,11 +61,18 @@ export default class StellarWallet {
 
           return this._ledgerAPI.signTransaction(publicKey, transaction)
         }
-        const sourceKeys = StellarSdk.Keypair.fromSecret(this._secret)
 
-        transaction.sign(sourceKeys)
+        // our wallets don't have to contain a secret key, so watch for that
+        if (Utils.strOK(this._secret)) {
+          const sourceKeys = StellarSdk.Keypair.fromSecret(this._secret)
 
-        return transaction
+          transaction.sign(sourceKeys)
+
+          return transaction
+        }
+
+        // only gets here if StellarWallet is a public key variant
+        throw new Error('This wallet does not contain a secret key.')
       })
       .then((signedTx) => {
         return signedTx
