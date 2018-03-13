@@ -45,6 +45,22 @@ export default class StellarWallet {
       })
   }
 
+  equalTo(otherWallet) {
+    if (this.usingLedger() && otherWallet.usingLedger()) {
+      return true
+    }
+
+    if (this._publicKey === otherWallet._publicKey) {
+      return true
+    }
+
+    if (this._secret === otherWallet._secret) {
+      return true
+    }
+
+    return false
+  }
+
   // if true, alert the user to confirm on device
   usingLedger() {
     return this._ledgerAPI !== undefined
