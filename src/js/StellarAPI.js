@@ -29,8 +29,13 @@ export default class StellarAPI {
     return this.server().loadAccount(publicKey)
   }
 
-  balances(publicKey) {
-    return this.server().loadAccount(publicKey)
+  // fails if two assets with the same asset code
+  // not a common case, but beware
+  balances(sourceWallet) {
+    return sourceWallet.publicKey()
+      .then((publicKey) => {
+        return this.server().loadAccount(publicKey)
+      })
       .then((account) => {
         const result = {}
 
@@ -43,6 +48,29 @@ export default class StellarAPI {
         })
 
         return result
+      })
+  }
+
+  // returns a string, not a float
+  balanceForAsset(sourceWallet, asset) {
+    return sourceWallet.publicKey()
+      .then((publicKey) => {
+        return this.server().loadAccount(publicKey)
+      })
+      .then((account) => {
+        account.balances.forEach((balance) => {
+          if (balance.asset_type === 'native') {
+            if (asset.isNative()) {
+              return balance.balance
+            }
+          } else {
+            if (balance.asset_code === asset.getCode() && balance.asset_issuer === asset.getIssuer()) {
+              return balance.balance
+            }
+          }
+        })
+
+        return ''
       })
   }
 
