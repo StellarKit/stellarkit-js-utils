@@ -55,10 +55,14 @@ export default class StellarAPI {
   balanceForAsset(sourceWallet, asset) {
     return sourceWallet.publicKey()
       .then((publicKey) => {
+        console.log(JSON.stringify(asset))
+
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
         account.balances.forEach((balance) => {
+          console.log(JSON.stringify(balance))
+
           if (balance.asset_type === 'native') {
             if (asset.isNative()) {
               return balance.balance
@@ -70,7 +74,7 @@ export default class StellarAPI {
           }
         })
 
-        return ''
+        return '0'
       })
   }
 
