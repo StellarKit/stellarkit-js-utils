@@ -64,7 +64,12 @@ export default class StellarAPI {
               return balance.balance
             }
           } else {
+            console.log(JSON.stringify(balance.asset_code))
+            console.log(JSON.stringify(asset.getCode()))
+            console.log(JSON.stringify(balance.asset_issuer))
+            console.log(JSON.stringify(asset.getIssuer()))
             if ((balance.asset_code === asset.getCode()) && (balance.asset_issuer === asset.getIssuer())) {
+              console.log('wat?')
               return balance.balance
             }
           }
