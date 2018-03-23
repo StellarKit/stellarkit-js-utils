@@ -58,22 +58,17 @@ export default class StellarAPI {
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
-        account.balances.forEach((balance) => {
+        for (const balance of account.balances) {
           if (balance.asset_type === 'native') {
             if (asset.isNative()) {
               return balance.balance
             }
           } else {
-            console.log(JSON.stringify(balance.asset_code))
-            console.log(JSON.stringify(asset.getCode()))
-            console.log(JSON.stringify(balance.asset_issuer))
-            console.log(JSON.stringify(asset.getIssuer()))
-            if ((balance.asset_code === asset.getCode()) && (balance.asset_issuer === asset.getIssuer())) {
-              console.log('wat?')
+            if (balance.asset_code === asset.getCode() && balance.asset_issuer === asset.getIssuer()) {
               return balance.balance
             }
           }
-        })
+        }
 
         return '0'
       })
