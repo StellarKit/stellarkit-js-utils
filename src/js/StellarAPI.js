@@ -29,21 +29,27 @@ export default class StellarAPI {
     return this.server().loadAccount(publicKey)
   }
 
-  // fails if two assets with the same asset code
-  // not a common case, but beware
   balances(sourceWallet) {
     return sourceWallet.publicKey()
       .then((publicKey) => {
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
-        const result = {}
+        const result = []
 
         account.balances.forEach((balance) => {
           if (balance.asset_type === 'native') {
-            result['XLM'] = balance.balance
+            result.push({
+              symbol: 'XLM',
+              balance: balance.balance,
+              issuer: ''
+            })
           } else {
-            result[balance.asset_code] = balance.balance
+            result.push({
+              symbol: balance.asset_code,
+              amount: balance.balance,
+              issuer: balance.asset_issuer
+            })
           }
         })
 
