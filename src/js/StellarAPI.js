@@ -41,7 +41,7 @@ export default class StellarAPI {
           if (balance.asset_type === 'native') {
             result.push({
               symbol: 'XLM',
-              balance: balance.balance,
+              amount: balance.balance,
               issuer: ''
             })
           } else {
