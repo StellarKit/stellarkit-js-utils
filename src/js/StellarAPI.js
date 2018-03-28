@@ -125,7 +125,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = this._manageOfferOperation(buying, selling, amount, price, offerID, accountInfo.sourcePublicKey)
 
-        return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo)
+        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
       })
   }
 
@@ -134,7 +134,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = this._changeTrustOperation(asset, limit, accountInfo.sourcePublicKey)
 
-        return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo)
+        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
       })
   }
 
@@ -237,6 +237,43 @@ export default class StellarAPI {
       })
   }
 
+  sendAssetBatch(sourceWallet, fundingWallet, destWallets, amount, inAsset = null, memo = null, additionalSigners = null) {
+    const asset = inAsset === null ? StellarSdk.Asset.native() : inAsset
+    let destKey = null
+    const operations = []
+
+    return this._processAccounts(sourceWallet, fundingWallet)
+      .then((accountInfo) => {
+        let nextPromise = Promise.resolve()
+
+        for (const destWallet of destWallets) {
+          nextPromise = nextPromise.then(() => {
+              return destWallet.publicKey()
+            })
+            .then((publicKey) => {
+              destKey = publicKey
+              return this.server().loadAccount(destKey)
+            })
+            .then((destAccount) => {
+              // dest has a trustline?
+              if (!this._hasAssetTrustline(destAccount, asset)) {
+                throw new Error('No trustline from destination to asset')
+              }
+              return null
+            })
+            .then(() => {
+              const operation = this._paymentOperation(destKey, amount, asset, accountInfo.sourcePublicKey)
+              operations.push(operation)
+              return null
+            })
+        }
+
+        return nextPromise.then(() => {
+          return this._submitOperations(sourceWallet, fundingWallet, operations, accountInfo, memo, additionalSigners)
+        })
+      })
+  }
+
   sendAsset(sourceWallet, fundingWallet, destWallet, amount, inAsset = null, memo = null, additionalSigners = null) {
     const asset = inAsset === null ? StellarSdk.Asset.native() : inAsset
     let destKey = null
@@ -257,7 +294,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = this._paymentOperation(destKey, amount, asset, accountInfo.sourcePublicKey)
 
-        return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo, memo, additionalSigners)
+        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo, memo, additionalSigners)
       })
   }
 
@@ -295,7 +332,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = this._manageDataOperation(name, value, accountInfo.sourcePublicKey)
 
-        return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo)
+        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
       })
   }
 
@@ -398,7 +435,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = this._setOptionsOperation(options, accountInfo.sourcePublicKey)
 
-        return this._submitOperation(sourceWallet, fundingWallet, operation, accountInfo)
+        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
       })
   }
 
@@ -501,9 +538,12 @@ export default class StellarAPI {
       })
   }
 
-  _submitOperation(sourceWallet, fundingWallet, operation, accountInfo, memo = null, additionalSigners = null) {
+  _submitOperations(sourceWallet, fundingWallet, operations, accountInfo, memo = null, additionalSigners = null) {
     const builder = new StellarSdk.TransactionBuilder(accountInfo.account)
-      .addOperation(operation)
+
+    for (const operation of operations) {
+      builder.addOperation(operation)
+    }
 
     if (Utils.strOK(memo)) {
       builder.addMemo(StellarSdk.Memo.text(memo))
