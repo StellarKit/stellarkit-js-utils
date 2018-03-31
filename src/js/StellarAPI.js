@@ -300,12 +300,12 @@ export default class StellarAPI {
       })
   }
 
-  manageData(sourceWallet, fundingWallet, name, value) {
+  manageData(sourceWallet, fundingWallet, name, value, additionalSigners = null) {
     return this._processAccounts(sourceWallet, fundingWallet)
       .then((accountInfo) => {
         const operation = StellarOperations.manageDataOperation(name, value, accountInfo.sourcePublicKey)
 
-        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
+        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo, null, additionalSigners)
       })
   }
 
