@@ -1,6 +1,7 @@
 const StellarSdk = require('stellar-sdk')
 import axios from 'axios'
 import Utils from './utils.js'
+import StellarOperations from './StellarOperations.js'
 
 export default class StellarAPI {
   constructor(horizonServer) {
@@ -123,7 +124,7 @@ export default class StellarAPI {
   manageOffer(sourceWallet, fundingWallet, buying, selling, amount, price, offerID = 0) {
     return this._processAccounts(sourceWallet, fundingWallet)
       .then((accountInfo) => {
-        const operation = this._manageOfferOperation(buying, selling, amount, price, offerID, accountInfo.sourcePublicKey)
+        const operation = StellarOperations.manageOfferOperation(buying, selling, amount, price, offerID, accountInfo.sourcePublicKey)
 
         return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
       })
@@ -132,7 +133,7 @@ export default class StellarAPI {
   changeTrust(sourceWallet, fundingWallet, asset, limit) {
     return this._processAccounts(sourceWallet, fundingWallet)
       .then((accountInfo) => {
-        const operation = this._changeTrustOperation(asset, limit, accountInfo.sourcePublicKey)
+        const operation = StellarOperations.changeTrustOperation(asset, limit, accountInfo.sourcePublicKey)
 
         return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
       })
@@ -160,36 +161,19 @@ export default class StellarAPI {
   }
 
   // pass 1 for threshold if either account can sign for med/high operations
-  makeMultiSig(sourceWallet, secondWallet, threshold = 2) {
-    let sourceAccount = null
+  makeMultiSig(sourceWallet, secondWallet, fundingWallet = null, threshold = 2) {
+    let secondPublicKey = null
 
-    return sourceWallet.publicKey()
+    return secondWallet.publicKey()
       .then((publicKey) => {
-        return this.server().loadAccount(publicKey)
-      })
-      .then((account) => {
-        sourceAccount = account
+        secondPublicKey = publicKey
 
-        return secondWallet.publicKey()
+        return this._processAccounts(sourceWallet, fundingWallet)
       })
-      .then((secondPublicKey) => {
-        const transaction = new StellarSdk.TransactionBuilder(sourceAccount)
-          .addOperation(StellarSdk.Operation.setOptions({
-            signer: {
-              ed25519PublicKey: secondPublicKey,
-              weight: 1
-            }
-          }))
-          .addOperation(StellarSdk.Operation.setOptions({
-            medThreshold: threshold,
-            highThreshold: threshold
-          }))
-          .build()
+      .then((accountInfo) => {
+        const operations = StellarOperations.multisigOperations(secondPublicKey, 1, threshold, threshold, accountInfo.sourcePublicKey)
 
-        return sourceWallet.signTransaction(transaction)
-      })
-      .then((signedTransaction) => {
-        return this.submitTransaction(signedTransaction)
+        return this._submitOperations(sourceWallet, fundingWallet, operations, accountInfo)
       })
   }
 
@@ -217,18 +201,14 @@ export default class StellarAPI {
         return secondWallet.publicKey()
       })
       .then((secondPublicKey) => {
-        const transaction = new StellarSdk.TransactionBuilder(sourceAccount, transactionOpts)
-          .addOperation(StellarSdk.Operation.setOptions({
-            medThreshold: 1,
-            highThreshold: 1
-          }))
-          .addOperation(StellarSdk.Operation.setOptions({
-            signer: {
-              ed25519PublicKey: secondPublicKey,
-              weight: 0
-            }
-          }))
-          .build()
+        const builder = new StellarSdk.TransactionBuilder(sourceAccount, transactionOpts)
+
+        const operations = StellarOperations.removeMultisigOperations(secondPublicKey, 1, 1, null)
+        for (const operation of operations) {
+          builder.addOperation(operation)
+        }
+
+        const transaction = builder.build()
 
         return sourceWallet.signTransaction(transaction)
       })
@@ -262,7 +242,7 @@ export default class StellarAPI {
               return null
             })
             .then(() => {
-              const operation = this._paymentOperation(destKey, amount, asset, accountInfo.sourcePublicKey)
+              const operation = StellarOperations.paymentOperation(destKey, amount, asset, accountInfo.sourcePublicKey)
               operations.push(operation)
               return null
             })
@@ -292,7 +272,7 @@ export default class StellarAPI {
         return this._processAccounts(sourceWallet, fundingWallet)
       })
       .then((accountInfo) => {
-        const operation = this._paymentOperation(destKey, amount, asset, accountInfo.sourcePublicKey)
+        const operation = StellarOperations.paymentOperation(destKey, amount, asset, accountInfo.sourcePublicKey)
 
         return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo, memo, additionalSigners)
       })
@@ -314,7 +294,7 @@ export default class StellarAPI {
         return this._processAccounts(sourceWallet, fundingWallet)
       })
       .then((accountInfo) => {
-        const operation = this._pathPaymentOperation(sourcePublicKey, sendAsset, sendMax, destAsset, destAmount, accountInfo.sourcePublicKey)
+        const operation = StellarOperations.pathPaymentOperation(sourcePublicKey, sendAsset, sendMax, destAsset, destAmount, accountInfo.sourcePublicKey)
 
         return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo, null, additionalSigners)
       })
@@ -323,7 +303,7 @@ export default class StellarAPI {
   manageData(sourceWallet, fundingWallet, name, value) {
     return this._processAccounts(sourceWallet, fundingWallet)
       .then((accountInfo) => {
-        const operation = this._manageDataOperation(name, value, accountInfo.sourcePublicKey)
+        const operation = StellarOperations.manageDataOperation(name, value, accountInfo.sourcePublicKey)
 
         return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
       })
@@ -426,7 +406,7 @@ export default class StellarAPI {
   setOptions(sourceWallet, options, fundingWallet = null) {
     return this._processAccounts(sourceWallet, fundingWallet)
       .then((accountInfo) => {
-        const operation = this._setOptionsOperation(options, accountInfo.sourcePublicKey)
+        const operation = StellarOperations.setOptionsOperation(options, accountInfo.sourcePublicKey)
 
         return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
       })
@@ -445,72 +425,6 @@ export default class StellarAPI {
       return balance.asset_code === asset.getCode() &&
         balance.asset_issuer === asset.getIssuer()
     })
-  }
-
-  _paymentOperation(destKey, amount, asset, sourcePublicKey) {
-    const opts = {
-      destination: destKey,
-      asset: asset,
-      amount: amount,
-      source: sourcePublicKey
-    }
-
-    return StellarSdk.Operation.payment(opts)
-  }
-
-  _manageOfferOperation(buying, selling, amount, price, offerID = 0, sourcePublicKey = null) {
-    const opts = {
-      selling: selling,
-      buying: buying,
-      amount: amount,
-      price: price,
-      offerId: offerID,
-      source: sourcePublicKey
-    }
-    return StellarSdk.Operation.manageOffer(opts)
-  }
-
-  _setOptionsOperation(options, sourcePublicKey = null) {
-    const opts = options
-
-    // just need to add the source public key to passed in options
-    opts.source = sourcePublicKey
-
-    return StellarSdk.Operation.setOptions(opts)
-  }
-
-  _manageDataOperation(name, value, sourcePublicKey = null) {
-    const opts = {
-      name: name,
-      value: Utils.strOK(value) ? value : null, // pass null to remove name/value
-      source: sourcePublicKey
-    }
-
-    return StellarSdk.Operation.manageData(opts)
-  }
-
-  _changeTrustOperation(asset, limit, sourcePublicKey = null) {
-    const opts = {
-      asset: asset,
-      limit: limit,
-      source: sourcePublicKey
-    }
-
-    return StellarSdk.Operation.changeTrust(opts)
-  }
-
-  _pathPaymentOperation(destination, sendAsset, sendMax, destAsset, destAmount, sourcePublicKey = null) {
-    const opts = {
-      destination: destination,
-      sendAsset: sendAsset,
-      sendMax: sendMax,
-      destAsset: destAsset,
-      destAmount: destAmount,
-      path: [],
-      source: sourcePublicKey
-    }
-
-    return StellarSdk.Operation.pathPayment(opts)
   }
 
   _processAccounts(sourceWallet, fundingWallet) {
