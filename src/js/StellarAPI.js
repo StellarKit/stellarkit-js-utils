@@ -360,7 +360,7 @@ export default class StellarAPI {
       })
   }
 
-  lockAccount(sourceWallet, fundingWallet = null) {
+  lockAccount(sourceWallet, fundingWallet = null, additionalSigners = null) {
     const options = {
       masterWeight: 0, // set master key weight to zero
       lowThreshold: 1,
@@ -368,47 +368,47 @@ export default class StellarAPI {
       highThreshold: 1
     }
 
-    return this.setOptions(sourceWallet, options, fundingWallet)
+    return this.setOptions(sourceWallet, options, fundingWallet, additionalSigners)
   }
 
-  setDomain(sourceWallet, domain, fundingWallet = null) {
+  setDomain(sourceWallet, domain, fundingWallet = null, additionalSigners = null) {
     const options = {
       homeDomain: domain
     }
 
-    return this.setOptions(sourceWallet, options, fundingWallet)
+    return this.setOptions(sourceWallet, options, fundingWallet, additionalSigners)
   }
 
-  setFlags(sourceWallet, flags, fundingWallet = null) {
+  setFlags(sourceWallet, flags, fundingWallet = null, additionalSigners = null) {
     const options = {
       setFlags: flags
     }
 
-    return this.setOptions(sourceWallet, options, fundingWallet)
+    return this.setOptions(sourceWallet, options, fundingWallet, additionalSigners)
   }
 
-  clearFlags(sourceWallet, flags, fundingWallet = null) {
+  clearFlags(sourceWallet, flags, fundingWallet = null, additionalSigners = null) {
     const options = {
       clearFlags: flags
     }
 
-    return this.setOptions(sourceWallet, options, fundingWallet)
+    return this.setOptions(sourceWallet, options, fundingWallet, additionalSigners)
   }
 
-  setInflationDestination(sourceWallet, inflationDest, fundingWallet = null) {
+  setInflationDestination(sourceWallet, inflationDest, fundingWallet = null, additionalSigners = null) {
     const options = {
       inflationDest: inflationDest
     }
 
-    return this.setOptions(sourceWallet, options, fundingWallet)
+    return this.setOptions(sourceWallet, options, fundingWallet, additionalSigners)
   }
 
-  setOptions(sourceWallet, options, fundingWallet = null) {
+  setOptions(sourceWallet, options, fundingWallet = null, additionalSigners = null) {
     return this._processAccounts(sourceWallet, fundingWallet)
       .then((accountInfo) => {
         const operation = StellarOperations.setOptionsOperation(options, accountInfo.sourcePublicKey)
 
-        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
+        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo, null, additionalSigners)
       })
   }
 
