@@ -298,9 +298,12 @@ export default class StellarAPI {
       })
   }
 
-  buyTokens(sourceWallet, sendAsset, destAsset, sendMax, destAmount) {
+  buyTokens(sourceWallet, sendAsset, destAsset, sendMax, destAmount, fundingWallet = null, additionalSigners = null) {
+    let sourcePublicKey = null
+
     return sourceWallet.publicKey()
       .then((publicKey) => {
+        sourcePublicKey = publicKey
         return this.server().loadAccount(publicKey)
       })
       .then((account) => {
@@ -308,22 +311,12 @@ export default class StellarAPI {
           throw new Error('No trustline from buyer to asset')
         }
 
-        const transaction = new StellarSdk.TransactionBuilder(account)
-          .addOperation(
-            StellarSdk.Operation.pathPayment({
-              destination: account.accountId(),
-              sendAsset: sendAsset,
-              sendMax: sendMax,
-              destAsset: destAsset,
-              destAmount: destAmount,
-              path: []
-            }))
-          .build()
-
-        return sourceWallet.signTransaction(transaction)
+        return this._processAccounts(sourceWallet, fundingWallet)
       })
-      .then((signedTransaction) => {
-        return this.submitTransaction(signedTransaction)
+      .then((accountInfo) => {
+        const operation = this._pathPaymentOperation(sourcePublicKey, sendAsset, sendMax, destAsset, destAmount, accountInfo.sourcePublicKey)
+
+        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo, null, additionalSigners)
       })
   }
 
@@ -504,6 +497,20 @@ export default class StellarAPI {
     }
 
     return StellarSdk.Operation.changeTrust(opts)
+  }
+
+  _pathPaymentOperation(destination, sendAsset, sendMax, destAsset, destAmount, sourcePublicKey = null) {
+    const opts = {
+      destination: destination,
+      sendAsset: sendAsset,
+      sendMax: sendMax,
+      destAsset: destAsset,
+      destAmount: destAmount,
+      path: [],
+      source: sourcePublicKey
+    }
+
+    return StellarSdk.Operation.pathPayment(opts)
   }
 
   _processAccounts(sourceWallet, fundingWallet) {
