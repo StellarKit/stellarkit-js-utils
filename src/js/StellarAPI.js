@@ -139,8 +139,15 @@ export default class StellarAPI {
       })
   }
 
-  allowTrust(sourceWallet, trustor, asset, authorize) {
-    return sourceWallet.publicKey()
+  allowTrust(sourceWallet, trustWallet, asset, authorize) {
+    let trustor = null
+
+    return trustWallet.publicKey()
+      .then((publicKey) => {
+        trustor = publicKey
+
+        return sourceWallet.publicKey()
+      })
       .then((publicKey) => {
         return this.server().loadAccount(publicKey)
       })
