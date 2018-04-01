@@ -397,7 +397,7 @@ export default class StellarAPI {
         break
     }
 
-    if (options !== null) {
+    if (!options) {
       throw new Error('lockAccount preset invalid')
     }
 
