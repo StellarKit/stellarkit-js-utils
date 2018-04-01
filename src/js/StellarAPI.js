@@ -474,34 +474,64 @@ export default class StellarAPI {
 
     return sourceWallet.signTransaction(transaction)
       .then((signedTx) => {
-        if (fundingWallet) {
+        // don't sign if funder and source are the same
+        if (fundingWallet && !fundingWallet.equalTo(sourceWallet)) {
           return fundingWallet.signTransaction(signedTx)
         }
 
         return signedTx
       })
       .then((signedTx) => {
-        if (additionalSigners) {
-          return this._signTransactionWithArray(signedTx, additionalSigners)
-            .then((signedTxMore) => {
-              return this.submitTransaction(signedTxMore)
+        if (additionalSigners && additionalSigners.length > 0) {
+          // will fail if additional signers also include the source and funding
+          const excludeList = []
+          excludeList.push(sourceWallet)
+
+          if (fundingWallet) {
+            excludeList.push(fundingWallet)
+          }
+
+          const signers = this._filteredSigners(additionalSigners, excludeList)
+
+          let nextPromise = Promise.resolve()
+
+          for (const signerWallet of signers) {
+            nextPromise = nextPromise.then(() => {
+              return signerWallet.signTransaction(signedTx)
             })
+          }
+
+          return nextPromise.then((signedTxMore) => {
+            return this.submitTransaction(signedTxMore)
+          })
         }
 
         return this.submitTransaction(signedTx)
       })
   }
 
-  _signTransactionWithArray(transaction, signers) {
-    const signerWallet = signers.pop()
+  _filteredSigners(signers, excludeList) {
+    let result = signers
 
-    if (signerWallet) {
-      return signerWallet.signTransaction(transaction)
-        .then((signedTramsaction) => {
-          return this._signTransactionWithArray(signedTramsaction, signers)
-        })
-    } else {
-      return Promise.resolve(transaction)
+    if (signers && signers.length > 0 && excludeList && excludeList.length > 0) {
+      result = []
+
+      for (const signer of signers) {
+        let found = false
+
+        for (const exclude of excludeList) {
+          if (signer.equalTo(exclude)) {
+            found = true
+            break
+          }
+        }
+
+        if (!found) {
+          result.push(signer)
+        }
+      }
     }
+
+    return result
   }
 }
