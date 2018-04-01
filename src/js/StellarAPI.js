@@ -492,18 +492,19 @@ export default class StellarAPI {
           }
 
           const signers = this._filteredSigners(additionalSigners, excludeList)
+          if (signers.length > 0) {
+            let nextPromise = Promise.resolve()
 
-          let nextPromise = Promise.resolve()
+            for (const signerWallet of signers) {
+              nextPromise = nextPromise.then(() => {
+                return signerWallet.signTransaction(signedTx)
+              })
+            }
 
-          for (const signerWallet of signers) {
-            nextPromise = nextPromise.then(() => {
-              return signerWallet.signTransaction(signedTx)
+            return nextPromise.then((signedTxMore) => {
+              return this.submitTransaction(signedTxMore)
             })
           }
-
-          return nextPromise.then((signedTxMore) => {
-            return this.submitTransaction(signedTxMore)
-          })
         }
 
         return this.submitTransaction(signedTx)
