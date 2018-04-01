@@ -518,17 +518,20 @@ export default class StellarAPI {
       result = []
 
       for (const signer of signers) {
-        let found = false
+        // avoid nulls in array: [null]
+        if (signer) {
+          let found = false
 
-        for (const exclude of excludeList) {
-          if (signer.equalTo(exclude)) {
-            found = true
-            break
+          for (const exclude of excludeList) {
+            if (signer.equalTo(exclude)) {
+              found = true
+              break
+            }
           }
-        }
 
-        if (!found) {
-          result.push(signer)
+          if (!found) {
+            result.push(signer)
+          }
         }
       }
     }
