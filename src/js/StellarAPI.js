@@ -360,12 +360,38 @@ export default class StellarAPI {
       })
   }
 
-  lockAccount(sourceWallet, fundingWallet = null, additionalSigners = null) {
-    const options = {
-      masterWeight: 0, // set master key weight to zero
-      lowThreshold: 1,
-      medThreshold: 1,
-      highThreshold: 1
+  // presets are 'lock', 'low'
+  lockAccount(sourceWallet, preset = 'invalid', fundingWallet = null, additionalSigners = null) {
+    let options = null
+
+    switch (preset) {
+      case 'low':
+        // this allows 'allowTrust', but nothing else high or medium
+        options = {
+          masterWeight: 1,
+          lowThreshold: 0,
+          medThreshold: 2,
+          highThreshold: 2
+        }
+        break
+      case 'lock':
+        // completely locked (unless other signers are set)
+        // make sure everything is setup before doing this. Not reversible
+        options = {
+          masterWeight: 0,
+          lowThreshold: 0,
+          medThreshold: 0,
+          highThreshold: 0
+        }
+        break
+      default:
+        // will throw an error below, options will be null
+        console.log('preset invalid: ' + preset)
+        break
+    }
+
+    if (options !== null) {
+      throw new Error('lockAccount preset invalid')
     }
 
     return this.setOptions(sourceWallet, options, fundingWallet, additionalSigners)
