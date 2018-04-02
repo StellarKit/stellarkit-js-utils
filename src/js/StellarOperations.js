@@ -54,6 +54,17 @@ export default class StellarOperations {
     return StellarSdk.Operation.changeTrust(opts)
   }
 
+  static allowTrustOperation(destPublicKey, asset, authorize, sourcePublicKey = null) {
+    const opts = {
+      trustor: destPublicKey,
+      assetCode: asset.getCode(),
+      authorize: authorize,
+      source: sourcePublicKey
+    }
+
+    return StellarSdk.Operation.allowTrust(opts)
+  }
+
   static pathPaymentOperation(destination, sendAsset, sendMax, destAsset, destAmount, sourcePublicKey = null) {
     const opts = {
       destination: destination,

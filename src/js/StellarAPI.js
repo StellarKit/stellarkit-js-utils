@@ -139,31 +139,19 @@ export default class StellarAPI {
       })
   }
 
-  allowTrust(sourceWallet, trustWallet, asset, authorize) {
-    let trustor = null
+  allowTrust(sourceWallet, destWallet, asset, authorize, fundingWallet = null) {
+    let destPublicKey = null
 
-    return trustWallet.publicKey()
+    return destWallet.publicKey()
       .then((publicKey) => {
-        trustor = publicKey
+        destPublicKey = publicKey
 
-        return sourceWallet.publicKey()
+        return this._processAccounts(sourceWallet, fundingWallet)
       })
-      .then((publicKey) => {
-        return this.server().loadAccount(publicKey)
-      })
-      .then((account) => {
-        const transaction = new StellarSdk.TransactionBuilder(account)
-          .addOperation(StellarSdk.Operation.allowTrust({
-            trustor: trustor,
-            assetCode: asset.getCode(),
-            authorize: authorize
-          }))
-          .build()
+      .then((accountInfo) => {
+        const operation = StellarOperations.allowTrustOperation(destPublicKey, asset, authorize, accountInfo.sourcePublicKey)
 
-        return sourceWallet.signTransaction(transaction)
-      })
-      .then((signedTransaction) => {
-        return this.submitTransaction(signedTransaction)
+        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
       })
   }
 
