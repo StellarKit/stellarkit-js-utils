@@ -1,4 +1,4 @@
-## Stellar JS Utils
+## StellarKit JS Utils
 
 Build:
 
@@ -25,6 +25,8 @@ Don't worry Vue and Vuetify are awesome and it should be simple to integrate wit
 Check out <https://vuetifyjs.com> for more details.
 
 Pull requests welcome!
+
+Disclaimer: We not affiliated with, or sponsored or endorsed by, the Stellar Development Foundation.
 
 ### Donations
 
