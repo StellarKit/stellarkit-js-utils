@@ -26,7 +26,7 @@ Check out <https://vuetifyjs.com> for more details.
 
 Pull requests welcome!
 
-Disclaimer: We not affiliated with, or sponsored or endorsed by, the Stellar Development Foundation.
+Disclaimer: We are not affiliated with, or sponsored or endorsed by, the Stellar Development Foundation.
 
 ### Donations
 
