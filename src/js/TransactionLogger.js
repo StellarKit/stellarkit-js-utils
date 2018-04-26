@@ -3,8 +3,10 @@ const EventEmitter = require('events')
 // monitor transactions by...
 // TranactionLogger.on('transaction', callback)
 class TransactionLogger extends EventEmitter {
-  log(transaction, label = '') {
+  log(transaction, result, label = '') {
     const xdr = transaction.toEnvelope().toXDR('base64')
+
+    console.log(result)
 
     this.emit('transaction', xdr, label)
   }

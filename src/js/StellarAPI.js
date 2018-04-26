@@ -184,7 +184,7 @@ export default class StellarAPI {
     return this.server().submitTransaction(transaction)
       .then((result) => {
         // log successful transactions
-        TransactionLogger.log(transaction)
+        TransactionLogger.log(transaction, result)
 
         return result
       })
