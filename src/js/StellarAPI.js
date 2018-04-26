@@ -2,6 +2,7 @@ const StellarSdk = require('stellar-sdk')
 import axios from 'axios'
 import Utils from './utils.js'
 import StellarOperations from './StellarOperations.js'
+import TransactionLogger from './TransactionLogger.js'
 
 export default class StellarAPI {
   constructor(horizonServer) {
@@ -181,6 +182,12 @@ export default class StellarAPI {
 
   submitTransaction(transaction) {
     return this.server().submitTransaction(transaction)
+      .then((result) => {
+        // log successful transactions
+        TransactionLogger.log(transaction)
+
+        return result
+      })
   }
 
   removeMultiSigTransaction(sourceWallet, secondWallet, transactionOpts) {

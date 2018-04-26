@@ -7,6 +7,7 @@ import PaymentDialog from './src/vue/PaymentDialog.vue'
 import PaymentView from './src/vue/PaymentView.vue'
 import BuyTokenDialog from './src/vue/BuyTokenDialog.vue'
 import DialogTitleBar from './src/vue/DialogTitleBar.vue'
+import TransactionLogger from './src/js/TransactionLogger.js'
 
 export {
   StellarAPI,
@@ -17,5 +18,6 @@ export {
   BuyTokenDialog,
   StellarWallet,
   LedgerAPI,
-  LedgerAPITransport
+  LedgerAPITransport,
+  TransactionLogger
 }
