@@ -117,7 +117,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(signedTransaction)
       })
       .then((signedTransaction) => {
-        return this.submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction, 'merge account')
       })
   }
 
@@ -127,7 +127,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = StellarOperations.manageOfferOperation(buying, selling, amount, price, offerID, accountInfo.sourcePublicKey)
 
-        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
+        return this._submitOperations('manage offer', sourceWallet, fundingWallet, [operation], accountInfo)
       })
   }
 
@@ -136,7 +136,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = StellarOperations.changeTrustOperation(asset, limit, accountInfo.sourcePublicKey)
 
-        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
+        return this._submitOperations('change trust', sourceWallet, fundingWallet, [operation], accountInfo)
       })
   }
 
@@ -152,7 +152,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = StellarOperations.allowTrustOperation(destPublicKey, asset, authorize, accountInfo.sourcePublicKey)
 
-        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo)
+        return this._submitOperations('allow trust', sourceWallet, fundingWallet, [operation], accountInfo)
       })
   }
 
@@ -169,22 +169,22 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operations = StellarOperations.multisigOperations(secondPublicKey, 1, threshold, threshold, accountInfo.sourcePublicKey)
 
-        return this._submitOperations(sourceWallet, fundingWallet, operations, accountInfo)
+        return this._submitOperations('make multisig', sourceWallet, fundingWallet, operations, accountInfo)
       })
   }
 
   removeMultiSig(sourceWallet, secondWallet, transactionOpts) {
     return this.removeMultiSigTransaction(sourceWallet, secondWallet, transactionOpts)
       .then((transaction) => {
-        return this.submitTransaction(transaction)
+        return this.submitTransaction(transaction, 'remove multisig')
       })
   }
 
-  submitTransaction(transaction) {
+  submitTransaction(transaction, label) {
     return this.server().submitTransaction(transaction)
       .then((result) => {
         // log successful transactions
-        TransactionLogger.log(transaction, result)
+        TransactionLogger.log(result, label)
 
         return result
       })
@@ -251,7 +251,7 @@ export default class StellarAPI {
         }
 
         return nextPromise.then(() => {
-          return this._submitOperations(sourceWallet, fundingWallet, operations, accountInfo, memo, additionalSigners)
+          return this._submitOperations('send asset batch', sourceWallet, fundingWallet, operations, accountInfo, memo, additionalSigners)
         })
       })
   }
@@ -276,7 +276,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = StellarOperations.paymentOperation(destKey, amount, asset, accountInfo.sourcePublicKey)
 
-        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo, memo, additionalSigners)
+        return this._submitOperations('send asset', sourceWallet, fundingWallet, [operation], accountInfo, memo, additionalSigners)
       })
   }
 
@@ -298,7 +298,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = StellarOperations.pathPaymentOperation(sourcePublicKey, sendAsset, sendMax, destAsset, destAmount, accountInfo.sourcePublicKey)
 
-        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo, null, additionalSigners)
+        return this._submitOperations('buy asset', sourceWallet, fundingWallet, [operation], accountInfo, null, additionalSigners)
       })
   }
 
@@ -307,7 +307,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = StellarOperations.manageDataOperation(name, value, accountInfo.sourcePublicKey)
 
-        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo, null, additionalSigners)
+        return this._submitOperations('manage data', sourceWallet, fundingWallet, [operation], accountInfo, null, additionalSigners)
       })
   }
 
@@ -355,7 +355,7 @@ export default class StellarAPI {
         return sourceWallet.signTransaction(transaction)
       })
       .then((signedTransaction) => {
-        return this.submitTransaction(signedTransaction)
+        return this.submitTransaction(signedTransaction, 'create account')
       })
       .then((response) => {
         return this.server().loadAccount(newKey)
@@ -436,7 +436,7 @@ export default class StellarAPI {
       .then((accountInfo) => {
         const operation = StellarOperations.setOptionsOperation(options, accountInfo.sourcePublicKey)
 
-        return this._submitOperations(sourceWallet, fundingWallet, [operation], accountInfo, null, additionalSigners)
+        return this._submitOperations('set options', sourceWallet, fundingWallet, [operation], accountInfo, null, additionalSigners)
       })
   }
 
@@ -487,7 +487,7 @@ export default class StellarAPI {
       })
   }
 
-  _submitOperations(sourceWallet, fundingWallet, operations, accountInfo, memo = null, additionalSigners = null) {
+  _submitOperations(label, sourceWallet, fundingWallet, operations, accountInfo, memo = null, additionalSigners = null) {
     const builder = new StellarSdk.TransactionBuilder(accountInfo.account)
 
     for (const operation of operations) {
@@ -530,12 +530,12 @@ export default class StellarAPI {
             }
 
             return nextPromise.then((signedTxMore) => {
-              return this.submitTransaction(signedTxMore)
+              return this.submitTransaction(signedTxMore, label)
             })
           }
         }
 
-        return this.submitTransaction(signedTx)
+        return this.submitTransaction(signedTx, label)
       })
   }
 
