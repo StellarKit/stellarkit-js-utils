@@ -52,12 +52,12 @@ export default {
     }
   },
   watch: {
-    ping: function () {
+    ping: function() {
       this.visible = true
     }
   },
   computed: {
-    sendMessage: function () {
+    sendMessage: function() {
       if (this.purchaseCoin === 'btc') {
         return '<div class="lead">Send Bitcoin <strong>testnet</strong> BTC to the following address:</div>'
       } else {
@@ -112,13 +112,13 @@ export default {
         case Bifrost.AccountCreatedEvent:
           this.setStatus('Account created, creating trust lines...', 40)
           break
-        case Bifrost.TrustLinesCreatedEvent:
-          this.setStatus('Trust lines created, waiting for tokens...', 60)
+        case Bifrost.AccountConfiguredEvent:
+          this.setStatus('Account configured, waiting for tokens...', 60)
           break
-        case Bifrost.AccountCreditedEvent:
-          this.setStatus('Account credited, exchanging...', 80)
+        case Bifrost.ExchangedTimelockedEvent:
+          this.setStatus('Congrats! TOKE purchased but will be locked.' + '</pre>\nUnlock transaction: <pre>' + data.transaction + '</pre>', 100)
           break
-        case Bifrost.PurchasedEvent:
+        case Bifrost.ExchangedEvent:
           this.setStatus('Congrats! TOKE purchased.', 100)
           break
         case Bifrost.ErrorEvent:
