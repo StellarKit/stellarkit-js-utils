@@ -74,24 +74,34 @@ export default {
       this.purchaseCoin = 'btc'
       this.initBifrost()
 
-      this.session.startBitcoin(this.onEvent).then((result) => {
-        this.setStatus('Waiting for a transaction...', 10)
-        this.address = result.address
-        this.publicKey = result.keypair.publicKey()
-        this.secretKey = result.keypair.secret()
-      })
+      this.session.startBitcoin(this.onEvent)
+        .then((result) => {
+          this.setStatus('Waiting for a transaction...', 10)
+          this.address = result.address
+          this.publicKey = result.keypair.publicKey()
+          this.secretKey = result.keypair.secret()
+        })
+        .catch((error) => {
+          console.log(JSON.stringify(error))
+          console.log(error)
+        })
     },
     startEthereum() {
       this.showPurchase = true
       this.purchaseCoin = 'eth'
       this.initBifrost()
 
-      this.session.startEthereum(this.onEvent).then((result) => {
-        this.setStatus('Waiting for a transaction...', 10)
-        this.address = result.address
-        this.publicKey = result.keypair.publicKey()
-        this.secretKey = result.keypair.secret()
-      })
+      this.session.startEthereum(this.onEvent)
+        .then((result) => {
+          this.setStatus('Waiting for a transaction...', 10)
+          this.address = result.address
+          this.publicKey = result.keypair.publicKey()
+          this.secretKey = result.keypair.secret()
+        })
+        .catch((error) => {
+          console.log(JSON.stringify(error))
+          console.log(error)
+        })
     },
     setStatus(status, progress) {
       this.progress = progress
