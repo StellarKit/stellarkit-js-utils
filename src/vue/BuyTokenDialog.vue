@@ -1,5 +1,5 @@
 <template>
-<v-dialog lazy v-model='visible' scrollable @keydown.esc="visible = false" max-width="600">
+<v-dialog lazy persistent v-model='visible' scrollable @keydown.esc="visible = false" max-width="600">
   <div class='main-container'>
     <div v-if='!showPurchase' class='start-choice'>
       <div>What would you like to use to purchase LMB tokens</div>
