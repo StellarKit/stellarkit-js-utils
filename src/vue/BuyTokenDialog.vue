@@ -37,7 +37,7 @@
 import * as Bifrost from '../js/Bifrost.js'
 
 export default {
-  props: ['ping', 'params', 'allowHTTP'],
+  props: ['ping', 'params'],
   data() {
     return {
       showPurchase: false,
@@ -67,14 +67,7 @@ export default {
   },
   methods: {
     initBifrost() {
-      let opts = {}
-
-      if (this.allowHTTP) {
-        opts = {
-          allowHttp: true
-        }
-      }
-      this.session = new Bifrost.Session(this.params, opts) // ### for testing, allowHttp
+      this.session = new Bifrost.Session(this.params)
     },
     startBitcoin() {
       this.showPurchase = true
