@@ -88,7 +88,10 @@ export class Session {
           }, false)
           source.addEventListener('error', e => console.error(e), false)
         })
-        .catch(reject)
+        .catch((error) => {
+          console.log(error)
+          reject()
+        })
     })
   }
 
