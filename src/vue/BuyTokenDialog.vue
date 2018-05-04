@@ -123,6 +123,9 @@ export default {
           break
         case Bifrost.ExchangedEvent:
           this.setStatus('Congrats! TOKE purchased.', 100)
+
+          // tell the client to do something with this new account
+          this.$emit('new-account', this.secretKey)
           break
         case Bifrost.ErrorEvent:
           this.setStatus('Error!', 0)
