@@ -82,10 +82,10 @@ export default {
       return Utils.strlen(this.secretKey) < 10 || this.xlm < 1
     },
     headerMessage: function() {
-      if (this.donate) {
-        return 'Your XLM donation is appreciated.'
-      }
-      return 'Make a payment.'
+      // if (this.donate) {
+      //   return 'Your XLM donation is appreciated.'
+      // }
+      return 'Send a Payment'
     }
   },
   created() {
