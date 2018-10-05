@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const {
   VueLoaderPlugin
 } = require('vue-loader')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   mode: 'production',
@@ -19,6 +20,7 @@ module.exports = {
     "axios"
   ],
   plugins: [
+    // new BundleAnalyzerPlugin(),
     new VueLoaderPlugin()
   ],
   module: {
