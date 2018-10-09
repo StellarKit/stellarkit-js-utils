@@ -1,5 +1,5 @@
 import * as StellarSdk from 'stellar-sdk'
-const StellarApp = require('@ledgerhq/hw-app-str').default
+import StellarApp from '@ledgerhq/hw-app-str'
 const bip32Path = "44'/148'/0'"
 import LedgerAPITransport from './LedgerAPITransport.js'
 

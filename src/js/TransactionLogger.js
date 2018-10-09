@@ -1,4 +1,4 @@
-const EventEmitter = require('events')
+import * as EventEmitter from 'events'
 
 // monitor transactions by...
 // TranactionLogger.on('transaction', callback)

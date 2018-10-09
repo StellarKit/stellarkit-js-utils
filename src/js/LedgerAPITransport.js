@@ -1,4 +1,4 @@
-const StellarTransport = require('@ledgerhq/hw-transport-u2f').default
+import StellarTransport from '@ledgerhq/hw-transport-u2f'
 
 export default class LedgerAPITransport {
   static setupForNode(transport) {
