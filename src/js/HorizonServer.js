@@ -1,4 +1,4 @@
-const StellarSdk = require('stellar-sdk')
+import * as StellarSdk from 'stellar-sdk'
 
 export default class HorizonServer {
   constructor(serverURL, testnet = true, serverOptions) {

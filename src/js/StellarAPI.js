@@ -1,4 +1,4 @@
-const StellarSdk = require('stellar-sdk')
+import * as StellarSdk from 'stellar-sdk'
 import axios from 'axios'
 import Utils from './utils.js'
 import StellarOperations from './StellarOperations.js'

@@ -1,4 +1,4 @@
-const StellarSdk = require('stellar-sdk')
+import * as StellarSdk from 'stellar-sdk'
 import Utils from './utils.js'
 
 export default class StellarWallet {

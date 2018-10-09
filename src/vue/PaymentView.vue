@@ -1,12 +1,21 @@
 <template>
 <div class='payment-view'>
   <div class='input-title'>
-    <v-icon dark large class='back-button' @click="dialogMode = 'start'" v-if="dialogMode !== 'start'">chevron_left</v-icon>
+    <v-icon
+      dark
+      large
+      class='back-button'
+      @click="dialogMode = 'start'"
+      v-if="dialogMode !== 'start'"
+    >chevron_left</v-icon>
     {{headerMessage}}
   </div>
 
   <div class='payment-content'>
-    <div v-if="dialogMode === 'start'" class='payment-start'>
+    <div
+      v-if="dialogMode === 'start'"
+      class='payment-start'
+    >
       <div class='title-start'>Choose Method</div>
       <div>
         <v-btn @click="buttonClick('useNano')">Use Ledger Nano</v-btn>
@@ -15,35 +24,85 @@
         <v-btn @click="buttonClick('useKey')">Use secret key</v-btn>
       </div>
 
-      <div v-if='donate' class='own-wallet'>
+      <div
+        v-if='donate'
+        class='own-wallet'
+      >
         Or use your favorite wallet:<br>To: <span class='xlm-address'>{{destinationPublicKey}}</span>
       </div>
     </div>
 
-    <div v-else-if="dialogMode === 'useNano'" class='payment-nano'>
-      <v-text-field label="Lumens" type='number' v-model.trim="xlm" @keyup.enter="buttonClick('sendWithNano')" autofocus></v-text-field>
+    <div
+      v-else-if="dialogMode === 'useNano'"
+      class='payment-nano'
+    >
+      <v-text-field
+        label="Lumens"
+        type='number'
+        v-model.trim="xlm"
+        @keyup.enter="buttonClick('sendWithNano')"
+        autofocus
+      ></v-text-field>
 
-      <div v-if='!donate' class='own-wallet'>
-        <v-text-field spellcheck="false" label="Destination" v-model.trim="destinationPublicKey" @keyup.enter="buttonClick('sendWithNano')"></v-text-field>
+      <div
+        v-if='!donate'
+        class='own-wallet'
+      >
+        <v-text-field
+          spellcheck="false"
+          label="Destination"
+          v-model.trim="destinationPublicKey"
+          @keyup.enter="buttonClick('sendWithNano')"
+        ></v-text-field>
       </div>
 
       <div class='sign-button-area'>
-        <v-btn @click="buttonClick('sendWithNano')" :disabled='sendingPayment'>Send with Ledger Nano</v-btn>
+        <v-btn
+          @click="buttonClick('sendWithNano')"
+          :disabled='sendingPayment'
+        >Send with Ledger Nano</v-btn>
         <div>{{status}}</div>
       </div>
     </div>
-    <div v-else-if="dialogMode === 'useKey'" class='payment-secret'>
-      <v-text-field label="Amount" type='number' v-model.trim="xlm" autofocus></v-text-field>
+    <div
+      v-else-if="dialogMode === 'useKey'"
+      class='payment-secret'
+    >
+      <v-text-field
+        label="Amount"
+        type='number'
+        v-model.trim="xlm"
+        autofocus
+      ></v-text-field>
 
-      <div v-if='!donate' class='own-wallet'>
-        <v-text-field label="Destination" v-model.trim="destinationPublicKey" @keyup.enter="buttonClick('sendWithSecret')"></v-text-field>
+      <div
+        v-if='!donate'
+        class='own-wallet'
+      >
+        <v-text-field
+          label="Destination"
+          v-model.trim="destinationPublicKey"
+          @keyup.enter="buttonClick('sendWithSecret')"
+        ></v-text-field>
       </div>
 
-      <v-text-field spellcheck="false" label="Secret Key" v-model.trim="secretKey" :counter="56" @keyup.enter="buttonClick('sendWithSecret')" hint="Starts with an 'S'" :append-icon="showSecret ? 'visibility_off' : 'visibility'" :append-icon-cb="() => (showSecret = !showSecret)"
-        :type="showSecret ? 'text' : 'password'"></v-text-field>
+      <v-text-field
+        spellcheck="false"
+        label="Secret Key"
+        v-model.trim="secretKey"
+        :counter="56"
+        @keyup.enter="buttonClick('sendWithSecret')"
+        hint="Starts with an 'S'"
+        :append-icon="showSecret ? 'visibility_off' : 'visibility'"
+        :append-icon-cb="() => (showSecret = !showSecret)"
+        :type="showSecret ? 'text' : 'password'"
+      ></v-text-field>
 
       <div class='sign-button-area'>
-        <v-btn @click="buttonClick('sendWithSecret')" :disabled="disableSendLumens">Send Lumens</v-btn>
+        <v-btn
+          @click="buttonClick('sendWithSecret')"
+          :disabled="disableSendLumens"
+        >Send Lumens</v-btn>
         <div>{{status}}</div>
       </div>
     </div>
@@ -57,7 +116,7 @@ import LedgerAPI from '../js/LedgerAPI.js'
 import LedgerAPITransport from '../js/LedgerAPITransport.js'
 import StellarWallet from '../js/StellarWallet.js'
 import HorizonServer from '../js/HorizonServer.js'
-const StellarSdk = require('stellar-sdk')
+import * as StellarSdk from 'stellar-sdk'
 
 export default {
   props: ['donationPublicKey'],

@@ -8,7 +8,7 @@ import PaymentView from './src/vue/PaymentView.vue'
 import BuyTokenDialog from './src/vue/BuyTokenDialog.vue'
 import DialogTitleBar from './src/vue/DialogTitleBar.vue'
 import TransactionLogger from './src/js/TransactionLogger.js'
-const StellarSdk = require('stellar-sdk')
+import * as StellarSdk from 'stellar-sdk'
 
 export {
   StellarAPI,
