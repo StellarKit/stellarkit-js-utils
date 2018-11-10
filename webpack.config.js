@@ -19,7 +19,9 @@ module.exports = {
   externals: [
     "jquery",
     "stellar-sdk",
-    "axios"
+    "axios",
+    "vue",
+    "vuetify"
   ],
   // added to kill all comments, remove if you don't care (16k smaller too)
   optimization: {
