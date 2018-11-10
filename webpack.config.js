@@ -4,6 +4,7 @@ const {
   VueLoaderPlugin
 } = require('vue-loader')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -37,7 +38,8 @@ module.exports = {
   },
   plugins: [
     // new BundleAnalyzerPlugin(),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new VuetifyLoaderPlugin()
   ],
   module: {
     rules: [{
@@ -55,6 +57,9 @@ module.exports = {
         test: /\.vue$/,
         use: 'vue-loader',
         exclude: /node_modules/
+      }, {
+        test: /\.styl$/,
+        use: ['style-loader', 'css-loader', 'stylus-loader'],
       }, {
         test: /\.scss$/,
         use: ['vue-style-loader', 'css-loader', 'sass-loader']

@@ -1,3 +1,8 @@
+import Vue from 'vue'
+import Vuetify from 'vuetify/lib'
+
+Vue.use(Vuetify)
+
 import StellarAPI from './src/js/StellarAPI.js'
 import HorizonServer from './src/js/HorizonServer.js'
 import StellarWallet from './src/js/StellarWallet.js'
