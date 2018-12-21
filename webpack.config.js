@@ -1,9 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
-const {
-  VueLoaderPlugin
-} = require('vue-loader')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const {VueLoaderPlugin} = require('vue-loader')
+const TerserPlugin = require('terser-webpack-plugin')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -17,17 +15,12 @@ module.exports = {
     libraryTarget: 'umd'
   },
   externals: [
-    "jquery",
-    "stellar-sdk",
-    "axios",
-    "vue",
-    "vuetify"
+    "jquery", "stellar-sdk", "axios", "vue", "vuetify"
   ],
   // added to kill all comments, remove if you don't care (16k smaller too)
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
+    minimizer: [new TerserPlugin({
+        terserOptions: {
           cache: true,
           parallel: true,
           output: {
@@ -35,8 +28,7 @@ module.exports = {
             semicolons: false
           }
         }
-      })
-    ]
+      })]
   },
   plugins: [
     // new BundleAnalyzerPlugin(),
@@ -44,7 +36,8 @@ module.exports = {
     new VuetifyLoaderPlugin()
   ],
   module: {
-    rules: [{
+    rules: [
+      {
         enforce: 'pre',
         test: /.(vue|js)$/,
         exclude: /node_modules/,
@@ -54,22 +47,23 @@ module.exports = {
             fix: true
           }
         }
-      },
-      {
+      }, {
         test: /\.vue$/,
         use: 'vue-loader',
         exclude: /node_modules/
       }, {
         test: /\.styl$/,
-        use: ['style-loader', 'css-loader', 'stylus-loader'],
+        use: ['style-loader', 'css-loader', 'stylus-loader']
       }, {
         test: /\.scss$/,
         use: ['vue-style-loader', 'css-loader', 'sass-loader']
       }, {
         test: /\.js$/,
-        use: [{
-          loader: 'babel-loader'
-        }],
+        use: [
+          {
+            loader: 'babel-loader'
+          }
+        ],
         exclude: /node_modules/
       }
     ]
