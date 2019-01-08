@@ -23,10 +23,6 @@ module.exports = {
         terserOptions: {
           cache: true,
           parallel: true,
-          compress: {
-            // ledger wasn't working without this in production
-            dead_code: true
-          },
           output: {
             comments: false,
             semicolons: false
