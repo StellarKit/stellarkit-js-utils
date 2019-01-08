@@ -25,7 +25,7 @@ module.exports = {
           parallel: true,
           compress: {
             // ledger wasn't working without this in production
-            dead_code: false
+            dead_code: true
           },
           output: {
             comments: false,
