@@ -972,7 +972,7 @@ if(ct.strOK(e._secret)){var i=st.Keypair.fromSecret(e._secret)
 return t.sign(i),t}throw new Error("This wallet does not contain a secret key.")}).then(function(t){return t})}}])&&St(e.prototype,n),i&&St(e,i),t}(),Tt=n(19),Ot=n.n(Tt),Ct=n(20),It=n.n(Ct)
 function Bt(t,e){for(var n=0;n<e.length;n++){var i=e[n]
 i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(t,i.key,i)}}var Pt=function(){function t(){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t)}var e,n,i
-return e=t,i=[{key:"setupForNode",value:function(t){this.nodeTransport=t}},{key:"isNodeTransport",value:function(t){return!!this.nodeTransport}},{key:"create",value:function(){return this.nodeTransport?this.nodeTransport.create(2e3,2e3):It.a.create(2e3,2e3)}}],(n=null)&&Bt(e.prototype,n),i&&Bt(e,i),t}()
+return e=t,i=[{key:"setupForNode",value:function(t){this.nodeTransport=t}},{key:"isNodeTransport",value:function(t){return!!this.nodeTransport}},{key:"create",value:function(){return this.nodeTransport?this.nodeTransport.create():It.a.create()}}],(n=null)&&Bt(e.prototype,n),i&&Bt(e,i),t}()
 function Lt(t,e){for(var n=0;n<e.length;n++){var i=e[n]
 i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(t,i.key,i)}}var Rt=function(){function t(){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.transport=null,this.str=null}var e,n,i
 return e=t,(n=[{key:"createTransport",value:function(){var t=this

@@ -14,9 +14,9 @@ export default class LedgerAPITransport {
 
   static create() {
     if (this.nodeTransport) {
-      return this.nodeTransport.create(2000, 2000)
+      return this.nodeTransport.create()
     }
 
-    return StellarTransport.create(2000, 2000)
+    return StellarTransport.create()
   }
 }
