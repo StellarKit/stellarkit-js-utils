@@ -37,8 +37,7 @@ n.insertBefore(e,r)}}function v(t){if(null===t.parentNode)return!1
 t.parentNode.removeChild(t)
 var e=c.indexOf(t)
 e>=0&&c.splice(e,1)}function g(t){var e=document.createElement("style")
-if(void 0===t.attrs.type&&(t.attrs.type="text/css"),void 0===t.attrs.nonce){var i=function(){0
-return n.nc}()
+if(void 0===t.attrs.type&&(t.attrs.type="text/css"),void 0===t.attrs.nonce){var i=function(){return n.nc}()
 i&&(t.attrs.nonce=i)}return m(e,t.attrs),p(t,e),e}function m(t,e){Object.keys(e).forEach(function(n){t.setAttribute(n,e[n])})}function b(t,e){var n,i,r,o
 if(e.transform&&t.css){if(!(o="function"==typeof e.transform?e.transform(t.css):e.transform.default(t.css)))return function(){}
 t.css=o}if(e.singleton){var s=u++
@@ -804,7 +803,8 @@ case n:g="md"
 break
 case i:g="lg"
 break
-default:g="xl"}return{xs:t,sm:e,md:n,lg:i,xl:r,name:g,xsOnly:o,smOnly:s,smAndDown:a,smAndUp:l,mdOnly:u,mdAndDown:c,mdAndUp:h,lgOnly:f,lgAndDown:d,lgAndUp:p,xlOnly:v,width:this.clientWidth,height:this.clientHeight,thresholds:this.thresholds,scrollbarWidth:this.scrollbarWidth}}},created:function(){"undefined"!=typeof window&&window.addEventListener("resize",this.onResize,{passive:!0})},beforeDestroy:function(){"undefined"!=typeof window&&window.removeEventListener("resize",this.onResize)},methods:{onResize:function(){clearTimeout(this.resizeTimeout),this.resizeTimeout=window.setTimeout(this.setDimensions,200)},setDimensions:function(){this.clientHeight=h(),this.clientWidth=c()}}})}function c(){return"undefined"==typeof document?0:Math.max(document.documentElement.clientWidth,window.innerWidth||0)}function h(){return"undefined"==typeof document?0:Math.max(document.documentElement.clientHeight,window.innerHeight||0)}var f=Object.assign||function(t){for(var e=1;e<arguments.length;e++){var n=arguments[e]
+default:g="xl"
+break}return{xs:t,sm:e,md:n,lg:i,xl:r,name:g,xsOnly:o,smOnly:s,smAndDown:a,smAndUp:l,mdOnly:u,mdAndDown:c,mdAndUp:h,lgOnly:f,lgAndDown:d,lgAndUp:p,xlOnly:v,width:this.clientWidth,height:this.clientHeight,thresholds:this.thresholds,scrollbarWidth:this.scrollbarWidth}}},created:function(){"undefined"!=typeof window&&window.addEventListener("resize",this.onResize,{passive:!0})},beforeDestroy:function(){"undefined"!=typeof window&&window.removeEventListener("resize",this.onResize)},methods:{onResize:function(){clearTimeout(this.resizeTimeout),this.resizeTimeout=window.setTimeout(this.setDimensions,200)},setDimensions:function(){this.clientHeight=h(),this.clientWidth=c()}}})}function c(){return"undefined"==typeof document?0:Math.max(document.documentElement.clientWidth,window.innerWidth||0)}function h(){return"undefined"==typeof document?0:Math.max(document.documentElement.clientHeight,window.innerHeight||0)}var f=Object.assign||function(t){for(var e=1;e<arguments.length;e++){var n=arguments[e]
 for(var i in n)Object.prototype.hasOwnProperty.call(n,i)&&(t[i]=n[i])}return t},d={primary:"#1976D2",secondary:"#424242",accent:"#82B1FF",error:"#FF5252",info:"#2196F3",success:"#4CAF50",warning:"#FB8C00"}
 function p(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{}
 return!1!==t&&f({},d,t)}var v={complete:"fas fa-check",cancel:"fas fa-times-circle",close:"fas fa-times",delete:"fas fa-times-circle",clear:"fas fa-times-circle",success:"fas fa-check-circle",info:"fas fa-info-circle",warning:"fas fa-exclamation",error:"fas fa-exclamation-triangle",prev:"fas fa-chevron-left",next:"fas fa-chevron-right",checkboxOn:"fas fa-check-square",checkboxOff:"far fa-square",checkboxIndeterminate:"fas fa-minus-square",delimiter:"fas fa-circle",sort:"fas fa-sort-up",expand:"fas fa-chevron-down",menu:"fas fa-bars",subgroup:"fas fa-caret-down",dropdown:"fas fa-caret-down",radioOn:"far fa-dot-circle",radioOff:"far fa-circle",edit:"fas fa-edit",ratingEmpty:"far fa-star",ratingFull:"fas fa-star",ratingHalf:"fas fa-star-half"}
@@ -930,7 +930,8 @@ switch(e){case"low":r={masterWeight:1,lowThreshold:0,medThreshold:2,highThreshol
 break
 case"lock":r={masterWeight:0,lowThreshold:0,medThreshold:0,highThreshold:0}
 break
-default:console.log("preset invalid: "+e)}if(!r)throw new Error("lockAccount preset invalid")
+default:console.log("preset invalid: "+e)
+break}if(!r)throw new Error("lockAccount preset invalid")
 return this.setOptions(t,r,n,i)}},{key:"setDomain",value:function(t,e){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null,i=arguments.length>3&&void 0!==arguments[3]?arguments[3]:null,r={homeDomain:e}
 return this.setOptions(t,r,n,i)}},{key:"setFlags",value:function(t,e){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null,i=arguments.length>3&&void 0!==arguments[3]?arguments[3]:null,r={setFlags:e}
 return this.setOptions(t,r,n,i)}},{key:"clearFlags",value:function(t,e){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null,i=arguments.length>3&&void 0!==arguments[3]?arguments[3]:null,r={clearFlags:e}
@@ -1001,7 +1002,8 @@ case"sendWithNano":this.sendWithNano()
 break
 case"sendWithSecret":this.sendWithSecret()
 break
-default:console.log("not handled: "+t)}},sendWithNano:function(){var t=this,e=At.ledger(this.ledgerAPI,function(){t.status="Confirm transaction on Nano..."})
+default:console.log("not handled: "+t)
+break}},sendWithNano:function(){var t=this,e=At.ledger(this.ledgerAPI,function(){t.status="Confirm transaction on Nano..."})
 this.sendPayment(e)},sendWithSecret:function(){ct.strOK(this.secretKey)?this.status="Please enter your secret key":this.sendPayment(At.secret(this.secretKey))},verifyAccounts:function(t,e){var n=this
 return this.horizon.server().loadAccount(e).then(function(e){return t.publicKey()}).then(function(t){return n.horizon.server().loadAccount(t)}).then(function(t){return t})},sendPayment:function(t){var e=this,n=this.destinationPublicKey
 ct.strOK(n)?this.xlm<1?this.status="Lumens must be greater than 0":(this.status="Building transaction...",this.sendingPayment=!0,this.verifyAccounts(t,n).then(function(i){var r=new st.TransactionBuilder(i).addOperation(st.Operation.payment({destination:n,asset:st.Asset.native(),amount:String(e.xlm)})).build()
@@ -1162,7 +1164,7 @@ var s=function(t,e){var n=[]
 for(var i in t)t.hasOwnProperty(i)&&n.push(e("template",{slot:i},t[i]))
 return n}(r(),t)
 return n.textarea&&N("<v-text-field textarea>","<v-textarea outline>",rn,o),n.multiLine&&N("<v-text-field multi-line>","<v-textarea>",rn,o),n.textarea||n.multiLine?(i.attrs.outline=n.textarea,t(nn,i,s)):t(tn,i,s)}},on=Dt(Ut,Nt,[],!1,null,"2d2f5a4e",null)
-$t()(on,{VBtn:we,VIcon:Ae,VTextField:rn}),on.options.__file="src/vue/PaymentView.vue"
+if($t()(on,{VBtn:we,VIcon:Ae,VTextField:rn}),0);on.options.__file="src/vue/PaymentView.vue"
 var sn=on.exports,an={props:["ping","donationPublicKey"],components:{"donate-view":sn},watch:{ping:function(){this.visible=!0}},data:function(){return{visible:!1}}}
 n(63),n(65)
 function ln(t){if(Array.isArray(t)){for(var e=0,n=Array(t.length);e<t.length;e++)n[e]=t[e]
@@ -1219,7 +1221,7 @@ return this.activatorNode=n,n}return this.$createElement("div",{staticClass:"v-d
 this.fullscreen||(i.style={maxWidth:"none"===this.maxWidth?void 0:C(this.maxWidth),width:"auto"===this.width?void 0:C(this.width)}),n.push(this.genActivator())
 var r=t("div",i,this.showLazyContent(this.$slots.default))
 return this.transition&&(r=t("transition",{props:{name:this.transition,origin:this.origin}},[r])),n.push(t("div",{class:this.contentClasses,attrs:xn({tabIndex:"-1"},this.getScopeIdAttrs()),style:{zIndex:this.activeZIndex},ref:"content"},[this.$createElement(_n,{props:{root:!0,light:this.light,dark:this.dark}},[r])])),t("div",{staticClass:"v-dialog__container",style:{display:!this.$slots.activator||this.fullWidth?"block":"inline-block"}},n)}},En=Dt(an,Mt,[],!1,null,"e7f91608",null)
-$t()(En,{VBtn:we,VDialog:kn}),En.options.__file="src/vue/PaymentDialog.vue"
+if($t()(En,{VBtn:we,VDialog:kn}),0);En.options.__file="src/vue/PaymentDialog.vue"
 var Sn=En.exports,An=function(){var t=this,e=t.$createElement,n=t._self._c||e
 return n("v-dialog",{attrs:{lazy:"",persistent:"",scrollable:"","max-width":"600"},on:{keydown:function(e){if(!("button"in e)&&t._k(e.keyCode,"esc",27,e.key,["Esc","Escape"]))return null
 t.visible=!1}},model:{value:t.visible,callback:function(e){t.visible=e},expression:"visible"}},[n("div",{staticClass:"main-container"},[t.showPurchase?t._e():n("div",{staticClass:"start-choice"},[n("div",[t._v("What would you like to use to purchase LMB tokens")]),t._v(" "),n("div",{staticClass:"button-holder"},[n("v-btn",{attrs:{small:""},on:{click:function(e){t.buttonClick("bitcoin")}}},[t._v("Bitcoin")]),t._v(" "),n("v-btn",{attrs:{small:""},on:{click:function(e){t.buttonClick("ethereum")}}},[t._v("Ethereum")])],1)]),t._v(" "),t.showPurchase?n("div",{staticClass:"purchase-container"},[n("v-btn",{attrs:{small:""},on:{click:function(e){t.buttonClick("back")}}},[t._v("Back")]),t._v(" "),n("div",{domProps:{innerHTML:t._s(t.sendMessage)}}),t._v(" "),n("div",[t._v("Address = "+t._s(t.address))]),t._v(" "),n("p",[n("strong",[t._v("Rinkeby testnet. Do not send real coins!")])]),t._v(" "),n("p",[t._v("Exchange rate: 1 ETH = 1 LMB token")]),t._v(" "),n("p",[n("a",{attrs:{href:"https://github.com/stellar/go/pull/81 ",target:"_blank "}},[t._v("Instructions")])]),t._v(" "),n("div",{staticClass:"progress "},[n("v-progress-linear",{model:{value:t.progress,callback:function(e){t.progress=e},expression:"progress "}})],1),t._v(" "),n("div",[t._v("Status = "+t._s(t.status))]),t._v(" "),n("div",[t._v("Public Key = "+t._s(t.publicKey))]),t._v(" "),n("div",[t._v("Secret Key = "+t._s(t.secretKey))])],1):t._e(),t._v(" "),n("div",{staticClass:"button-holder"},[n("v-btn",{attrs:{round:"",color:"primary"},on:{click:function(e){t.visible=!1}}},[t._v("\n        Close\n      ")])],1)])])}
@@ -1257,7 +1259,8 @@ case"exchanged":this.setStatus("Congrats! TOKE purchased.",100),this.$emit("new-
 break
 case"error":this.setStatus("Error!",0),console.log(JSON.stringify(e))
 break
-default:this.setStatus("default swtich reached!",0)}},buttonClick:function(t){switch(t){case"test":this.test()
+default:this.setStatus("default swtich reached!",0)
+break}},buttonClick:function(t){switch(t){case"test":this.test()
 break
 case"bitcoin":this.startBitcoin()
 break
@@ -1265,8 +1268,9 @@ case"ethereum":this.startEthereum()
 break
 case"back":this.showPurchase=!1
 break
-default:console.log("no button with that name")}}}},In=(n(69),Dt(Cn,An,[],!1,null,"0b55ff9d",null))
-$t()(In,{VBtn:we,VDialog:kn,VProgressLinear:Ge}),In.options.__file="src/vue/BuyTokenDialog.vue"
+default:console.log("no button with that name")
+break}}}},In=(n(69),Dt(Cn,An,[],!1,null,"0b55ff9d",null))
+if($t()(In,{VBtn:we,VDialog:kn,VProgressLinear:Ge}),0);In.options.__file="src/vue/BuyTokenDialog.vue"
 var Bn=In.exports,Pn=function(){var t=this,e=t.$createElement,n=t._self._c||e
 return n("div",{staticClass:"dialog-header"},[n("div",{staticClass:"dialog-header-text"},[n("p",[t._v(t._s(t.title))])]),t._v(" "),n("div",{staticClass:"left-side-buttons"},[t.showBack?n("v-btn",{staticClass:"dialog-back-button",attrs:{slot:"activator",icon:"",dark:""},on:{click:function(e){t.buttonClick("back")}},slot:"activator"},[n("v-icon",[t._v("chevron_left")])],1):t._e()],1),t._v(" "),n("div",{staticClass:"right-side-buttons"},[n("v-tooltip",{attrs:{"open-delay":"200",bottom:""}},[t.showPrint?n("v-btn",{attrs:{slot:"activator",small:"",icon:"",dark:""},on:{click:function(e){t.buttonClick("print")}},slot:"activator"},[n("v-icon",[t._v("print")])],1):t._e(),t._v(" "),n("span",[t._v("Print")])],1),t._v(" "),n("v-tooltip",{attrs:{"open-delay":"200",bottom:""}},[n("v-btn",{attrs:{slot:"activator",small:"",icon:"",dark:""},on:{click:function(e){t.buttonClick("close")}},slot:"activator"},[n("v-icon",[t._v(t._s(t.icon))])],1),t._v(" "),n("span",{domProps:{innerHTML:t._s(t.tooltip)}})],1)],1)])}
 Pn._withStripped=!0
@@ -1298,6 +1302,6 @@ this.$nextTick(function(){t.value&&t.callActivate()})},methods:{activate:functio
 if(this.$scopedSlots.activator){var n=this.$scopedSlots.activator({on:e})
 return this.activatorNode=n,n}if(this.$slots.activator)return this.$createElement("span",{on:e,ref:"activator"},this.$slots.activator)}},render:function(t){var e,n=t("div",this.setBackgroundColor(this.color,{staticClass:"v-tooltip__content",class:(e={},Dn(e,this.contentClass,!0),Dn(e,"menuable__content__active",this.isActive),e),style:this.styles,attrs:this.getScopeIdAttrs(),directives:[{name:"show",value:this.isContentActive}],ref:"content"}),this.showLazyContent(this.$slots.default))
 return t(this.tag,{staticClass:"v-tooltip",class:this.classes},[t("transition",{props:{name:this.computedTransition}},[n]),this.genActivator()])}},$n=Dt(Ln,Pn,[],!1,null,"53219965",null)
-$t()($n,{VBtn:we,VIcon:Ae,VTooltip:zn}),$n.options.__file="src/vue/DialogTitleBar.vue"
+if($t()($n,{VBtn:we,VIcon:Ae,VTooltip:zn}),0);$n.options.__file="src/vue/DialogTitleBar.vue"
 var Kn=$n.exports
 n.d(e,"StellarAPI",function(){return wt}),n.d(e,"HorizonServer",function(){return Et}),n.d(e,"PaymentDialog",function(){return Sn}),n.d(e,"PaymentView",function(){return sn}),n.d(e,"DialogTitleBar",function(){return Kn}),n.d(e,"BuyTokenDialog",function(){return Bn}),n.d(e,"StellarWallet",function(){return At}),n.d(e,"LedgerAPI",function(){return Rt}),n.d(e,"LedgerAPITransport",function(){return Pt}),n.d(e,"TransactionLogger",function(){return _t}),n.d(e,"StellarSdk",function(){return st}),o.a.use(ot)}])})
