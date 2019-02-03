@@ -915,7 +915,7 @@ return t.balances.forEach(function(t){"native"===t.asset_type?e.push({symbol:"XL
 return t.publicKey().then(function(t){return n.server().loadAccount(t)}).then(function(t){var n=!0,i=!1,r=void 0
 try{for(var o,s=t.balances[Symbol.iterator]();!(n=(o=s.next()).done);n=!0){var a=o.value
 if("native"===a.asset_type){if(e.isNative())return a.balance}else if(a.asset_code===e.getCode()&&a.asset_issuer===e.getIssuer())return a.balance}}catch(t){i=!0,r=t}finally{try{n||null==s.return||s.return()}finally{if(i)throw r}}return"0"})}},{key:"paths",value:function(t,e,n,i){return this.server().paths(t,e,n,i)}},{key:"mergeAccount",value:function(t,e){var n=this,i="",r=""
-return t.publicKey().then(function(t){return i=t,e.publicKey()}).then(function(t){return r=t,n.server().loadAccount(t)}).then(function(t){var n=new st.TransactionBuilder(t).addOperation(st.Operation.accountMerge({destination:r,source:i})).build()
+return t.publicKey().then(function(t){return i=t,e.publicKey()}).then(function(t){return r=t,n.server().loadAccount(t)}).then(function(t){var n=new st.TransactionBuilder(t).setTimeout(st.TimeoutInfinite).addOperation(st.Operation.accountMerge({destination:r,source:i})).build()
 return e.signTransaction(n)}).then(function(e){return t.signTransaction(e)}).then(function(t){return n.submitTransaction(t,"merge account")})}},{key:"manageOffer",value:function(t,e,n,i,r,o){var s=this,a=arguments.length>6&&void 0!==arguments[6]?arguments[6]:0
 return this._processAccounts(t,e).then(function(l){var u=ft.manageOfferOperation(n,i,r,o,a,l.sourcePublicKey)
 return s._submitOperations("manage offer",t,e,[u],l)})}},{key:"changeTrust",value:function(t,e,n,i){var r=this
@@ -926,7 +926,7 @@ return r._submitOperations("allow trust",t,o,[a],e)})}},{key:"makeMultiSig",valu
 return e.publicKey().then(function(e){return o=e,n._processAccounts(t,i)}).then(function(e){var s=ft.multisigOperations(o,1,r,r,e.sourcePublicKey)
 return n._submitOperations("make multisig",t,i,s,e)})}},{key:"removeMultiSig",value:function(t,e,n){var i=this
 return this.removeMultiSigTransaction(t,e,n).then(function(t){return i.submitTransaction(t,"remove multisig")})}},{key:"submitTransaction",value:function(t,e){return this.server().submitTransaction(t).then(function(t){return _t.log(t,e),t})}},{key:"removeMultiSigTransaction",value:function(t,e,n){var i=this,r=null
-return t.publicKey().then(function(t){return i.server().loadAccount(t)}).then(function(t){return r=t,e.publicKey()}).then(function(e){var i=new st.TransactionBuilder(r,n),o=ft.removeMultisigOperations(e,1,1,null),s=!0,a=!1,l=void 0
+return t.publicKey().then(function(t){return i.server().loadAccount(t)}).then(function(t){return r=t,e.publicKey()}).then(function(e){var i=new st.TransactionBuilder(r,n).setTimeout(st.TimeoutInfinite),o=ft.removeMultisigOperations(e,1,1,null),s=!0,a=!1,l=void 0
 try{for(var u,c=o[Symbol.iterator]();!(s=(u=c.next()).done);s=!0){var h=u.value
 i.addOperation(h)}}catch(t){a=!0,l=t}finally{try{s||null==c.return||c.return()}finally{if(a)throw l}}var f=i.build()
 return t.signTransaction(f)}).then(function(t){return e.signTransaction(t)})}},{key:"sendAssetBatch",value:function(t,e,n,i){var r=this,o=arguments.length>4&&void 0!==arguments[4]?arguments[4]:null,s=arguments.length>5&&void 0!==arguments[5]?arguments[5]:null,a=arguments.length>6&&void 0!==arguments[6]?arguments[6]:null,l=null===o?st.Asset.native():o,u=null,c=[]
@@ -945,7 +945,7 @@ return this._processAccounts(t,e).then(function(s){var a=ft.manageDataOperation(
 return r._submitOperations("manage data",t,e,[a],s,null,o)})}},{key:"getFlags",value:function(t){var e=this
 return t.publicKey().then(function(t){return e.server().loadAccount(t)}).then(function(t){var e=0
 return t.flags.auth_required&&(e|=st.AuthRequiredFlag),t.flags.auth_revocable&&(e|=st.AuthRevocableFlag),e})}},{key:"createAccount",value:function(t,e,n){var i,r=this
-return e.publicKey().then(function(e){return i=e,t.publicKey()}).then(function(t){return r.server().loadAccount(t)}).then(function(e){var r={destination:i,startingBalance:n},o=new st.TransactionBuilder(e).addOperation(st.Operation.createAccount(r)).build()
+return e.publicKey().then(function(e){return i=e,t.publicKey()}).then(function(t){return r.server().loadAccount(t)}).then(function(e){var r={destination:i,startingBalance:n},o=new st.TransactionBuilder(e).setTimeout(st.TimeoutInfinite).addOperation(st.Operation.createAccount(r)).build()
 return t.signTransaction(o)}).then(function(t){return r.submitTransaction(t,"create account")}).then(function(t){return r.server().loadAccount(i)})}},{key:"lockAccount",value:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"invalid",n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null,i=arguments.length>3&&void 0!==arguments[3]?arguments[3]:null,r=null
 switch(e){case"low":r={masterWeight:1,lowThreshold:0,medThreshold:2,highThreshold:2}
 break
@@ -960,7 +960,7 @@ return this.setOptions(t,r,n,i)}},{key:"setOptions",value:function(t,e){var n=th
 return this._processAccounts(t,i).then(function(o){var s=ft.setOptionsOperation(e,o.sourcePublicKey)
 return n._submitOperations("set options",t,i,[s],o,null,r)})}},{key:"_hasAssetTrustline",value:function(t,e){return!!e.isNative()||t.balances.some(function(t){return t.asset_code===e.getCode()&&t.asset_issuer===e.getIssuer()})}},{key:"_processAccounts",value:function(t,e){var n=this
 return t.publicKey().then(function(t){return e?e.publicKey().then(function(e){return{sourcePublicKey:t,fundingPublicKey:e}}):{sourcePublicKey:t}}).then(function(t){var e=t.sourcePublicKey
-return t.fundingPublicKey&&(e=t.fundingPublicKey),n.server().loadAccount(e).then(function(e){return t.account=e,t})})}},{key:"_submitOperations",value:function(t,e,n,i,r){var o=this,s=arguments.length>5&&void 0!==arguments[5]?arguments[5]:null,a=arguments.length>6&&void 0!==arguments[6]?arguments[6]:null,l=new st.TransactionBuilder(r.account),u=!0,c=!1,h=void 0
+return t.fundingPublicKey&&(e=t.fundingPublicKey),n.server().loadAccount(e).then(function(e){return t.account=e,t})})}},{key:"_submitOperations",value:function(t,e,n,i,r){var o=this,s=arguments.length>5&&void 0!==arguments[5]?arguments[5]:null,a=arguments.length>6&&void 0!==arguments[6]?arguments[6]:null,l=new st.TransactionBuilder(r.account).setTimeout(st.TimeoutInfinite),u=!0,c=!1,h=void 0
 try{for(var f,d=i[Symbol.iterator]();!(u=(f=d.next()).done);u=!0){var p=f.value
 l.addOperation(p)}}catch(t){c=!0,h=t}finally{try{u||null==d.return||d.return()}finally{if(c)throw h}}ct.strOK(s)&&l.addMemo(st.Memo.text(s))
 var v=l.build()
