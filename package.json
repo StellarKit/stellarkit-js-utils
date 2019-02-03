@@ -19,20 +19,20 @@
     "javascript"
   ],
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
+    "@babel/runtime": "^7.3.1",
     "babel-runtime": "^6.26.0",
     "jquery": "^3.3.1",
-    "stellar-sdk": "^0.11.0",
+    "stellar-sdk": "^0.12.0",
     "axios": "^0.18.0",
-    "@ledgerhq/hw-transport-u2f": "^4.32.0",
-    "@ledgerhq/hw-app-str": "^4.32.0"
+    "@ledgerhq/hw-transport-u2f": "^4.35.0",
+    "@ledgerhq/hw-app-str": "^4.35.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
     "babel-loader": "^8.0.5",
-    "@babel/preset-env": "^7.2.3",
     "css-loader": "^2.1.0",
-    "eslint": "^5.12.0",
+    "eslint": "^5.13.0",
     "eslint-loader": "2.1.1",
     "eslint-plugin-vue": "^5.1.0",
     "node-sass": "^4.11.0",
@@ -40,14 +40,15 @@
     "style-loader": "^0.23.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
-    "vue": "^2.5.21",
-    "vue-loader": "^15.5.0",
-    "vue-template-compiler": "^2.5.21",
-    "vuetify": "^1.4.0",
-    "vuetify-loader": "^1.1.1",
-    "webpack-bundle-analyzer": "^3.0.3",
+    "terser": "^3.14.1",
     "terser-webpack-plugin": "^1.2.1",
-    "webpack": "^4.28.3",
+    "vue": "^2.5.22",
+    "vue-loader": "^15.6.2",
+    "vue-template-compiler": "^2.5.22",
+    "vuetify": "^1.4.4",
+    "vuetify-loader": "^1.2.0",
+    "webpack": "^4.29.0",
+    "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.2.1"
   }
 }
