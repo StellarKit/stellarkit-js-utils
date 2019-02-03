@@ -17,7 +17,7 @@ module.exports = {
     libraryTarget: 'umd'
   },
   externals: [
-    "jquery", "stellar-sdk", "axios", "vue", "vuetify"
+    "jquery", "axios", "vue", "vuetify"
   ],
   // added to kill all comments, remove if you don't care (16k smaller too)
   optimization: {
