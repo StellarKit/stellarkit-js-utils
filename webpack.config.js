@@ -21,16 +21,16 @@ module.exports = {
   ],
   // added to kill all comments, remove if you don't care (16k smaller too)
   optimization: {
-    // minimizer: [new TerserPlugin({
-    //     terserOptions: {
-    //       cache: true,
-    //       parallel: true,
-    //       output: {
-    //         comments: false,
-    //         semicolons: false
-    //       }
-    //     }
-    //   })]
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        cache: true,
+        parallel: true,
+        output: {
+          comments: false,
+          semicolons: false
+        }
+      }
+    })]
   },
   plugins: [
     // new BundleAnalyzerPlugin(),
