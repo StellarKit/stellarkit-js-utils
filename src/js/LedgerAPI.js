@@ -79,7 +79,7 @@ export default class LedgerAPI {
       // verify broken for Electron (window !== null)
       if (keyPair.verify(transaction.hash(), signature)) {
         const hint = keyPair.signatureHint()
-        const decorated = new StellarSdk.xdr.DecoratedSignature({hint: hint, signature: signature})
+        const decorated = new StellarSdk.xdr.DecoratedSignature({ hint: hint, signature: signature })
         transaction.signatures.push(decorated)
 
         return transaction

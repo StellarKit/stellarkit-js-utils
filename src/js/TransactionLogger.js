@@ -9,6 +9,5 @@ class TransactionLogger extends EventEmitter {
 }
 
 const instance = new TransactionLogger()
-Object.freeze(instance)
 
 export default instance
