@@ -12,6 +12,7 @@ module.exports = {
     library: 'stellar-js-utils',
     libraryTarget: 'umd'
   },
+  target: 'node',
   externals: [
     "stellar-sdk", "axios"
   ],
