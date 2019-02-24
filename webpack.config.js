@@ -1,10 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const {
-  VueLoaderPlugin
-} = require('vue-loader')
 const TerserPlugin = require('terser-webpack-plugin')
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -17,7 +13,7 @@ module.exports = {
     libraryTarget: 'umd'
   },
   externals: [
-    "jquery", "stellar-sdk", "axios", "vue", "vuetify"
+    "stellar-sdk", "axios"
   ],
   // added to kill all comments, remove if you don't care (16k smaller too)
   optimization: {
@@ -34,13 +30,11 @@ module.exports = {
   },
   plugins: [
     // new BundleAnalyzerPlugin(),
-    new VueLoaderPlugin(),
-    new VuetifyLoaderPlugin()
   ],
   module: {
     rules: [{
       enforce: 'pre',
-      test: /.(vue|js)$/,
+      test: /\.js$/,
       exclude: /node_modules/,
       use: {
         loader: "eslint-loader",
@@ -48,16 +42,6 @@ module.exports = {
           fix: true
         }
       }
-    }, {
-      test: /\.vue$/,
-      use: 'vue-loader',
-      exclude: /node_modules/
-    }, {
-      test: /\.styl$/,
-      use: ['style-loader', 'css-loader', 'stylus-loader']
-    }, {
-      test: /\.scss$/,
-      use: ['vue-style-loader', 'css-loader', 'sass-loader']
     }, {
       test: /\.js$/,
       use: [{
