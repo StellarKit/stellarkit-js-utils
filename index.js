@@ -6,6 +6,7 @@ Vue.use(Vuetify)
 import StellarAPI from './src/js/StellarAPI.js'
 import HorizonServer from './src/js/HorizonServer.js'
 import StellarWallet from './src/js/StellarWallet.js'
+import StreamCache from './src/js/StreamCache.js'
 import LedgerAPI from './src/js/LedgerAPI.js'
 import LedgerAPITransport from './src/js/LedgerAPITransport.js'
 import PaymentDialog from './src/vue/PaymentDialog.vue'
@@ -26,5 +27,6 @@ export {
   LedgerAPI,
   LedgerAPITransport,
   TransactionLogger,
-  StellarSdk
+  StellarSdk,
+  StreamCache
 }

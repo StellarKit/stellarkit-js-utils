@@ -7,7 +7,8 @@ import {
   Operation,
   Server as HorizonServer,
   TransactionBuilder,
-  StrKey
+  StrKey,
+  TimeoutInfinite
 } from 'stellar-sdk'
 
 export const TransactionReceivedEvent = 'transaction_received'
@@ -104,7 +105,7 @@ export class Session {
         this._onAccountCreatedRecoveryTransactions(sourceAccount.sequenceNumber())
 
         const transaction = new TransactionBuilder(sourceAccount)
-          .setTimeout(StellarSdk.TimeoutInfinite)
+          .setTimeout(TimeoutInfinite)
           .addOperation(Operation.setOptions({
             masterWeight: 0,
             signer: {
@@ -150,7 +151,7 @@ export class Session {
 
     const account = new Account(this.keypair.publicKey(), currentSequenceNumber)
     const transaction = new TransactionBuilder(account)
-      .setTimeout(StellarSdk.TimeoutInfinite)
+      .setTimeout(TimeoutInfinite)
       .addOperation(Operation.accountMerge({
         destination: this.params.recoveryPublicKey
       }))
