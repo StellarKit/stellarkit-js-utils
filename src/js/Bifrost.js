@@ -104,7 +104,9 @@ export class Session {
       .then(sourceAccount => {
         this._onAccountCreatedRecoveryTransactions(sourceAccount.sequenceNumber())
 
-        const transaction = new TransactionBuilder(sourceAccount)
+        const transaction = new TransactionBuilder(sourceAccount, {
+            fee: StellarSdk.BASE_FEE
+          })
           .setTimeout(TimeoutInfinite)
           .addOperation(Operation.setOptions({
             masterWeight: 0,
@@ -150,7 +152,9 @@ export class Session {
     }
 
     const account = new Account(this.keypair.publicKey(), currentSequenceNumber)
-    const transaction = new TransactionBuilder(account)
+    const transaction = new TransactionBuilder(account, {
+        fee: StellarSdk.BASE_FEE
+      })
       .setTimeout(TimeoutInfinite)
       .addOperation(Operation.accountMerge({
         destination: this.params.recoveryPublicKey

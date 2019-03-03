@@ -104,7 +104,9 @@ export default class StellarAPI {
       .then((account) => {
         // we are using the destWallet to perform the transaction
         // the source wallet could have 1 XLM which would fail tx_insufficient_balance
-        const transaction = new StellarSdk.TransactionBuilder(account)
+        const transaction = new StellarSdk.TransactionBuilder(account, {
+            fee: StellarSdk.BASE_FEE
+          })
           .setTimeout(StellarSdk.TimeoutInfinite)
           .addOperation(StellarSdk.Operation.accountMerge({
             destination: destPublicKey,
@@ -379,7 +381,9 @@ export default class StellarAPI {
           startingBalance: startingBalance
         }
 
-        const transaction = new StellarSdk.TransactionBuilder(account)
+        const transaction = new StellarSdk.TransactionBuilder(account, {
+            fee: StellarSdk.BASE_FEE
+          })
           .setTimeout(StellarSdk.TimeoutInfinite)
           .addOperation(StellarSdk.Operation.createAccount(options))
           .build()
@@ -589,7 +593,9 @@ export default class StellarAPI {
   }
 
   _submitOperations(account, label, sourceWallet, fundingWallet, operations, memo = null, additionalSigners = null) {
-    const builder = new StellarSdk.TransactionBuilder(account)
+    const builder = new StellarSdk.TransactionBuilder(account, {
+        fee: StellarSdk.BASE_FEE
+      })
       .setTimeout(StellarSdk.TimeoutInfinite)
 
     for (const operation of operations) {
