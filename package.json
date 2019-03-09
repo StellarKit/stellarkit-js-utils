@@ -23,15 +23,15 @@
     "babel-runtime": "^6.26.0",
     "stellar-sdk": "^0.14.0",
     "axios": "^0.18.0",
-    "@ledgerhq/hw-transport-u2f": "^4.41.1",
-    "@ledgerhq/hw-app-str": "^4.41.1"
+    "@ledgerhq/hw-transport-u2f": "^4.43.0",
+    "@ledgerhq/hw-app-str": "^4.43.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "babel-loader": "^8.0.5",
-    "css-loader": "^2.1.0",
-    "eslint": "^5.15.0",
+    "css-loader": "^2.1.1",
+    "eslint": "^5.15.1",
     "eslint-loader": "2.1.2",
     "eslint-plugin-vue": "^5.2.2",
     "terser": "^3.16.1",
