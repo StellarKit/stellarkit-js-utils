@@ -19,22 +19,22 @@
     "javascript"
   ],
   "dependencies": {
-    "stellar-sdk": "^0.15.4",
+    "stellar-sdk": "^1.0.2",
     "axios": "^0.18.0",
-    "@ledgerhq/hw-transport-u2f": "^4.55.0",
-    "@ledgerhq/hw-app-str": "^4.55.0"
+    "@ledgerhq/hw-transport-u2f": "^4.58.0",
+    "@ledgerhq/hw-app-str": "^4.58.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
-    "babel-loader": "^8.0.5",
+    "babel-loader": "^8.0.6",
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
     "eslint-loader": "2.1.2",
     "eslint-plugin-vue": "^5.2.2",
-    "terser": "^3.17.0",
-    "terser-webpack-plugin": "^1.2.3",
-    "webpack": "^4.30.0",
+    "terser": "^4.0.0",
+    "terser-webpack-plugin": "^1.2.4",
+    "webpack": "^4.32.0",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.2"
   }
